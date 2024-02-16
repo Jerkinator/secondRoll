@@ -9,7 +9,7 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>SecondRoll</groupId>
-	<artifactId>demo</artifactId>
+	<artifactId>SecondRoll</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>demo</name>
 	<description>App for buying and selling used board games</description>
