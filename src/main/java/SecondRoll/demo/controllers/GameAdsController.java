@@ -1,7 +1,7 @@
-package SecondRoll.demo.controller;
+package SecondRoll.demo.controllers;
 
 import SecondRoll.demo.models.GameAds;
-import SecondRoll.demo.services.GameAdService;
+import SecondRoll.demo.services.GameAdsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,7 +13,7 @@ import java.util.Optional;
 @RequestMapping(value="/api/gameAds")
 public class GameAdsController {
     @Autowired
-    GameAdService gameAdService;
+    GameAdsService gameAdService;
 
     // POST
     @PostMapping()
