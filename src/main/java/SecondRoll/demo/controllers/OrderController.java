@@ -21,9 +21,9 @@ public class OrderController {
     //POST
     // Creates the order by using the payload object OrderDTO in controller
     @PostMapping
-    //Sending in OrderDTO as a request
+    //Sending in OrderDTO object as a request
     public ResponseEntity<Order> orders(@RequestBody OrderDTO request) {
-        //Getting user id and game ad id
+        //Getting user id and game ad id and creates the order in database
         Order order = orderService.addOrder(request.getUserId(), request.getGameAdIds());
         return new ResponseEntity<>(order, HttpStatus.CREATED);
     }

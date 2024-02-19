@@ -25,11 +25,4 @@ public class OrderDTO {
         this.gameAdIds = gameAdIds;
     }
 
-    /*public String getGameAdId() {
-        return gameAdId;
-    }
-
-    public void setGameAdId(String gameAdId) {
-        this.gameAdId = gameAdId;
-    }*/
 }
