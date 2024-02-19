@@ -13,30 +13,32 @@ import java.util.Optional;
 @RequestMapping(value="/api/gameAds")
 public class GameAdsController {
     @Autowired
-    GameAdsService gameAdService;
+
+    GameAdsService gameAdsService;
+
 
     // POST
     @PostMapping()
     public GameAds createGameAd(@RequestBody GameAds gameAds) {
-        return gameAdService.createGameAd(gameAds);
+        return gameAdsService.createGameAd(gameAds);
     }
 
     // GET
     @GetMapping()
     public List<GameAds> getAllGameAds() {
-        return gameAdService.getAllGameAds();
+        return gameAdsService.getAllGameAds();
     }
 
     // PUT
     @PutMapping()
     public GameAds updateGameAd(@RequestBody GameAds gameAds) {
-        return gameAdService.updateGameAd(gameAds);
+        return gameAdsService.updateGameAd(gameAds);
     }
 
     // GET by id
     @GetMapping(value = "/{id}")
     public ResponseEntity<GameAds> getGameAdById(@PathVariable String id) {
-        Optional<GameAds> gameAds = gameAdService.getGameAdById(id);
+        Optional<GameAds> gameAds = gameAdsService.getGameAdById(id);
 
         return gameAds.map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.notFound().build());
@@ -45,7 +47,7 @@ public class GameAdsController {
     // Delete by id
     @RequestMapping(value = "{id}", method = RequestMethod.DELETE)
     public String deleteGameAd(@PathVariable String id) {
-        return gameAdService.deleteGameAd(id);
+        return gameAdsService.deleteGameAd(id);
     }
 
 }
