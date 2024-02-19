@@ -1,8 +1,10 @@
 package SecondRoll.demo.controllers;
 
+import SecondRoll.demo.models.GameAds;
 import SecondRoll.demo.models.User;
 import SecondRoll.demo.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,8 +19,9 @@ public class UserController {
 
     // CREATE a User.
     @PostMapping()
-    public User createUser(@RequestBody User user) {
-        return userService.createUser(user);
+    public ResponseEntity<User> createUser(@RequestBody User user) {
+        User newUser = userService.createUser(user);
+        return new ResponseEntity<>(newUser, HttpStatus.CREATED);
     }
 
     // GET a user by ID.
@@ -45,5 +48,12 @@ public class UserController {
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     public String deleteUser(@PathVariable String id) {
         return userService.deleteUser(id);
+    }
+
+    // POST a gameAd to a user wishlist using ObjectID reference.
+    @PostMapping("/{id}/wishlist")
+    public ResponseEntity<User> addGameToWishlist(@PathVariable String id, @RequestBody GameAds gameAds) {
+        User userWithWishList = userService.addGameToWishlist(id, gameAds);
+        return ResponseEntity.ok(userWithWishList);
     }
 }

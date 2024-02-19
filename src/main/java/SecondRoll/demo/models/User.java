@@ -2,9 +2,12 @@ package SecondRoll.demo.models;
 
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Document(collection = "Users")
 public class User {
@@ -18,6 +21,8 @@ public class User {
     //Updated at?
 
     private String email;
+
+    private String username;
 
     private String password; //This needs to be hashed and salted.
 
@@ -34,13 +39,16 @@ public class User {
 
     private String adress_city;
 
-    //Wishlist here.
+    //Wishlist
+    @DBRef
+    private List<GameAds> wishlist = new ArrayList<>();
 
     //User rating here?
 
     //Empty constructor.
     public User() {
     }
+
 
     //Getters.
 
@@ -82,5 +90,13 @@ public class User {
 
     public String getAdress_city() {
         return adress_city;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public List<GameAds> getWishlist() {
+        return wishlist;
     }
 }

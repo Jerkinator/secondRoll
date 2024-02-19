@@ -1,5 +1,6 @@
 package SecondRoll.demo.services;
 
+import SecondRoll.demo.models.GameAds;
 import SecondRoll.demo.models.User;
 import SecondRoll.demo.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,9 @@ import java.util.Optional;
 public class UserService {
     @Autowired
     UserRepository userRepository;
+
+    @Autowired
+    GameAdsService gameAdsService;
 
     // CREATE a user.
     public User createUser(User user) {
@@ -37,5 +41,13 @@ public class UserService {
     public String deleteUser(String id) {
         userRepository.deleteById(id);
         return "User successfully deleted!";
+    }
+
+    // POST a gameAd to a user wishlist using ObjectID reference.
+    public User addGameToWishlist(String userId, GameAds gameAds) {
+        User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found."));
+        GameAds savedGame = gameAdsService.createGameAd(gameAds);
+        user.getWishlist().add(savedGame);
+        return userRepository.save(user);
     }
 }
