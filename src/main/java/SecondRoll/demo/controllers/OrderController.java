@@ -1,6 +1,6 @@
 package SecondRoll.demo.controllers;
 
-import SecondRoll.demo.dto.OrderDTO;
+import SecondRoll.demo.payload.OrderDTO;
 import SecondRoll.demo.models.Order;
 import SecondRoll.demo.services.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,11 +19,12 @@ public class OrderController {
     OrderService orderService;
 
     //POST
+    // Creates the order by using the payload object OrderDTO in controller
     @PostMapping
     //Sending in OrderDTO as a request
     public ResponseEntity<Order> orders(@RequestBody OrderDTO request) {
         //Getting user id and game ad id
-        Order order = orderService.addOrder(request.getUserId(), request.getGameAdId());
+        Order order = orderService.addOrder(request.getUserId(), request.getGameAdIds());
         return new ResponseEntity<>(order, HttpStatus.CREATED);
     }
 }

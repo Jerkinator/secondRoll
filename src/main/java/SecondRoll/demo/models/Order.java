@@ -4,21 +4,24 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Document(collection = "orders")
 public class Order {
     @Id
     private String Id;
 
-    //@DBRef
-    //private List<GameAds> gameAds = new ArrayList<>();
+    @DBRef
+    private List<GameAds> gameAds = new ArrayList<>();
+
 
     @DBRef
-    private GameAds gameAds;
-
-    @DBRef
+    //shows as buyer in database
+    @Field(value = "buyer")
     private User user;
 
     @CreatedDate
@@ -36,13 +39,6 @@ public class Order {
         Id = id;
     }
 
-    public GameAds getGameAds() {
-        return gameAds;
-    }
-
-    public void setGameAds(GameAds gameAds) {
-        this.gameAds = gameAds;
-    }
 
     public User getUser() {
         return user;
@@ -60,11 +56,11 @@ public class Order {
         this.orderedAt = orderedAt;
     }
 
-    /*public List<GameAds> getGameAds() {
+    public List<GameAds> getGameAds() {
         return gameAds;
     }
 
     public void setGameAds(List<GameAds> gameAds) {
         this.gameAds = gameAds;
-    }*/
+    }
 }

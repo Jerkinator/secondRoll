@@ -9,6 +9,8 @@ import SecondRoll.demo.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -21,22 +23,31 @@ public class OrderService {
     @Autowired
     private UserRepository userRepository;
 
-    //POST
-    //Create order with user Id and gameAd Id
-    public Order addOrder(String userId, String gameAdsId) {
+   //create order preparing to use payload object in controller
+    public Order addOrder(String userId, List<String> gameAdIds) {
         Optional<User> userOptional = userRepository.findById(userId);
+        //making sure that there is a user matching the entered id
         if (!userOptional.isPresent()) {
             throw new RuntimeException("User not found");
         }
-        Optional<GameAds> gameAdsOptional = gameAdsRepository.findById(gameAdsId);
-        if (!gameAdsOptional.isPresent()) {
-            throw new RuntimeException("Game ad not found");
-        }
 
+        List<GameAds> gameAds = new ArrayList<>();
+        //loops through to see if the entered gamAdIds match database.
+        for (String gameAdsId : gameAdIds) {
+            Optional<GameAds> gameAdsOptional = gameAdsRepository.findById(gameAdsId);
+            gameAdsOptional.ifPresent(gameAds::add);
+        }
+        //makes sure that there is the same amount of ads as Ids entered
+        if (gameAds.size() != gameAdIds.size()) {
+            throw new RuntimeException("One or more ads not found");
+        }
         Order order = new Order();
+        //sets the user to order object
         order.setUser(userOptional.get());
-        order.setGameAds(gameAdsOptional.get());
+        //sets the gameAds to order object
+        order.setGameAds(gameAds);
 
         return orderRepository.save(order);
     }
+
 }

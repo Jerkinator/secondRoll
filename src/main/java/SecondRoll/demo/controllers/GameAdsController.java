@@ -24,7 +24,7 @@ public class GameAdsController {
     }
 
     // GET
-    @GetMapping()
+    @GetMapping("/all")
     public List<GameAds> getAllGameAds() {
         return gameAdsService.getAllGameAds();
     }
