@@ -5,6 +5,8 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Document(collection = "gameAds")
 public class GameAds {
@@ -12,6 +14,7 @@ public class GameAds {
     @Id
     private String id;
 
+    private  String userId;
     private String title;
 
     private String description;
@@ -22,7 +25,7 @@ public class GameAds {
 
     private LocalDate updated_at;
 
-    // public List<String> game_details = new ArrayList<>();
+    public List<EGameCategory> game_details = new ArrayList<>();
 
 
     public GameAds() {
@@ -52,7 +55,11 @@ public class GameAds {
         return updated_at;
     }
 
-   /* public List<String> getGame_details() {
+    public String getUserId() {
+        return userId;
+    }
+
+   public List<EGameCategory> getGame_details() {
         return game_details;
-    }*/
+    }
 }
