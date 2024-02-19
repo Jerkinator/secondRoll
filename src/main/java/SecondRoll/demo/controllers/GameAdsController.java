@@ -13,7 +13,9 @@ import java.util.Optional;
 @RequestMapping(value="/api/gameAds")
 public class GameAdsController {
     @Autowired
+
     GameAdsService gameAdsService;
+
 
     // POST
     @PostMapping()
