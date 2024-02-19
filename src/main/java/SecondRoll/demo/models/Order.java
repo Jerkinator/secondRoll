@@ -59,4 +59,12 @@ public class Order {
     public void setOrderedAt(Date orderedAt) {
         this.orderedAt = orderedAt;
     }
+
+    /*public List<GameAds> getGameAds() {
+        return gameAds;
+    }
+
+    public void setGameAds(List<GameAds> gameAds) {
+        this.gameAds = gameAds;
+    }*/
 }
