@@ -49,6 +49,4 @@ public class GameAdsController {
     public String deleteGameAd(@PathVariable String id) {
         return gameAdsService.deleteGameAd(id);
     }
-
 }
-

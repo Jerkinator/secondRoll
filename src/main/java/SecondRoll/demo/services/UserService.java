@@ -2,6 +2,7 @@ package SecondRoll.demo.services;
 
 import SecondRoll.demo.models.GameAds;
 import SecondRoll.demo.models.User;
+import SecondRoll.demo.repository.GameAdsRepository;
 import SecondRoll.demo.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,6 +14,9 @@ import java.util.Optional;
 public class UserService {
     @Autowired
     UserRepository userRepository;
+
+    @Autowired
+    GameAdsRepository gameAdsRepository;
 
     @Autowired
     GameAdsService gameAdsService;
@@ -44,10 +48,10 @@ public class UserService {
     }
 
     // POST a gameAd to a user wishlist using ObjectID reference.
-    public User addGameToWishlist(String userId, GameAds gameAds) {
+    public User addGameToWishlist(String userId, String gameId) {
         User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found."));
-        GameAds savedGame = gameAdsService.createGameAd(gameAds);
-        user.getWishlist().add(savedGame);
+        GameAds game = gameAdsRepository.findById(gameId).orElseThrow(() -> new RuntimeException("Game not found."));
+        user.getWishlist().add(game);
         return userRepository.save(user);
     }
 }

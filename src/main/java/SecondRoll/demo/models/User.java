@@ -99,4 +99,8 @@ public class User {
     public List<GameAds> getWishlist() {
         return wishlist;
     }
+
+    public void setWishlist(List<GameAds> wishlist) {
+        this.wishlist = wishlist;
+    }
 }

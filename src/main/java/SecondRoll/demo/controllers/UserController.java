@@ -1,6 +1,5 @@
 package SecondRoll.demo.controllers;
 
-import SecondRoll.demo.models.GameAds;
 import SecondRoll.demo.models.User;
 import SecondRoll.demo.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,9 +50,9 @@ public class UserController {
     }
 
     // POST a gameAd to a user wishlist using ObjectID reference.
-    @PostMapping("/{id}/wishlist")
-    public ResponseEntity<User> addGameToWishlist(@PathVariable String id, @RequestBody GameAds gameAds) {
-        User userWithWishList = userService.addGameToWishlist(id, gameAds);
+    @PostMapping("/{userId}/wishlist/{gameId}")
+    public ResponseEntity<User> addGameToWishlist(@PathVariable String userId, @PathVariable String gameId) {
+        User userWithWishList = userService.addGameToWishlist(userId, gameId);
         return ResponseEntity.ok(userWithWishList);
     }
 }
