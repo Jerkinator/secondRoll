@@ -1,10 +1,17 @@
 package SecondRoll.demo.models;
 
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 @Document(collection = "Users")
 public class User {
@@ -15,11 +22,24 @@ public class User {
     @CreatedDate
     private Date createdAt;
 
+    @NotBlank
+    @Indexed(unique = true)
+    @Size(min = 3, max = 20)
+    private String username;
+
     //Updated at?
 
+    @NotBlank
+    @Email
+    @Indexed(unique = true)
     private String email;
 
+    @NotBlank
+    @Size(min = 7, max = 120)
     private String password; //This needs to be hashed and salted.
+
+    @DBRef
+    private Set<Role> roles = new HashSet<>();
 
     private String firstName;
 
@@ -27,12 +47,12 @@ public class User {
 
     private String phoneNumber;
 
-    //Should all adress-related information be inside an array?
-    private String adress_street;
+    //Should all address-related information be inside an array?
+    private String address_street;
 
-    private String adress_zip;
+    private String address_zip;
 
-    private String adress_city;
+    private String address_city;
 
     //Wishlist here.
 
@@ -40,6 +60,13 @@ public class User {
 
     //Empty constructor.
     public User() {
+    }
+
+    // Constructor w username, email and password
+    public User(String username, String email, String password) {
+        this.username = username;
+        this.email = email;
+        this.password = password;
     }
 
     //Getters.
@@ -51,6 +78,8 @@ public class User {
     public Date getCreatedAt() {
         return createdAt;
     }
+    public String getUsername() {
+        return username; }
 
     public String getEmail() {
         return email;
@@ -72,15 +101,23 @@ public class User {
         return phoneNumber;
     }
 
-    public String getAdress_street() {
-        return adress_street;
+    public String getAddress_street() {
+        return address_street;
     }
 
-    public String getAdress_zip() {
-        return adress_zip;
+    public String getAddress_zip() {
+        return address_zip;
     }
 
-    public String getAdress_city() {
-        return adress_city;
+    public String getAddress_city() {
+        return address_city;
+    }
+
+
+    public Set<Role> getRoles() {
+        return roles;
+    }
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
     }
 }
