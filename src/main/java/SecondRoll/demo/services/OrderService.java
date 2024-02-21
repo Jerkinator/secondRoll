@@ -23,6 +23,37 @@ public class OrderService {
     @Autowired
     private UserRepository userRepository;
 
+    public Order addOrder (String userId, List<String> gameAdIds ) {
+        Optional<User> userOptional = userRepository.findById(userId);
+        if (!userOptional.isPresent()) {
+            throw new RuntimeException("User not found");
+        }
+
+        List<GameAds> gameAds = new ArrayList<>();
+        for (String gameAdsId : gameAdIds) {
+            Optional<GameAds> gameAdsOptional = gameAdsRepository.findById(gameAdsId);
+            gameAdsOptional.ifPresent(gameAds::add);
+        }
+        if (gameAds.size() != gameAdIds.size()) {
+            throw new RuntimeException("One or more books not found");
+        }
+
+        Order order = new Order();
+        order.setUser(userOptional.get());
+        order.setGameAds(gameAds);
+
+        return orderRepository.save(order);
+
+
+    }
+
+
+
+
+
+
+
+    /*
    //create order preparing to use payload object in controller
     public Order addOrder(String userId, List<String> gameAdIds) {
         Optional<User> userOptional = userRepository.findById(userId);
@@ -49,5 +80,32 @@ public class OrderService {
 
         return orderRepository.save(order);
     }
+
+     */
+
+
+
+
+
+
+
+    /*
+    //get all orders from order collection
+    public List<Order> getAllOrders () {
+        return orderRepository.findAll();
+    }
+
+    //GET
+    //find order by specific id
+    public Optional<Order> getOrdersById(String id) {
+        return orderRepository.findById(id);
+    }
+
+    //delete specific boorowed books by id
+    public String deleteOrderById(String id) {
+        orderRepository.deleteById(id);
+        return "Order successfully deleted!";
+    }
+     */
 
 }

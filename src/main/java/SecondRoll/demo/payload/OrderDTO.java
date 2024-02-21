@@ -7,7 +7,6 @@ public class OrderDTO {
 
     private List<String> gameAdIds;
 
-    //private String gameAdId;
 
     public String getUserId() {
         return userId;

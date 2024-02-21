@@ -18,7 +18,6 @@ public class Order {
     @DBRef
     private List<GameAds> gameAds = new ArrayList<>();
 
-
     @DBRef
     //shows as buyer in database
     @Field(value = "buyer")
