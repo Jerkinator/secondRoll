@@ -50,9 +50,16 @@ public class UserController {
     }
 
     // POST a gameAd to a user wishlist using ObjectID reference.
-    @PostMapping("/{userId}/wishlist/{gameId}")
-    public ResponseEntity<User> addGameToWishlist(@PathVariable String userId, @PathVariable String gameId) {
-        User userWithWishList = userService.addGameToWishlist(userId, gameId);
+    @PostMapping("/{userId}/wishlist")
+    public ResponseEntity<User> addGameToWishlist(@PathVariable String userId, @RequestBody List<String> gameIds) {
+        User userWithWishList = userService.addGameToWishlist(userId, gameIds);
+        return ResponseEntity.ok(userWithWishList);
+    }
+
+    // DELETE a gameAd from a user wishlist using ObjectID reference.
+    @DeleteMapping(value = "/{userId}/wishlist/{gameId}")
+    public ResponseEntity<User> removeGameFromWishlist(@PathVariable String userId, @PathVariable String gameId) {
+        User userWithWishList = userService.removeGameFromWishlist(userId, gameId);
         return ResponseEntity.ok(userWithWishList);
     }
 }

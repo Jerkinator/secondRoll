@@ -5,11 +5,10 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-@Document(collection = "Users")
+@Document(collection = "users")
 public class User {
 
     @Id
@@ -41,7 +40,7 @@ public class User {
 
     //Wishlist
     @DBRef
-    private List<GameAds> wishlist = new ArrayList<>();
+    private List<GameAds> wishlist;
 
     //User rating here?
 

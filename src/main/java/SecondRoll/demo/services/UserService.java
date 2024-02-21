@@ -7,6 +7,7 @@ import SecondRoll.demo.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -48,10 +49,32 @@ public class UserService {
     }
 
     // POST a gameAd to a user wishlist using ObjectID reference.
-    public User addGameToWishlist(String userId, String gameId) {
+    public User addGameToWishlist(String userId, List<String> gameIds) {
+        User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found."));
+        // GameAds game = gameAdsRepository.findById(gameId).orElseThrow(() -> new RuntimeException("Game not found."));
+
+        List<GameAds> userWishlist = new ArrayList<>();
+
+        // IF all gameID's we send into this method, all the ID's will be added to user Wishlist.
+        for(String gameId : gameIds) {
+            Optional<GameAds> gameAd = gameAdsRepository.findById(gameId);
+            gameAd.ifPresent(userWishlist::add);
+        }
+
+        if(userWishlist.size() != gameIds.size()){
+            throw new RuntimeException("One or more games not found.");
+        }
+
+        user.setWishlist(userWishlist);
+
+        //MIGHT overwrite the entire user.
+        return userRepository.save(user);
+    }
+
+    public User removeGameFromWishlist(String userId, String gameId) {
         User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found."));
         GameAds game = gameAdsRepository.findById(gameId).orElseThrow(() -> new RuntimeException("Game not found."));
-        user.getWishlist().add(game);
+        user.getWishlist().remove(game);
         return userRepository.save(user);
     }
 }
