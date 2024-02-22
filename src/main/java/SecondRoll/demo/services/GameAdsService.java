@@ -37,5 +37,4 @@ public class GameAdsService {
         gameAdsRepository.deleteById(id);
         return "Game Ad deleted";
     }
-
 }

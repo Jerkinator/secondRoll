@@ -12,8 +12,10 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.List;
 
-@Document(collection = "Users")
+
+@Document(collection = "users")
 public class User {
 
     @Id
@@ -36,6 +38,8 @@ public class User {
 
     @NotBlank
     @Size(min = 7, max = 120)
+
+
     private String password; //This needs to be hashed and salted.
 
     @DBRef
@@ -54,7 +58,9 @@ public class User {
 
     private String address_city;
 
-    //Wishlist here.
+    //Wishlist
+    @DBRef
+    private List<GameAds> wishlist;
 
     //User rating here?
 
@@ -62,12 +68,14 @@ public class User {
     public User() {
     }
 
+
     // Constructor w username, email and password
     public User(String username, String email, String password) {
         this.username = username;
         this.email = email;
         this.password = password;
     }
+
 
     //Getters.
 
@@ -119,5 +127,13 @@ public class User {
     }
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
+    }
+
+    public List<GameAds> getWishlist() {
+        return wishlist;
+    }
+
+    public void setWishlist(List<GameAds> wishlist) {
+        this.wishlist = wishlist;
     }
 }
