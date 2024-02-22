@@ -15,6 +15,7 @@ public class GameAds {
     private String id;
 
     private  String userId;
+
     private String title;
 
     private String description;
@@ -26,6 +27,9 @@ public class GameAds {
     private LocalDate updated_at;
 
     public List<EGameCategory> game_details = new ArrayList<>();
+
+    public List<String> tags = new ArrayList<>();
+
 
 
     public GameAds() {
@@ -61,5 +65,13 @@ public class GameAds {
 
    public List<EGameCategory> getGame_details() {
         return game_details;
+    }
+
+    public List<String> getTags() {
+        return tags;
+    }
+
+    public void setTags(List<String> tags) {
+        this.tags = tags;
     }
 }

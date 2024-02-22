@@ -38,4 +38,9 @@ public class GameAdsService {
         return "Game Ad deleted";
     }
 
+    // Filter by tags
+    public List<GameAds> findGameAdsByTags(List<String> tags) {
+        return gameAdsRepository.findByTagsIn(tags);
+    }
+
 }

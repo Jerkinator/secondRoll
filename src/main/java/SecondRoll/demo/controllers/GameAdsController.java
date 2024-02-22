@@ -1,5 +1,6 @@
 package SecondRoll.demo.controllers;
 
+import SecondRoll.demo.models.EGameCategory;
 import SecondRoll.demo.models.GameAds;
 import SecondRoll.demo.services.GameAdsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,6 +49,11 @@ public class GameAdsController {
     @RequestMapping(value = "{id}", method = RequestMethod.DELETE)
     public String deleteGameAd(@PathVariable String id) {
         return gameAdsService.deleteGameAd(id);
+    }
+
+    @GetMapping("/search")
+    public List<GameAds> findGameAdsByTags(@RequestParam List<String> tags) {
+        return gameAdsService.findGameAdsByTags(tags);
     }
 
 }
