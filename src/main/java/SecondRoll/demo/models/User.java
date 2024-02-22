@@ -5,6 +5,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -43,6 +44,10 @@ public class User {
     private List<GameAds> wishlist;
 
     //User rating here?
+    private ArrayList<Integer> rating = new ArrayList<Integer>();
+
+    private float ratings;
+
 
     //Empty constructor.
     public User() {
@@ -101,5 +106,9 @@ public class User {
 
     public void setWishlist(List<GameAds> wishlist) {
         this.wishlist = wishlist;
+    }
+
+    public ArrayList<Integer> getRating() {
+        return rating;
     }
 }
