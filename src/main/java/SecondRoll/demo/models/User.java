@@ -38,7 +38,7 @@ public class User {
 
     //Wishlist
     @DBRef
-    private List<GameAds> wishlist;
+    private List<GameAds> wishlist = new ArrayList<>();
 
     //List of all user ratings.
     private ArrayList<Integer> ratings = new ArrayList<>();
