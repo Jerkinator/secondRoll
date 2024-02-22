@@ -37,9 +37,7 @@ public class User {
     private String email;
 
     @NotBlank
-    @Size(min = 7, max = 120)
-
-
+    @Size(min = 8, max = 30)
     private String password; //This needs to be hashed and salted.
 
     @DBRef
