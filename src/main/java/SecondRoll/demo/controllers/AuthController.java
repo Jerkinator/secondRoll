@@ -85,6 +85,8 @@ public class AuthController {
                 signupRequest.getEmail(),
                 encoder.encode(signupRequest.getPassword()));
 
+        user.setFirstName("Update later");
+        user.setLastName("Update Later");
         Set<String> strRoles = signupRequest.getRoles();
         Set<Role> roles = new HashSet<>();
 

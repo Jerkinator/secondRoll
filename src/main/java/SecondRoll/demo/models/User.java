@@ -72,6 +72,7 @@ public class User {
         this.username = username;
         this.email = email;
         this.password = password;
+        this.phoneNumber = "SET";
     }
 
 
@@ -133,5 +134,17 @@ public class User {
 
     public void setWishlist(List<GameAds> wishlist) {
         this.wishlist = wishlist;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 }
