@@ -65,6 +65,7 @@ public class UserController {
         return new ResponseEntity<>(userWithWishList, HttpStatus.CREATED);
     }
 
+    // ADD rating to a user.
     @PutMapping("/{userId}/rating")
     public ResponseEntity<?> addRatingToUser (@PathVariable String userId, @RequestBody Rating rating) {
         User userWithRating = userService.addRatingToUser(userId, rating);

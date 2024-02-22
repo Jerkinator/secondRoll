@@ -9,7 +9,6 @@ import SecondRoll.demo.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -67,16 +66,25 @@ public class UserService {
     }
 
     // ADD rating to a user.
+    /* This method takes an integer value and adds it to the rating object. It then adds the value to the
+    User ratings arraylist. Then it loops through the arraylist and stores all combined values into a total sum.
+    Then finally it takes the sum and divides it by the total amount of values in the arraylist to get the average
+    rating. */
     public User addRatingToUser(String userId, Rating rating) {
         User user = userRepository.findById(userId).orElseThrow();
-        int amount = rating.getRating();
-        ArrayList<Integer> ratings = new ArrayList<Integer>();
-        ratings.add(amount);
-        int length = user.getRating().size();
+
+        int number = rating.getRating();
+        user.getRatings().add(number);
+
         int sum = 0;
-        for(int i = 0; i < ratings.size(); i++){
-            sum = sum + ratings[i];
+        int lengthOfRatingsList = user.getRatings().size();
+
+        for(int i = 0; i < lengthOfRatingsList; i++){
+            sum += user.getRatings().get(i);
         }
+
+        int averageRating = sum / lengthOfRatingsList;
+        user.setAverageRating(averageRating);
 
         return userRepository.save(user);
     }
