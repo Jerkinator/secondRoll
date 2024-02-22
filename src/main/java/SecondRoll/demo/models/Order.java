@@ -6,17 +6,16 @@ import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 @Document(collection = "orders")
 public class Order {
     @Id
-    private String Id;
+    private String id;
 
     @DBRef
-    private List<GameAds> gameAds = new ArrayList<>();
+    private List<GameAds> gameAds;
 
     @DBRef
     //shows as buyer in database
@@ -31,11 +30,11 @@ public class Order {
     }
 
     public String getId() {
-        return Id;
+        return id;
     }
 
     public void setId(String id) {
-        Id = id;
+        id = id;
     }
 
 

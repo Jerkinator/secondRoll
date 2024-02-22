@@ -6,10 +6,10 @@ import SecondRoll.demo.services.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping(value = "/api/orders")
@@ -18,15 +18,7 @@ public class OrderController {
     @Autowired
     OrderService orderService;
 
-    @PostMapping
-    public ResponseEntity<Order> addOrder(@RequestBody OrderDTO request) {
-        Order order = orderService.addOrder(request.getUserId(), request.getGameAdIds());
-        return new ResponseEntity<>(order, HttpStatus.CREATED);
-    }
 
-    /*
-    //POST
-    // Creates the order by using the payload object OrderDTO in controller
     @PostMapping
     //Sending in OrderDTO object as a request
     public ResponseEntity<Order> orders(@RequestBody OrderDTO request) {
@@ -35,16 +27,7 @@ public class OrderController {
         return new ResponseEntity<>(order, HttpStatus.CREATED);
     }
 
-     */
 
-
-
-
-
-
-
-
-    /*
     //GET
     //retrieving all orders from order collection
     @GetMapping("/all")
@@ -54,18 +37,25 @@ public class OrderController {
 
    //GET
     //retrieve specific order based on id
-   @GetMapping(value ="/{id}")
+   @GetMapping("/{id}")
    public ResponseEntity<Order> getOrdersById(@PathVariable String id) {
        Optional<Order> order = orderService.getOrdersById(id);
        return order.map(ResponseEntity::ok)
                .orElseGet(() -> ResponseEntity.notFound().build());
    }
 
+   //PUT
+    //update order
+    @PutMapping
+    public Order updateOrder(@RequestBody Order order) {
+        return orderService.updateOrder(order);
+    }
+
     //DELETE borrowedBooks by id
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     public String deleteOrderById(@PathVariable String id) {
         return orderService.deleteOrderById(id);
     }
-*/
+
 
 }

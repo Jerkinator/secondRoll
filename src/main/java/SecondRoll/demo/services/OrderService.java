@@ -22,7 +22,7 @@ public class OrderService {
     private GameAdsRepository gameAdsRepository;
     @Autowired
     private UserRepository userRepository;
-
+/*
     public Order addOrder (String userId, List<String> gameAdIds ) {
         Optional<User> userOptional = userRepository.findById(userId);
         if (!userOptional.isPresent()) {
@@ -47,13 +47,15 @@ public class OrderService {
 
     }
 
+ */
 
 
 
 
 
 
-    /*
+
+
    //create order preparing to use payload object in controller
     public Order addOrder(String userId, List<String> gameAdIds) {
         Optional<User> userOptional = userRepository.findById(userId);
@@ -81,31 +83,28 @@ public class OrderService {
         return orderRepository.save(order);
     }
 
-     */
 
 
-
-
-
-
-
-    /*
     //get all orders from order collection
     public List<Order> getAllOrders () {
         return orderRepository.findAll();
     }
 
-    //GET
+
     //find order by specific id
     public Optional<Order> getOrdersById(String id) {
         return orderRepository.findById(id);
     }
 
-    //delete specific boorowed books by id
+    public Order updateOrder(Order order){
+        return orderRepository.save(order);
+    }
+
+    //delete specific order by id
     public String deleteOrderById(String id) {
         orderRepository.deleteById(id);
         return "Order successfully deleted!";
     }
-     */
+
 
 }
