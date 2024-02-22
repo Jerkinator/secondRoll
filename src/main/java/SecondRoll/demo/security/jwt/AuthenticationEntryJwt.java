@@ -1,4 +1,4 @@
-package SecondRoll.demo.Security.jwt;
+package SecondRoll.demo.security.jwt;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.ServletException;

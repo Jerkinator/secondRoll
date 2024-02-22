@@ -1,4 +1,4 @@
-package SecondRoll.demo.Security.services;
+package SecondRoll.demo.security.services;
 
 import SecondRoll.demo.models.User;
 import SecondRoll.demo.repository.UserRepository;

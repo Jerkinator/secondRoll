@@ -1,8 +1,8 @@
-package SecondRoll.demo.Security;
+package SecondRoll.demo.security;
 
-import SecondRoll.demo.Security.jwt.AuthTokenFilter;
-import SecondRoll.demo.Security.jwt.AuthenticationEntryJwt;
-import SecondRoll.demo.Security.services.UserDetailsServiceImpl;
+import SecondRoll.demo.security.jwt.AuthTokenFilter;
+import SecondRoll.demo.security.jwt.AuthenticationEntryJwt;
+import SecondRoll.demo.security.services.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

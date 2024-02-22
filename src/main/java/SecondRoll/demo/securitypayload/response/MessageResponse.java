@@ -1,4 +1,4 @@
-package SecondRoll.demo.SecurityPayload.response;
+package SecondRoll.demo.securitypayload.response;
 
 public class MessageResponse {
 
