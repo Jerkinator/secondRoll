@@ -1,5 +1,6 @@
 package SecondRoll.demo.controllers;
 
+import SecondRoll.demo.models.Rating;
 import SecondRoll.demo.models.User;
 import SecondRoll.demo.payload.GameDTO;
 import SecondRoll.demo.services.UserService;
@@ -62,5 +63,12 @@ public class UserController {
     public ResponseEntity<?> removeGameFromWishlist(@PathVariable String userId, @RequestBody GameDTO gameDTO) {
         User userWithWishList = userService.removeGameFromWishlist(userId, gameDTO);
         return new ResponseEntity<>(userWithWishList, HttpStatus.CREATED);
+    }
+
+    // ADD rating to a user.
+    @PutMapping("/{userId}/rating")
+    public ResponseEntity<?> addRatingToUser (@PathVariable String userId, @RequestBody Rating rating) {
+        User userWithRating = userService.addRatingToUser(userId, rating);
+        return new ResponseEntity<>(userWithRating, HttpStatus.CREATED);
     }
 }

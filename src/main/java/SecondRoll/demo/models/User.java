@@ -5,6 +5,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -31,23 +32,23 @@ public class User {
 
     private String phoneNumber;
 
-    //Should all adress-related information be inside an array?
-    private String adress_street;
 
-    private String adress_zip;
-
-    private String adress_city;
+    //An array containing adress details. Add street, zip and city to this in postman.
+    private List<String> adress_details = new ArrayList<>();
 
     //Wishlist
     @DBRef
-    private List<GameAds> wishlist;
+    private List<GameAds> wishlist = new ArrayList<>();
 
-    //User rating here?
+    //List of all user ratings.
+    private ArrayList<Integer> ratings = new ArrayList<>();
+
+    //Holds the average rating of all user ratings.
+    private int averageRating;
 
     //Empty constructor.
     public User() {
     }
-
 
     //Getters.
 
@@ -79,16 +80,8 @@ public class User {
         return phoneNumber;
     }
 
-    public String getAdress_street() {
-        return adress_street;
-    }
-
-    public String getAdress_zip() {
-        return adress_zip;
-    }
-
-    public String getAdress_city() {
-        return adress_city;
+    public List<String> getAdress_details() {
+        return adress_details;
     }
 
     public String getUsername() {
@@ -97,6 +90,20 @@ public class User {
 
     public List<GameAds> getWishlist() {
         return wishlist;
+    }
+
+    public ArrayList<Integer> getRatings() {
+        return ratings;
+    }
+
+    public int getAverageRating() {
+        return averageRating;
+    }
+
+    // Setters.
+
+    public void setAverageRating(int averageRating) {
+        this.averageRating = averageRating;
     }
 
     public void setWishlist(List<GameAds> wishlist) {
