@@ -21,22 +21,23 @@ public class GameAdsService {
         return gameAdsRepository.findAll();
     }
 
-    // Update a book
+    // Update a gameAd
     public GameAds updateGameAd(GameAds gameAds) {
         return gameAdsRepository.save(gameAds);
     }
 
-    // Get a book by id
+    // Get a gameAd by id
 
     public Optional<GameAds> getGameAdById(String id) {
         return gameAdsRepository.findById(id);
     }
 
-    // Delete a book
+    // Delete a gameAd
     public String deleteGameAd(String id) {
         gameAdsRepository.deleteById(id);
         return "Game Ad deleted";
     }
+
 
     // Filter by tags
     public List<GameAds> findGameAdsByTags(List<String> tags) {
@@ -44,3 +45,6 @@ public class GameAdsService {
     }
 
 }
+
+
+

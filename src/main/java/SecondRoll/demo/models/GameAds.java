@@ -67,6 +67,7 @@ public class GameAds {
         return game_details;
     }
 
+
     public List<String> getTags() {
         return tags;
     }
@@ -75,3 +76,4 @@ public class GameAds {
         this.tags = tags;
     }
 }
+

@@ -51,10 +51,12 @@ public class GameAdsController {
         return gameAdsService.deleteGameAd(id);
     }
 
+
     @GetMapping("/search")
     public List<GameAds> findGameAdsByTags(@RequestParam List<String> tags) {
         return gameAdsService.findGameAdsByTags(tags);
     }
 
 }
+
 
