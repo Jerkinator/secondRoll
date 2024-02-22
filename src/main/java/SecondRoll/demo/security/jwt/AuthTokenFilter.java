@@ -1,6 +1,6 @@
-package SecondRoll.demo.Security.jwt;
+package SecondRoll.demo.security.jwt;
 
-import SecondRoll.demo.Security.services.UserDetailsServiceImpl;
+import SecondRoll.demo.security.services.UserDetailsServiceImpl;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
