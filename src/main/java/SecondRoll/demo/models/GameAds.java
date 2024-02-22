@@ -26,9 +26,9 @@ public class GameAds {
 
     private LocalDate updated_at;
 
-    public List<EGameCategory> game_details = new ArrayList<>();
+    public List<EGameCategory> gamedetails = new ArrayList<>();
 
-    public List<String> tags = new ArrayList<>();
+   // public List<EGameCategory> tags = new ArrayList<>();
 
 
 
@@ -63,17 +63,21 @@ public class GameAds {
         return userId;
     }
 
-   public List<EGameCategory> getGame_details() {
-        return game_details;
+   public List<EGameCategory> getGamedetails() {
+        return gamedetails;
+    }
+
+    public void setGamedetails(List<EGameCategory> gamedetails) {
+        this.gamedetails = gamedetails;
     }
 
 
-    public List<String> getTags() {
+   /* public List<EGameCategory> getTags() {
         return tags;
     }
 
-    public void setTags(List<String> tags) {
+    public void setTags(List<EGameCategory> tags) {
         this.tags = tags;
-    }
+    }*/
 }
 

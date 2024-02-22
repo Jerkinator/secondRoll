@@ -1,5 +1,6 @@
 package SecondRoll.demo.services;
 
+import SecondRoll.demo.models.EGameCategory;
 import SecondRoll.demo.models.GameAds;
 import SecondRoll.demo.repository.GameAdsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,8 +41,8 @@ public class GameAdsService {
 
 
     // Filter by tags
-    public List<GameAds> findGameAdsByTags(List<String> tags) {
-        return gameAdsRepository.findByTagsIn(tags);
+    public List<GameAds> findGameAdsByGameDetails(List<EGameCategory> gamedetails) {
+        return gameAdsRepository.findByGameDetailsIn(gamedetails);
     }
 
 }

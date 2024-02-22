@@ -53,8 +53,8 @@ public class GameAdsController {
 
 
     @GetMapping("/search")
-    public List<GameAds> findGameAdsByTags(@RequestParam List<String> tags) {
-        return gameAdsService.findGameAdsByTags(tags);
+    public List<GameAds> findGameAdsByGameDetails(@RequestParam List<EGameCategory> gamedetails) {
+        return gameAdsService.findGameAdsByGameDetails(gamedetails);
     }
 
 }
