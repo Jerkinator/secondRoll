@@ -2,6 +2,7 @@ package SecondRoll.demo.services;
 
 import SecondRoll.demo.models.GameAds;
 import SecondRoll.demo.repository.GameAdsRepository;
+import SecondRoll.demo.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,6 +12,8 @@ import java.util.Optional;
 public class GameAdsService {
     @Autowired
     GameAdsRepository gameAdsRepository;
+    @Autowired
+    UserRepository userRepository;
     // Create a gameAd
     public GameAds createGameAd(GameAds gameAds) {
         return gameAdsRepository.save(gameAds);
