@@ -5,7 +5,9 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Document(collection = "ratings")
 public class Rating {
 
+
     private int rating;
+
 
     public int getRating() {
         return rating;
