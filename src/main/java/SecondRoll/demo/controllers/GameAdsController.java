@@ -1,6 +1,5 @@
 package SecondRoll.demo.controllers;
 
-import SecondRoll.demo.models.EGameCategory;
 import SecondRoll.demo.models.GameAds;
 import SecondRoll.demo.services.GameAdsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,9 +51,9 @@ public class GameAdsController {
     }
 
 
-    @GetMapping("/search")
-    public List<GameAds> findGameAdsByGameDetails(@RequestParam List<EGameCategory> gamedetails) {
-        return gameAdsService.findGameAdsByGameDetails(gamedetails);
+    @GetMapping(value = "/search")
+    public List<GameAds> findGameAdsByGameDetails(@RequestParam List<GameAds> gameDetails) {
+        return gameAdsService.findGameAdsByGameDetails(gameDetails);
     }
 
 }

@@ -21,12 +21,16 @@ public class GameAds {
     private String description;
 
     private int price;
+
+    private int shippingCost = 50;
     @CreatedDate
     private LocalDate created_at;
-
+    @CreatedDate
     private LocalDate updated_at;
 
-    public List<EGameCategory> gamedetails = new ArrayList<>();
+    public List<EGameCategory> gameDetails = new ArrayList<>();
+
+    public boolean isAvailable = true;
 
    // public List<EGameCategory> tags = new ArrayList<>();
 
@@ -63,12 +67,24 @@ public class GameAds {
         return userId;
     }
 
-   public List<EGameCategory> getGamedetails() {
-        return gamedetails;
+   public List<EGameCategory> getGameDetails() {
+        return gameDetails;
     }
 
-    public void setGamedetails(List<EGameCategory> gamedetails) {
-        this.gamedetails = gamedetails;
+    public void setGameDetails(List<EGameCategory> gameDetails) {
+        this.gameDetails = gameDetails;
+    }
+
+    public int getShippingCost() {
+        return shippingCost;
+    }
+
+    public boolean isAvailable() {
+        return isAvailable;
+    }
+
+    public void setAvailable(boolean available) {
+        isAvailable = available;
     }
 
 

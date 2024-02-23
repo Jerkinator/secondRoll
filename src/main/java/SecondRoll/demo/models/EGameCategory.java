@@ -3,7 +3,7 @@ package SecondRoll.demo.models;
 public enum EGameCategory {
 
     //Creator
-    LINDGREN_AB, FANTUS_CO,
+    LINDGREN_AB, FANTUS_CO, SLIMS_AB,
     // Playtime
 
     // Recommended age
