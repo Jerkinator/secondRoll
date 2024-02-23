@@ -1,6 +1,7 @@
 package SecondRoll.demo.services;
 
 import SecondRoll.demo.models.GameAds;
+import SecondRoll.demo.models.Rating;
 import SecondRoll.demo.models.User;
 import SecondRoll.demo.payload.GameDTO;
 import SecondRoll.demo.repository.GameAdsRepository;
@@ -61,6 +62,38 @@ public class UserService {
         User user = userRepository.findById(userId).orElseThrow();
         List<GameAds> wishlist = user.getWishlist();
         wishlist.removeIf(gameAd -> gameAd.getId().equals(gameDTO.getGameId()));
+        return userRepository.save(user);
+    }
+
+    // ADD rating to a user.
+    /* This method takes an integer value and adds it to the rating object. If the value is between 1-6,
+    it then adds the value to the User ratings arraylist. Then it loops through the arraylist and stores all
+    combined values into a total sum.
+    Then finally it takes the sum and divides it by the total amount of values in the arraylist to get the average
+    rating. */
+    public User addRatingToUser(String userId, Rating rating) {
+        User user = userRepository.findById(userId).orElseThrow();
+
+        int number = rating.getRating();
+
+            if (number <= 0 || number > 6) {
+                throw new IllegalArgumentException();
+            } else {
+                rating.setRating(number);
+            }
+
+        user.getRatings().add(number);
+
+        int sum = 0;
+        int lengthOfRatingsList = user.getRatings().size();
+
+        for(int i = 0; i < lengthOfRatingsList; i++){
+            sum += user.getRatings().get(i);
+        }
+
+        int averageRating = sum / lengthOfRatingsList;
+        user.setAverageRating(averageRating);
+
         return userRepository.save(user);
     }
 }
