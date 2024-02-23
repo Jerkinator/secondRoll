@@ -1,13 +1,20 @@
 package SecondRoll.demo.models;
 
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+
 
 @Document(collection = "users")
 public class User {
@@ -18,13 +25,24 @@ public class User {
     @CreatedDate
     private Date createdAt;
 
-    //Updated at?
-
-    private String email;
-
+    @NotBlank
+    @Indexed(unique = true)
+    @Size(min = 3, max = 20)
     private String username;
 
+    //Updated at?
+
+    @NotBlank
+    @Email
+    @Indexed(unique = true)
+    private String email;
+
+    @NotBlank
+    @Size(min = 8, max = 30)
     private String password; //This needs to be hashed and salted.
+
+    @DBRef
+    private Set<Role> roles = new HashSet<>();
 
     private String firstName;
 
@@ -50,6 +68,16 @@ public class User {
     public User() {
     }
 
+
+    // Constructor w username, email and password
+    public User(String username, String email, String password) {
+        this.username = username;
+        this.email = email;
+        this.password = password;
+        this.phoneNumber = "SET";
+    }
+
+
     //Getters.
 
     public String getId() {
@@ -59,6 +87,8 @@ public class User {
     public Date getCreatedAt() {
         return createdAt;
     }
+    public String getUsername() {
+        return username; }
 
     public String getEmail() {
         return email;
@@ -84,8 +114,12 @@ public class User {
         return adress_details;
     }
 
-    public String getUsername() {
-        return username;
+
+    public Set<Role> getRoles() {
+        return roles;
+    }
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
     }
 
     public List<GameAds> getWishlist() {
@@ -108,5 +142,17 @@ public class User {
 
     public void setWishlist(List<GameAds> wishlist) {
         this.wishlist = wishlist;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 }
