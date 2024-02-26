@@ -43,9 +43,11 @@ public class User {
 
     @DBRef
     private Set<Role> roles = new HashSet<>();
-
+    @NotBlank
+    @Size(min = 2, max = 30)
     private String firstName;
-
+    @NotBlank
+    @Size(min = 2, max = 40)
     private String lastName;
 
     private String phoneNumber;
@@ -74,7 +76,9 @@ public class User {
         this.username = username;
         this.email = email;
         this.password = password;
-        this.phoneNumber = "SET";
+        this.firstName = firstName;
+        this.lastName = lastName;
+        // this.phoneNumber = "SET";
     }
 
 
