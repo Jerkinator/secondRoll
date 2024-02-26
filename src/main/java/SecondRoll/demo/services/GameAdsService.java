@@ -1,7 +1,9 @@
 package SecondRoll.demo.services;
 
+import SecondRoll.demo.models.EGameCategory;
 import SecondRoll.demo.models.GameAds;
 import SecondRoll.demo.repository.GameAdsRepository;
+import SecondRoll.demo.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,6 +13,9 @@ import java.util.Optional;
 public class GameAdsService {
     @Autowired
     GameAdsRepository gameAdsRepository;
+    @Autowired
+    UserRepository userRepository;
+
     // Create a gameAd
     public GameAds createGameAd(GameAds gameAds) {
         return gameAdsRepository.save(gameAds);
@@ -21,20 +26,30 @@ public class GameAdsService {
         return gameAdsRepository.findAll();
     }
 
-    // Update a book
+    // Update a gameAd
     public GameAds updateGameAd(GameAds gameAds) {
         return gameAdsRepository.save(gameAds);
     }
 
-    // Get a book by id
+    // Get a gameAd by id
 
     public Optional<GameAds> getGameAdById(String id) {
         return gameAdsRepository.findById(id);
     }
 
-    // Delete a book
+    // Delete a gameAd
     public String deleteGameAd(String id) {
         gameAdsRepository.deleteById(id);
         return "Game Ad deleted";
     }
+
+
+    // Filter by tags
+    public List<GameAds> findGameAdsByGameDetails(List<EGameCategory> gameDetails) {
+        return gameAdsRepository.findByGameDetailsIn(gameDetails);
+    }
+
 }
+
+
+
