@@ -57,6 +57,10 @@ public class GameAdsController {
         return gameAdsService.findGameAdsByGameDetails(gameDetails);
     }
 
+    @GetMapping(value = "/{userId}")
+    public ResponseEntity<GameAds> getGameAdsByUserId(@PathVariable String userId) {
+        Optional<GameAds> gameAds = gameAdsService.getGameByUserId(userId);
+        return gameAds.map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.notFound().build());
+    }
 }
-
-
