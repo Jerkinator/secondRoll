@@ -28,6 +28,7 @@ public class GameAds {
     @CreatedDate
     private LocalDate updated_at;
 
+
     public List<EGameCategory> gameDetails = new ArrayList<>();
 
     public boolean isAvailable = true;

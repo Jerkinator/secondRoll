@@ -1,5 +1,6 @@
 package SecondRoll.demo.services;
 
+import SecondRoll.demo.models.EGameCategory;
 import SecondRoll.demo.models.GameAds;
 import SecondRoll.demo.repository.GameAdsRepository;
 import SecondRoll.demo.repository.UserRepository;
@@ -14,6 +15,7 @@ public class GameAdsService {
     GameAdsRepository gameAdsRepository;
     @Autowired
     UserRepository userRepository;
+
     // Create a gameAd
     public GameAds createGameAd(GameAds gameAds) {
         return gameAdsRepository.save(gameAds);
@@ -43,7 +45,7 @@ public class GameAdsService {
 
 
     // Filter by tags
-    public List<GameAds> findGameAdsByGameDetails(List<GameAds> gameDetails) {
+    public List<GameAds> findGameAdsByGameDetails(List<EGameCategory> gameDetails) {
         return gameAdsRepository.findByGameDetailsIn(gameDetails);
     }
 
