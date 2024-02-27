@@ -60,11 +60,14 @@ public class WebSecurityConfig {
                 .exceptionHandling(exception -> exception.authenticationEntryPoint(unauthorizedHandler))
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth ->
-                        auth.requestMatchers("/api/auth/**").permitAll()
-                                .requestMatchers("/api/users/**").permitAll()
-                                .requestMatchers("/api/**").permitAll()
-                                .requestMatchers("/api/gameAds/**").permitAll()
-                                .requestMatchers("/api/users").hasAnyRole("USER", "ADMIN")
+                        auth.requestMatchers("/api/auth/admin/*").hasRole("ADMIN")
+                                .requestMatchers("/api/auth/signup").permitAll()
+                                .requestMatchers("/api/auth/login").permitAll()
+                                .requestMatchers("/api/users/*").hasAnyRole("USER", "ADMIN")
+                                .requestMatchers("/api/orders/*").hasAnyRole("USER", "ADMIN")
+                                .requestMatchers("/api/gameAds/*").hasAnyRole("USER", "ADMIN")
+                                .requestMatchers("/api/test/**").permitAll()
+
                                 .anyRequest().authenticated()
 
                 ).httpBasic(Customizer.withDefaults());
