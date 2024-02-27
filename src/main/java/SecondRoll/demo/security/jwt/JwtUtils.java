@@ -49,22 +49,6 @@ public class JwtUtils {
         return cookie;
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     public String getJwtFromCookie(HttpServletRequest request) {
         Cookie cookie = WebUtils.getCookie(request, jwtCookie);
         if (cookie != null) {
@@ -98,24 +82,4 @@ public class JwtUtils {
         }
         return false;
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 }
