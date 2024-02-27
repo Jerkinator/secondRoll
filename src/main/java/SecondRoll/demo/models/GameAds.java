@@ -2,6 +2,7 @@ package SecondRoll.demo.models;
 
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDate;
@@ -14,7 +15,8 @@ public class GameAds {
     @Id
     private String id;
 
-    private  String userId;
+    @DBRef
+    private User user;
 
     private String title;
 
@@ -36,6 +38,34 @@ public class GameAds {
    // public List<EGameCategory> tags = new ArrayList<>();
 
 
+    public void setId(String id) {
+        this.id = id;
+    }
+
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setPrice(int price) {
+        this.price = price;
+    }
+
+    public void setShippingCost(int shippingCost) {
+        this.shippingCost = shippingCost;
+    }
+
+    public void setCreated_at(LocalDate created_at) {
+        this.created_at = created_at;
+    }
+
+    public void setUpdated_at(LocalDate updated_at) {
+        this.updated_at = updated_at;
+    }
 
     public GameAds() {
     }
@@ -64,9 +94,7 @@ public class GameAds {
         return updated_at;
     }
 
-    public String getUserId() {
-        return userId;
-    }
+
 
    public List<EGameCategory> getGameDetails() {
         return gameDetails;
@@ -86,6 +114,14 @@ public class GameAds {
 
     public void setAvailable(boolean available) {
         isAvailable = available;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
 

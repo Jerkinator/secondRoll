@@ -5,10 +5,12 @@ public class GameDTO {
 
     private String gameId;
 
+    //Getters.
     public String getGameId() {
         return gameId;
     }
 
+    //Setters.
     public void setGameId(String gameId) {
         this.gameId = gameId;
     }
