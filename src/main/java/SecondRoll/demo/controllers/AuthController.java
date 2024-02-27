@@ -69,8 +69,6 @@ public class AuthController {
     }
 
 
-
-    // ADD IF-STATEMENT TO CHECK IF EMAIL EXISTS
     // Register new user
     @PostMapping("/signup")
     public ResponseEntity<?> signupUser(@Valid @RequestBody SignupRequest signupRequest) {

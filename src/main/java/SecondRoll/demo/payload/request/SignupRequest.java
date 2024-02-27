@@ -5,6 +5,7 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
+import java.util.List;
 import java.util.Set;
 
 public class SignupRequest {
@@ -30,6 +31,8 @@ public class SignupRequest {
     @NotBlank
     @Size(min = 6, max = 12)
     private String phoneNumber;
+    @NotBlank
+    private List<String> adress_details;
 
     public String getUsername() {
         return username;
@@ -89,5 +92,13 @@ public class SignupRequest {
 
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
+    }
+
+    public List<String> getAdress_details() {
+        return adress_details;
+    }
+
+    public void setAdress_details(List<String> adress_details) {
+        this.adress_details = adress_details;
     }
 }

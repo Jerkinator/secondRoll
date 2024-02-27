@@ -55,6 +55,7 @@ public class User {
 
 
     //An array containing adress details. Add street, zip and city to this in postman.
+    @NotBlank
     private List<String> adress_details = new ArrayList<>();
 
     //Wishlist
@@ -79,7 +80,8 @@ public class User {
         this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;
-        // this.phoneNumber = "SET";
+        this.phoneNumber = phoneNumber;
+        this.adress_details = adress_details;
     }
 
 
@@ -159,5 +161,9 @@ public class User {
 
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
+    }
+
+    public void setAdress_details(List<String> adress_details) {
+        this.adress_details = adress_details;
     }
 }
