@@ -2,10 +2,10 @@ package SecondRoll.demo.controllers;
 
 import SecondRoll.demo.security.jwt.JwtUtils;
 import SecondRoll.demo.security.services.UserDetailsImpl;
-import SecondRoll.demo.securitypayload.request.LoginRequest;
-import SecondRoll.demo.securitypayload.request.SignupRequest;
-import SecondRoll.demo.securitypayload.response.MessageResponse;
-import SecondRoll.demo.securitypayload.response.UserInfoResponse;
+import SecondRoll.demo.payload.request.LoginRequest;
+import SecondRoll.demo.payload.request.SignupRequest;
+import SecondRoll.demo.payload.response.MessageResponse;
+import SecondRoll.demo.payload.response.UserInfoResponse;
 import SecondRoll.demo.models.ERole;
 import SecondRoll.demo.models.Role;
 import SecondRoll.demo.models.User;
