@@ -60,13 +60,13 @@ public class WebSecurityConfig {
                 .exceptionHandling(exception -> exception.authenticationEntryPoint(unauthorizedHandler))
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth ->
-                        auth.requestMatchers("/api/auth/admin/*").hasRole("ADMIN")
+                        auth.requestMatchers("/api/auth/admin").hasRole("ADMIN")
                                 .requestMatchers("/api/auth/signup").permitAll()
                                 .requestMatchers("/api/auth/login").permitAll()
-                                .requestMatchers("/api/users/*").hasAnyRole("USER", "ADMIN")
-                                .requestMatchers("/api/orders/*").hasAnyRole("USER", "ADMIN")
-                                .requestMatchers("/api/gameAds/*").hasAnyRole("USER", "ADMIN")
-                                .requestMatchers("/api/test/**").permitAll()
+                                .requestMatchers("/api/users").hasAnyRole("USER", "ADMIN")
+                                .requestMatchers("/api/orders").hasAnyRole("USER", "ADMIN")
+                                .requestMatchers("/api/gameAds").hasAnyRole("USER", "ADMIN")
+                                .requestMatchers("/api/test/public").permitAll()
 
                                 .anyRequest().authenticated()
 
