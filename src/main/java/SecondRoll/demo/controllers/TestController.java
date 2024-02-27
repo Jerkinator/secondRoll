@@ -2,6 +2,7 @@ package SecondRoll.demo.controllers;
 
 import SecondRoll.demo.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,12 +24,14 @@ public class TestController {
 
 
     // User route = måste vara minst User role och inloggad
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     @GetMapping("/user")
     public String userAccess() {
         return "User access";
     }
 
     // Admin route = måste vara Admin role
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/admin")
     public String adminAccess() {
         return "Admin access";

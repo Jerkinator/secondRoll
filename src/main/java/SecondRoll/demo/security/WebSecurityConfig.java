@@ -8,7 +8,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
-import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -66,10 +65,10 @@ public class WebSecurityConfig {
                                 .requestMatchers("/api/users/**").hasAnyRole("USER", "ADMIN")
                                 .requestMatchers("/api/orders/**").hasAnyRole("USER", "ADMIN")
                                 .requestMatchers("/api/gameAds/**").hasAnyRole("USER", "ADMIN")
-                                .requestMatchers("/api/test/**").permitAll()
+                                .requestMatchers("/api/test/admin").hasRole("ADMIN")
                                 .anyRequest().authenticated()
 
-                ).httpBasic(Customizer.withDefaults());
+                );
 
         http.authenticationProvider(authenticationProvider());
 
