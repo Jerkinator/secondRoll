@@ -22,6 +22,10 @@ public class Order {
     @Field(value = "buyer")
     private User user;
 
+    //No object id ref in User model atm
+    //change to dbref when user model has dbref (skapa issue!)
+    private String sellerId;
+
     @CreatedDate
     private Date orderedAt;
 
@@ -60,5 +64,13 @@ public class Order {
 
     public void setGameAds(List<GameAds> gameAds) {
         this.gameAds = gameAds;
+    }
+
+    public String getSellerId() {
+        return sellerId;
+    }
+
+    public void setSellerId(String sellerId) {
+        this.sellerId = sellerId;
     }
 }

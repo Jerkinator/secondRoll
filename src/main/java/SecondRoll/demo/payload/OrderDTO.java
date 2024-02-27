@@ -7,6 +7,7 @@ public class OrderDTO {
 
     private List<String> gameAdIds;
 
+    private String sellerId;
 
     public String getUserId() {
         return userId;
@@ -24,4 +25,11 @@ public class OrderDTO {
         this.gameAdIds = gameAdIds;
     }
 
+    public String getSellerId() {
+        return sellerId;
+    }
+
+    public void setSellerId(String sellerId) {
+        this.sellerId = sellerId;
+    }
 }

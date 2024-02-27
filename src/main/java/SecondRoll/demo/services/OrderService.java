@@ -59,7 +59,18 @@ public class OrderService {
             throw new RuntimeException("User not found");
         }
 
-            List<GameAds> gameAds = new ArrayList<>();
+        // test when user is a dbref in GameAd
+        /*Optional<User> sellerOptional = userRepository.findById(orderDTO.getSellerId());
+        if (!sellerOptional.isPresent()) {
+            throw new RuntimeException("User not found");
+        }*/
+        //User user = userRepository.findById(orderDTO.getSellerId());
+            //if (!user.isPresent())
+        //skapa user user genom user rep find by id, id orderdto.getsellerid
+        //gör if user not present throw error
+
+
+        List<GameAds> gameAds = new ArrayList<>();
             for (String gameAdId : orderDTO.getGameAdIds()) {
                 gameAds.add(gameAdsRepository.findById(gameAdId)
                         .orElseThrow(() -> new RuntimeException("Game ad not found ")));
@@ -71,7 +82,12 @@ public class OrderService {
             Order newOrder = new Order();
             newOrder.setUser(userOptional.get());
             newOrder.setGameAds(gameAds);
-            newOrder.setGameAds(gameAds);
+            //newOrder.setSellerId(orderDTO.getSellerId());
+
+            //newOrder.setSellerId(user.getId());
+
+            // test when user is a dbref in GameAd
+            //newOrder.setSellerId(sellerOptional.get());
 
             return orderRepository.save(newOrder);
 
