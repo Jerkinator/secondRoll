@@ -3,6 +3,7 @@ package SecondRoll.demo.services;
 import SecondRoll.demo.models.GameAds;
 import SecondRoll.demo.models.Order;
 import SecondRoll.demo.models.User;
+import SecondRoll.demo.payload.OrderDTO;
 import SecondRoll.demo.repository.GameAdsRepository;
 import SecondRoll.demo.repository.OrderRepository;
 import SecondRoll.demo.repository.UserRepository;
@@ -50,14 +51,35 @@ public class OrderService {
  */
 
 
+    //create order preparing to use payload object in controller
+
+    public Order createOrder(OrderDTO orderDTO) {
+        Optional<User> userOptional = userRepository.findById(orderDTO.getUserId());
+        if (!userOptional.isPresent()) {
+            throw new RuntimeException("User not found");
+        }
+
+            List<GameAds> gameAds = new ArrayList<>();
+            for (String gameAdId : orderDTO.getGameAdIds()) {
+                gameAds.add(gameAdsRepository.findById(gameAdId)
+                        .orElseThrow(() -> new RuntimeException("Game ad not found ")));
+            }
+            if (gameAds.size() != orderDTO.getGameAdIds().size()) {
+                throw new RuntimeException("One or more ads not found");
+            }
+
+            Order newOrder = new Order();
+            newOrder.setUser(userOptional.get());
+            newOrder.setGameAds(gameAds);
+            newOrder.setGameAds(gameAds);
+
+            return orderRepository.save(newOrder);
 
 
+    }
 
 
-
-
-   //create order preparing to use payload object in controller
-    public Order addOrder(String userId, List<String> gameAdIds) {
+   /* public Order addOrder(String userId, List<String> gameAdIds) {
         Optional<User> userOptional = userRepository.findById(userId);
         //making sure that there is a user matching the entered id
         if (!userOptional.isPresent()) {
@@ -83,9 +105,10 @@ public class OrderService {
         return orderRepository.save(order);
     }
 
+    */
 
 
-    //get all orders from order collection
+        //get all orders from order collection
     public List<Order> getAllOrders () {
         return orderRepository.findAll();
     }
@@ -105,6 +128,11 @@ public class OrderService {
         orderRepository.deleteById(id);
         return "Order successfully deleted!";
     }
-
-
 }
+
+
+
+
+
+
+

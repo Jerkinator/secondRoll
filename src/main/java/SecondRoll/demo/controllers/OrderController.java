@@ -21,10 +21,10 @@ public class OrderController {
 
     @PostMapping
     //Sending in OrderDTO object as a request
-    public ResponseEntity<Order> orders(@RequestBody OrderDTO request) {
+    public ResponseEntity<Order> createOrder(@RequestBody OrderDTO orderDTO) {
         //Getting user id and game ad id and creates the order in database
-        Order order = orderService.addOrder(request.getUserId(), request.getGameAdIds());
-        return new ResponseEntity<>(order, HttpStatus.CREATED);
+        Order newOrder = orderService.createOrder(orderDTO);
+        return new ResponseEntity<>(newOrder, HttpStatus.CREATED);
     }
 
 
