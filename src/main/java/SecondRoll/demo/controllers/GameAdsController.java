@@ -2,8 +2,10 @@ package SecondRoll.demo.controllers;
 
 import SecondRoll.demo.models.EGameCategory;
 import SecondRoll.demo.models.GameAds;
+import SecondRoll.demo.payload.CreateGameDTO;
 import SecondRoll.demo.services.GameAdsService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,8 +22,9 @@ public class GameAdsController {
 
     // POST
     @PostMapping()
-    public GameAds createGameAd(@RequestBody GameAds gameAds) {
-        return gameAdsService.createGameAd(gameAds);
+    public ResponseEntity<GameAds> createGameAd(@RequestBody CreateGameDTO createGameDTO) {
+        GameAds gameAd = gameAdsService.createGameAd(createGameDTO);
+        return new ResponseEntity<>(gameAd, HttpStatus.CREATED);
     }
 
     // GET
@@ -57,6 +60,10 @@ public class GameAdsController {
         return gameAdsService.findGameAdsByGameDetails(gameDetails);
     }
 
+    @GetMapping(value = "/{userId}")
+    public ResponseEntity<GameAds> getGameAdsByUserId(@PathVariable String userId) {
+        Optional<GameAds> gameAds = gameAdsService.getGameByUserId(userId);
+        return gameAds.map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.notFound().build());
+    }
 }
-
-

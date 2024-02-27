@@ -2,6 +2,8 @@ package SecondRoll.demo.services;
 
 import SecondRoll.demo.models.EGameCategory;
 import SecondRoll.demo.models.GameAds;
+import SecondRoll.demo.models.User;
+import SecondRoll.demo.payload.CreateGameDTO;
 import SecondRoll.demo.repository.GameAdsRepository;
 import SecondRoll.demo.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,9 +18,23 @@ public class GameAdsService {
     @Autowired
     UserRepository userRepository;
 
-    // Create a gameAd
-    public GameAds createGameAd(GameAds gameAds) {
-        return gameAdsRepository.save(gameAds);
+    // Create a gameAd with user reference, using a DTO.
+    public GameAds createGameAd(CreateGameDTO createGameDTO) {
+        User user = userRepository.findById(createGameDTO.getUserId())
+                .orElseThrow(() -> new RuntimeException("User not found."));
+
+        GameAds gameAd = new GameAds();
+        gameAd.setUser(user);
+        gameAd.setTitle(createGameDTO.getTitle());
+        gameAd.setDescription(createGameDTO.getDescription());
+        gameAd.setPrice(createGameDTO.getPrice());
+        gameAd.setShippingCost(createGameDTO.getShippingCost());
+        gameAd.setCreated_at(createGameDTO.getCreated_at());
+        gameAd.setUpdated_at(createGameDTO.getUpdated_at());
+        gameAd.setGameDetails(createGameDTO.getGameDetails());
+        gameAd.setAvailable(createGameDTO.isAvailable);
+
+        return gameAdsRepository.save(gameAd);
     }
 
     // Get all gameAds
@@ -49,7 +65,8 @@ public class GameAdsService {
         return gameAdsRepository.findByGameDetailsIn(gameDetails);
     }
 
+    // Find GameAds by user ID.
+    public Optional<GameAds> getGameByUserId(String userId) {
+        return gameAdsRepository.findById(userId);
+    }
 }
-
-
-
