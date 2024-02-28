@@ -77,10 +77,6 @@ public class OrderService {
         return orderRepository.findById(id);
     }
 
-    public Order updateOrder(Order order){
-        return orderRepository.save(order);
-    }
-
     //delete specific order by id
     public String deleteOrderById(String id) {
         orderRepository.deleteById(id);

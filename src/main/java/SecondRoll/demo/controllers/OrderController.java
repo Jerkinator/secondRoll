@@ -48,12 +48,6 @@ public class OrderController {
                .orElseGet(() -> ResponseEntity.notFound().build());
    }
 
-   //PUT
-    //update order
-    @PutMapping
-    public Order updateOrder(@RequestBody Order order) {
-        return orderService.updateOrder(order);
-    }
 
     //DELETE borrowedBooks by id
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
