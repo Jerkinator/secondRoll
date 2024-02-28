@@ -58,6 +58,7 @@ public class User {
     @NotBlank
     private String adress_street;
     @NotBlank
+    @Size(min = 5, max = 6)
     private String adress_zip;
     @NotBlank
     private String adress_city;
@@ -81,12 +82,7 @@ public class User {
         this.username = username;
         this.email = email;
         this.password = password;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.phoneNumber = phoneNumber;
-
     }
-
 
     //Getters.
 
@@ -160,5 +156,29 @@ public class User {
 
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
+    }
+
+    public String getAdress_street() {
+        return adress_street;
+    }
+
+    public void setAdress_street(String adress_street) {
+        this.adress_street = adress_street;
+    }
+
+    public String getAdress_zip() {
+        return adress_zip;
+    }
+
+    public void setAdress_zip(String adress_zip) {
+        this.adress_zip = adress_zip;
+    }
+
+    public String getAdress_city() {
+        return adress_city;
+    }
+
+    public void setAdress_city(String adress_city) {
+        this.adress_city = adress_city;
     }
 }

@@ -4,15 +4,18 @@ package SecondRoll.demo.payload.request;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
+import org.springframework.data.mongodb.core.index.Indexed;
 
 import java.util.Set;
 
 public class SignupRequest {
     @NotBlank
+    @Indexed(unique = true)
     @Size(min = 3, max = 20)
     private String username;
 
     @NotBlank
+    @Indexed(unique = true)
     @Email
     private String email;
 
