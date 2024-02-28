@@ -43,16 +43,25 @@ public class User {
 
     @DBRef
     private Set<Role> roles = new HashSet<>();
-
+    @NotBlank
+    @Size(min = 2, max = 30)
     private String firstName;
-
+    @NotBlank
+    @Size(min = 2, max = 40)
     private String lastName;
-
+    @NotBlank
+    @Size(min = 6, max = 12)
     private String phoneNumber;
 
 
-    //An array containing adress details. Add street, zip and city to this in postman.
-    private List<String> adress_details = new ArrayList<>();
+    // Separate strings with the adress details to make it easier and more readable in code and mongodb
+    @NotBlank
+    private String adress_street;
+    @NotBlank
+    @Size(min = 5, max = 6)
+    private String adress_zip;
+    @NotBlank
+    private String adress_city;
 
     //Wishlist
     @DBRef
@@ -68,15 +77,12 @@ public class User {
     public User() {
     }
 
-
     // Constructor w username, email and password
     public User(String username, String email, String password) {
         this.username = username;
         this.email = email;
         this.password = password;
-        this.phoneNumber = "SET";
     }
-
 
     //Getters.
 
@@ -108,10 +114,6 @@ public class User {
 
     public String getPhoneNumber() {
         return phoneNumber;
-    }
-
-    public List<String> getAdress_details() {
-        return adress_details;
     }
 
 
@@ -154,5 +156,29 @@ public class User {
 
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
+    }
+
+    public String getAdress_street() {
+        return adress_street;
+    }
+
+    public void setAdress_street(String adress_street) {
+        this.adress_street = adress_street;
+    }
+
+    public String getAdress_zip() {
+        return adress_zip;
+    }
+
+    public void setAdress_zip(String adress_zip) {
+        this.adress_zip = adress_zip;
+    }
+
+    public String getAdress_city() {
+        return adress_city;
+    }
+
+    public void setAdress_city(String adress_city) {
+        this.adress_city = adress_city;
     }
 }

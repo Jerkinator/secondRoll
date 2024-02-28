@@ -1,4 +1,4 @@
-package SecondRoll.demo.securitypayload.request;
+package SecondRoll.demo.payload.request;
 
 import jakarta.validation.constraints.NotBlank;
 
