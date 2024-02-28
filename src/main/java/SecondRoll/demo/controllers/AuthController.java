@@ -2,10 +2,10 @@ package SecondRoll.demo.controllers;
 
 import SecondRoll.demo.security.jwt.JwtUtils;
 import SecondRoll.demo.security.services.UserDetailsImpl;
-import SecondRoll.demo.securitypayload.request.LoginRequest;
-import SecondRoll.demo.securitypayload.request.SignupRequest;
-import SecondRoll.demo.securitypayload.response.MessageResponse;
-import SecondRoll.demo.securitypayload.response.UserInfoResponse;
+import SecondRoll.demo.payload.request.LoginRequest;
+import SecondRoll.demo.payload.request.SignupRequest;
+import SecondRoll.demo.payload.response.MessageResponse;
+import SecondRoll.demo.payload.response.UserInfoResponse;
 import SecondRoll.demo.models.ERole;
 import SecondRoll.demo.models.Role;
 import SecondRoll.demo.models.User;
@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -44,6 +45,15 @@ public class AuthController {
     @Autowired
     JwtUtils jwtUtils;
 
+    // Admin route = måste ha Admin role
+    // OBS testing authorization
+    @PreAuthorize("hasRole('ADMIN')")
+    @GetMapping("/admin")
+    public String adminAccess() {
+        return "Admin access";
+    }
+
+
     // Log in
     @PostMapping("/login")
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
@@ -69,8 +79,6 @@ public class AuthController {
     }
 
 
-
-    // ADD IF-STATEMENT TO CHECK IF EMAIL EXISTS
     // Register new user
     @PostMapping("/signup")
     public ResponseEntity<?> signupUser(@Valid @RequestBody SignupRequest signupRequest) {
@@ -78,6 +86,10 @@ public class AuthController {
             return ResponseEntity
                     .badRequest()
                     .body(new MessageResponse("Error: Username already exists."));
+        } else if (userRepository.existsByEmail((signupRequest.getEmail()))) {
+            return ResponseEntity
+                    .badRequest()
+                    .body(new MessageResponse("Error: Email already registered."));
         }
 
         // CREATE NEW USER ACCOUNT
@@ -85,8 +97,12 @@ public class AuthController {
                 signupRequest.getEmail(),
                 encoder.encode(signupRequest.getPassword()));
 
-        user.setFirstName("Update later");
-        user.setLastName("Update Later");
+        user.setFirstName(signupRequest.getFirstName());
+        user.setLastName(signupRequest.getLastName());
+        user.setPhoneNumber(signupRequest.getPhoneNumber());
+        user.setAdress_street(signupRequest.getAdress_street());
+        user.setAdress_zip(signupRequest.getAdress_zip());
+        user.setAdress_city(signupRequest.getAdress_city());
         Set<String> strRoles = signupRequest.getRoles();
         Set<Role> roles = new HashSet<>();
 
