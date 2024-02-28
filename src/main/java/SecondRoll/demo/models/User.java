@@ -54,9 +54,13 @@ public class User {
     private String phoneNumber;
 
 
-    //An array containing adress details. Add street, zip and city to this in postman.
+    // Separate strings with the adress details to make it easier and more readable in code and mongodb
     @NotBlank
-    private List<String> adress_details = new ArrayList<>();
+    private String adress_street;
+    @NotBlank
+    private String adress_zip;
+    @NotBlank
+    private String adress_city;
 
     //Wishlist
     @DBRef
@@ -72,7 +76,6 @@ public class User {
     public User() {
     }
 
-
     // Constructor w username, email and password
     public User(String username, String email, String password) {
         this.username = username;
@@ -81,7 +84,7 @@ public class User {
         this.firstName = firstName;
         this.lastName = lastName;
         this.phoneNumber = phoneNumber;
-        this.adress_details = adress_details;
+
     }
 
 
@@ -115,10 +118,6 @@ public class User {
 
     public String getPhoneNumber() {
         return phoneNumber;
-    }
-
-    public List<String> getAdress_details() {
-        return adress_details;
     }
 
 
@@ -161,9 +160,5 @@ public class User {
 
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
-    }
-
-    public void setAdress_details(List<String> adress_details) {
-        this.adress_details = adress_details;
     }
 }
