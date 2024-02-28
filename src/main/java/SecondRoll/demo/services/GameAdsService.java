@@ -63,8 +63,8 @@ public class GameAdsService {
         return gameAdsRepository.findByGameDetailsIn(gameDetails);
     }
 
-    // Find GameAds by user ID.
-    public List<GameAds> findAllGamesByUserId(String userId) {
-        return gameAdsRepository.findAllById(userId)
+    // Find all GameAds by user ID.
+    public Optional<GameAds> findAllGamesByUserId(String userId) {
+       return gameAdsRepository.findById(userId);
     }
 }

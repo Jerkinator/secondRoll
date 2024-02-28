@@ -61,6 +61,7 @@ public class User {
     //List of all user ratings.
     private ArrayList<Integer> ratings = new ArrayList<>();
 
+
     //Holds the average rating of all user ratings.
     private int averageRating;
 
@@ -111,7 +112,6 @@ public class User {
     public List<String> getAdress_details() {
         return adress_details;
     }
-
 
     public Set<Role> getRoles() {
         return roles;
