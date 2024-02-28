@@ -23,105 +23,47 @@ public class OrderService {
     private GameAdsRepository gameAdsRepository;
     @Autowired
     private UserRepository userRepository;
-/*
-    public Order addOrder (String userId, List<String> gameAdIds ) {
-        Optional<User> userOptional = userRepository.findById(userId);
-        if (!userOptional.isPresent()) {
-            throw new RuntimeException("User not found");
-        }
 
-        List<GameAds> gameAds = new ArrayList<>();
-        for (String gameAdsId : gameAdIds) {
-            Optional<GameAds> gameAdsOptional = gameAdsRepository.findById(gameAdsId);
-            gameAdsOptional.ifPresent(gameAds::add);
-        }
-        if (gameAds.size() != gameAdIds.size()) {
-            throw new RuntimeException("One or more books not found");
-        }
-
-        Order order = new Order();
-        order.setUser(userOptional.get());
-        order.setGameAds(gameAds);
-
-        return orderRepository.save(order);
-
-
-    }
-
- */
 
 
     //create order preparing to use payload object in controller
-
     public Order createOrder(OrderDTO orderDTO) {
-        Optional<User> userOptional = userRepository.findById(orderDTO.getUserId());
+        Optional<User> userOptional = userRepository.findById(orderDTO.getBuyerId());
         if (!userOptional.isPresent()) {
-            throw new RuntimeException("User not found");
+            throw new IllegalArgumentException("User not found");
         }
-
-        // test when user is a dbref in GameAd
-        /*Optional<User> sellerOptional = userRepository.findById(orderDTO.getSellerId());
-        if (!sellerOptional.isPresent()) {
-            throw new RuntimeException("User not found");
-        }*/
-        //User user = userRepository.findById(orderDTO.getSellerId());
-            //if (!user.isPresent())
-        //skapa user user genom user rep find by id, id orderdto.getsellerid
-        //gör if user not present throw error
-
-
+        //checks if all gameAds in DTO is present in database otherwise throws error
         List<GameAds> gameAds = new ArrayList<>();
             for (String gameAdId : orderDTO.getGameAdIds()) {
                 gameAds.add(gameAdsRepository.findById(gameAdId)
-                        .orElseThrow(() -> new RuntimeException("Game ad not found ")));
+                        .orElseThrow(() -> new IllegalArgumentException("Game ad not found ")));
             }
+            //Loops through list of game ads to set them to not available
+            Optional <User> seller = Optional.of(new User());
+            for (GameAds gameAd : gameAds) {
+                gameAd.setAvailable(false);
+
+               //Gets seller from game ad to make sure it is set to correct seller
+               seller = userRepository.findById(gameAd.getUser().getId());
+                if (!seller.isPresent()) {
+                    throw new IllegalArgumentException("Seller not found");
+                }
+            }
+
+            //checking that all passed game ads exists in database
             if (gameAds.size() != orderDTO.getGameAdIds().size()) {
-                throw new RuntimeException("One or more ads not found");
+                throw new IllegalArgumentException("One or more ads not found");
             }
 
             Order newOrder = new Order();
-            newOrder.setUser(userOptional.get());
+            newOrder.setBuyer(userOptional.get());
             newOrder.setGameAds(gameAds);
-            //newOrder.setSellerId(orderDTO.getSellerId());
-
-            //newOrder.setSellerId(user.getId());
-
-            // test when user is a dbref in GameAd
-            //newOrder.setSellerId(sellerOptional.get());
+            newOrder.setSeller(seller.get());
 
             return orderRepository.save(newOrder);
 
 
     }
-
-
-   /* public Order addOrder(String userId, List<String> gameAdIds) {
-        Optional<User> userOptional = userRepository.findById(userId);
-        //making sure that there is a user matching the entered id
-        if (!userOptional.isPresent()) {
-            throw new RuntimeException("User not found");
-        }
-
-        List<GameAds> gameAds = new ArrayList<>();
-        //loops through to see if the entered gamAdIds match database.
-        for (String gameAdsId : gameAdIds) {
-            Optional<GameAds> gameAdsOptional = gameAdsRepository.findById(gameAdsId);
-            gameAdsOptional.ifPresent(gameAds::add);
-        }
-        //makes sure that there is the same amount of ads as Ids entered
-        if (gameAds.size() != gameAdIds.size()) {
-            throw new RuntimeException("One or more ads not found");
-        }
-        Order order = new Order();
-        //sets the user to order object
-        order.setUser(userOptional.get());
-        //sets the gameAds to order object
-        order.setGameAds(gameAds);
-
-        return orderRepository.save(order);
-    }
-
-    */
 
 
         //get all orders from order collection

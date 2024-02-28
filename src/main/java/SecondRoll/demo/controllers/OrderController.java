@@ -24,6 +24,10 @@ public class OrderController {
     public ResponseEntity<Order> createOrder(@RequestBody OrderDTO orderDTO) {
         //Getting user id and game ad id and creates the order in database
         Order newOrder = orderService.createOrder(orderDTO);
+        //this is where what shows in postman is set.
+        //only responds with the message Order created
+        //return new ResponseEntity(new MessageResponse("Order created"), HttpStatus.CREATED);
+        //This line returns whole order object
         return new ResponseEntity<>(newOrder, HttpStatus.CREATED);
     }
 
