@@ -68,7 +68,6 @@ public class User {
     public User() {
     }
 
-
     // Constructor w username, email and password
     public User(String username, String email, String password) {
         this.username = username;
@@ -76,7 +75,6 @@ public class User {
         this.password = password;
         this.phoneNumber = "SET";
     }
-
 
     //Getters.
 

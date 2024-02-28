@@ -48,7 +48,6 @@ public class GameAdsService {
     }
 
     // Get a gameAd by id
-
     public Optional<GameAds> getGameAdById(String id) {
         return gameAdsRepository.findById(id);
     }
@@ -59,14 +58,13 @@ public class GameAdsService {
         return "Game Ad deleted";
     }
 
-
     // Filter by tags
     public List<GameAds> findGameAdsByGameDetails(List<EGameCategory> gameDetails) {
         return gameAdsRepository.findByGameDetailsIn(gameDetails);
     }
 
     // Find GameAds by user ID.
-    public Optional<GameAds> getGameByUserId(String userId) {
-        return gameAdsRepository.findById(userId);
+    public List<GameAds> findAllGamesByUserId(String userId) {
+        return gameAdsRepository.findAllById(userId)
     }
 }
