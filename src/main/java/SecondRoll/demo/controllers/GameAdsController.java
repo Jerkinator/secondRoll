@@ -2,6 +2,7 @@ package SecondRoll.demo.controllers;
 
 import SecondRoll.demo.models.EGameCategory;
 import SecondRoll.demo.models.GameAds;
+import SecondRoll.demo.models.User;
 import SecondRoll.demo.payload.CreateGameDTO;
 import SecondRoll.demo.services.GameAdsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,10 +62,8 @@ public class GameAdsController {
     }
 
 
-    @RequestMapping(value = "/{userId}", method = RequestMethod.GET)
-    public ResponseEntity<GameAds> getGameAdsByUserId(@PathVariable String userId) {
-        Optional<GameAds> gameAds = gameAdsService.findAllGamesByUserId(userId);
-        return gameAds.map(ResponseEntity::ok)
-                .orElseGet(() -> ResponseEntity.notFound().build());
+    @GetMapping(value = "/search/userid")
+    public List<GameAds> findGameAdsByUserId(@RequestParam User user) {
+        return gameAdsService.findGameAdsByUserId(user);
     }
 }
