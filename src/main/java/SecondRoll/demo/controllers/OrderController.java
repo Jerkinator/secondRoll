@@ -21,10 +21,14 @@ public class OrderController {
 
     @PostMapping
     //Sending in OrderDTO object as a request
-    public ResponseEntity<Order> orders(@RequestBody OrderDTO request) {
+    public ResponseEntity<Order> createOrder(@RequestBody OrderDTO orderDTO) {
         //Getting user id and game ad id and creates the order in database
-        Order order = orderService.addOrder(request.getUserId(), request.getGameAdIds());
-        return new ResponseEntity<>(order, HttpStatus.CREATED);
+        Order newOrder = orderService.createOrder(orderDTO);
+        //this is where what shows in postman is set.
+        //only responds with the message Order created
+        //return new ResponseEntity(new MessageResponse("Order created"), HttpStatus.CREATED);
+        //This line returns whole order object
+        return new ResponseEntity<>(newOrder, HttpStatus.CREATED);
     }
 
 
@@ -44,12 +48,6 @@ public class OrderController {
                .orElseGet(() -> ResponseEntity.notFound().build());
    }
 
-   //PUT
-    //update order
-    @PutMapping
-    public Order updateOrder(@RequestBody Order order) {
-        return orderService.updateOrder(order);
-    }
 
     //DELETE borrowedBooks by id
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)

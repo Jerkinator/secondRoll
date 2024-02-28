@@ -3,17 +3,18 @@ package SecondRoll.demo.payload;
 import java.util.List;
 
 public class OrderDTO {
-    private String userId;
+    private String buyerId;
+
 
     private List<String> gameAdIds;
 
 
-    public String getUserId() {
-        return userId;
+    public String getBuyerId() {
+        return buyerId;
     }
 
-    public void setUserId(String userId) {
-        this.userId = userId;
+    public void setBuyerId(String buyerId) {
+        this.buyerId = buyerId;
     }
 
     public List<String> getGameAdIds() {

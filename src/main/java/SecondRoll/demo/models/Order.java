@@ -4,7 +4,6 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.data.mongodb.core.mapping.Field;
 
 import java.util.Date;
 import java.util.List;
@@ -18,9 +17,12 @@ public class Order {
     private List<GameAds> gameAds;
 
     @DBRef
-    //shows as buyer in database
-    @Field(value = "buyer")
-    private User user;
+    private User buyer;
+
+    //No object id ref in User model atm
+    //change to dbref when user model has dbref (skapa issue!)
+    @DBRef
+    private User seller;
 
     @CreatedDate
     private Date orderedAt;
@@ -38,12 +40,12 @@ public class Order {
     }
 
 
-    public User getUser() {
-        return user;
+    public User getBuyer() {
+        return buyer;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setBuyer(User buyer) {
+        this.buyer = buyer;
     }
 
     public Date getOrderedAt() {
@@ -60,5 +62,14 @@ public class Order {
 
     public void setGameAds(List<GameAds> gameAds) {
         this.gameAds = gameAds;
+    }
+
+
+    public User getSeller() {
+        return seller;
+    }
+
+    public void setSeller(User seller) {
+        this.seller = seller;
     }
 }

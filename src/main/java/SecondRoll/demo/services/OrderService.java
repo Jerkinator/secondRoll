@@ -3,6 +3,7 @@ package SecondRoll.demo.services;
 import SecondRoll.demo.models.GameAds;
 import SecondRoll.demo.models.Order;
 import SecondRoll.demo.models.User;
+import SecondRoll.demo.payload.OrderDTO;
 import SecondRoll.demo.repository.GameAdsRepository;
 import SecondRoll.demo.repository.OrderRepository;
 import SecondRoll.demo.repository.UserRepository;
@@ -22,70 +23,50 @@ public class OrderService {
     private GameAdsRepository gameAdsRepository;
     @Autowired
     private UserRepository userRepository;
-/*
-    public Order addOrder (String userId, List<String> gameAdIds ) {
-        Optional<User> userOptional = userRepository.findById(userId);
+
+
+
+    //create order preparing to use payload object in controller
+    public Order createOrder(OrderDTO orderDTO) {
+        Optional<User> userOptional = userRepository.findById(orderDTO.getBuyerId());
         if (!userOptional.isPresent()) {
-            throw new RuntimeException("User not found");
+            throw new IllegalArgumentException("User not found");
         }
-
+        //checks if all gameAds in DTO is present in database otherwise throws error
         List<GameAds> gameAds = new ArrayList<>();
-        for (String gameAdsId : gameAdIds) {
-            Optional<GameAds> gameAdsOptional = gameAdsRepository.findById(gameAdsId);
-            gameAdsOptional.ifPresent(gameAds::add);
-        }
-        if (gameAds.size() != gameAdIds.size()) {
-            throw new RuntimeException("One or more books not found");
-        }
+            for (String gameAdId : orderDTO.getGameAdIds()) {
+                gameAds.add(gameAdsRepository.findById(gameAdId)
+                        .orElseThrow(() -> new IllegalArgumentException("Game ad not found ")));
+            }
+            //Loops through list of game ads to set them to not available
+            Optional <User> seller = Optional.of(new User());
+            for (GameAds gameAd : gameAds) {
+                gameAd.setAvailable(false);
 
-        Order order = new Order();
-        order.setUser(userOptional.get());
-        order.setGameAds(gameAds);
+               //Gets seller from game ad to make sure it is set to correct seller
+               seller = userRepository.findById(gameAd.getUser().getId());
+                if (!seller.isPresent()) {
+                    throw new IllegalArgumentException("Seller not found");
+                }
+            }
 
-        return orderRepository.save(order);
+            //checking that all passed game ads exists in database
+            if (gameAds.size() != orderDTO.getGameAdIds().size()) {
+                throw new IllegalArgumentException("One or more ads not found");
+            }
+
+            Order newOrder = new Order();
+            newOrder.setBuyer(userOptional.get());
+            newOrder.setGameAds(gameAds);
+            newOrder.setSeller(seller.get());
+
+            return orderRepository.save(newOrder);
 
 
     }
 
- */
 
-
-
-
-
-
-
-
-   //create order preparing to use payload object in controller
-    public Order addOrder(String userId, List<String> gameAdIds) {
-        Optional<User> userOptional = userRepository.findById(userId);
-        //making sure that there is a user matching the entered id
-        if (!userOptional.isPresent()) {
-            throw new RuntimeException("User not found");
-        }
-
-        List<GameAds> gameAds = new ArrayList<>();
-        //loops through to see if the entered gamAdIds match database.
-        for (String gameAdsId : gameAdIds) {
-            Optional<GameAds> gameAdsOptional = gameAdsRepository.findById(gameAdsId);
-            gameAdsOptional.ifPresent(gameAds::add);
-        }
-        //makes sure that there is the same amount of ads as Ids entered
-        if (gameAds.size() != gameAdIds.size()) {
-            throw new RuntimeException("One or more ads not found");
-        }
-        Order order = new Order();
-        //sets the user to order object
-        order.setUser(userOptional.get());
-        //sets the gameAds to order object
-        order.setGameAds(gameAds);
-
-        return orderRepository.save(order);
-    }
-
-
-
-    //get all orders from order collection
+        //get all orders from order collection
     public List<Order> getAllOrders () {
         return orderRepository.findAll();
     }
@@ -96,15 +77,16 @@ public class OrderService {
         return orderRepository.findById(id);
     }
 
-    public Order updateOrder(Order order){
-        return orderRepository.save(order);
-    }
-
     //delete specific order by id
     public String deleteOrderById(String id) {
         orderRepository.deleteById(id);
         return "Order successfully deleted!";
     }
-
-
 }
+
+
+
+
+
+
+
