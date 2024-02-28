@@ -67,7 +67,6 @@ public class WebSecurityConfig {
                                 .requestMatchers("/api/gameAds/**").hasAnyRole("USER", "ADMIN")
                                 .requestMatchers("/api/test/admin").hasRole("ADMIN")
                                 .anyRequest().authenticated()
-
                 );
 
         http.authenticationProvider(authenticationProvider());
@@ -75,6 +74,5 @@ public class WebSecurityConfig {
         http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
-
     }
 }

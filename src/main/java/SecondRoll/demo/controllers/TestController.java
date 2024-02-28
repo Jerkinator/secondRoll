@@ -30,6 +30,7 @@ public class TestController {
         return "User access";
     }
 
+
     // Admin route = måste vara Admin role
     @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/admin")

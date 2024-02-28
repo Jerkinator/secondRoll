@@ -45,7 +45,7 @@ public class AuthController {
     @Autowired
     JwtUtils jwtUtils;
 
-    // Admin route = måste vara Admin role
+    // Admin route = måste ha Admin role
     // OBS testing authorization
     @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/admin")
