@@ -67,4 +67,8 @@ public class GameAdsController {
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
+    // Roll the Dice game ad randomizer
+   //  @GetMapping(value = "/randomizer")
+
+
 }

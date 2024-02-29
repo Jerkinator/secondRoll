@@ -8,9 +8,10 @@ import SecondRoll.demo.repository.GameAdsRepository;
 import SecondRoll.demo.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.GetMapping;
 
-import java.util.*;
+import java.util.List;
+import java.util.Optional;
+import java.util.Random;
 
 @Service
 public class GameAdsService {
@@ -77,19 +78,9 @@ public class GameAdsService {
         Random randomGameAd = new Random();
         List<GameAds> allGameAds = gameAdsRepository.findAll();
         int maxInt = allGameAds.size();
-        List<Integer> gameAdsInt = Arrays.asList(maxInt);
-        int  = allGameAds.get(randomGameAd.nextInt(maxInt));
-
-            System.out.println("This is your random game ad " + randomGameAd);
-
-
-
-/*
-        Skapa en random.
-        Hämta alla GameAds till en lista
-        Sätt en maxInt utefter listan du hämtades max size
-        gör get på listan du hämtade med random.nextInt(maxInt)(då hämtar du EN GameAd ur listan)
-        returnera den GameAdden */
-
+        allGameAds.get(randomGameAd.nextInt(maxInt));
+       // List<Integer> gameAdsInt = Arrays.asList(maxInt); ????
+        System.out.println("This is your random game ad " + randomGameAd);
+        return null;
     }
 }
