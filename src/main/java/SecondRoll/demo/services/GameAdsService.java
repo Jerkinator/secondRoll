@@ -7,6 +7,10 @@ import SecondRoll.demo.payload.CreateGameDTO;
 import SecondRoll.demo.repository.GameAdsRepository;
 import SecondRoll.demo.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -37,10 +41,16 @@ public class GameAdsService {
         return gameAdsRepository.save(gameAd);
     }
 
-    // Get all gameAds
+    public Page<GameAds> getAllGameAdsWithPagination(int page, int size, String sortBy) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by(sortBy));
+        return gameAdsRepository.findAll(pageable);
+    }
+
+
+    /* Get all gameAds
     public List<GameAds> getAllGameAds() {
         return gameAdsRepository.findAll();
-    }
+    } */
 
     // Update a gameAd
     public GameAds updateGameAd(GameAds gameAds) {

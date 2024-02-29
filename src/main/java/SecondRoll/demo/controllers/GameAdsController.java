@@ -5,6 +5,7 @@ import SecondRoll.demo.models.GameAds;
 import SecondRoll.demo.payload.CreateGameDTO;
 import SecondRoll.demo.services.GameAdsService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -27,10 +28,12 @@ public class GameAdsController {
         return new ResponseEntity<>(gameAd, HttpStatus.CREATED);
     }
 
-    // GET
+    // GET ALL GAMEADS - With pagination - 10 gameAds per page
     @GetMapping("/all")
-    public List<GameAds> getAllGameAds() {
-        return gameAdsService.getAllGameAds();
+    public Page<GameAds> getAllGamesWithPagination (@RequestParam(defaultValue = "0") int page,
+                                                    @RequestParam(defaultValue = "10") int size,
+                                                    @RequestParam(defaultValue = "id") String sortBy) {
+        return gameAdsService.getAllGameAdsWithPagination(page, size, sortBy);
     }
 
     // PUT
