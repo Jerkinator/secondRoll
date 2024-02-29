@@ -87,9 +87,7 @@ public class GameAdsService {
         Random randomGameAd = new Random();
         List<GameAds> allGameAds = gameAdsRepository.findAll();
         int maxInt = allGameAds.size();
-        allGameAds.get(randomGameAd.nextInt(maxInt));
-       // List<Integer> gameAdsInt = Arrays.asList(maxInt); ????
-        System.out.println("This is your random game ad " + randomGameAd);
-        return null;
+        GameAds gameAds = allGameAds.get(randomGameAd.nextInt(maxInt));
+        return gameAds;
     }
 }

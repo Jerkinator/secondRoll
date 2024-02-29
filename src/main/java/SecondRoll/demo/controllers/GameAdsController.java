@@ -67,7 +67,8 @@ public class GameAdsController {
     }
 
     // Roll the Dice game ad randomizer
-   //  @GetMapping(value = "/randomizer")
-
-
+    @GetMapping(value = "/rolldice")
+    public GameAds getRandomGameAd() {
+        return gameAdsService.getRandomGameAd();
+    }
 }
