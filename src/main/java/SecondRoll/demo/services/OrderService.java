@@ -83,7 +83,9 @@ public class OrderService {
         return "Order successfully deleted!";
     }
 
-    public List<Order> buyerOrderHistory (String buyerId) {
+    //public List<Order>
+
+    /*public List<Order> buyerOrderHistory (String buyerId) {
         //1. check that user exists in db
         Optional<User> userOptional = userRepository.findById(buyerId);
         if (!userOptional.isPresent()) {
@@ -93,15 +95,16 @@ public class OrderService {
         List<Order> orders = new ArrayList<>();
         //3. loop through orders if order.getbuyer().getid() == user.getid() add to orders array
         for (Order order : orders) {
-            if (order.getBuyer().getId() == userOptional.get().getId())
-            orders.add(orderRepository.findById(buyerId)
-                    .orElseThrow(() -> new IllegalArgumentException("Game ad not found ")));
+            if (order.getBuyer().getId() == userOptional.get().getId()) {
+                orders.add(order);
+            }
+
         }
-        return (orders);
-
-
         //4. return orders array
+        return orders;
     }
+
+     */
 }
 
 

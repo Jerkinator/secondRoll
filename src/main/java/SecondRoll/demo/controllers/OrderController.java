@@ -55,5 +55,11 @@ public class OrderController {
         return orderService.deleteOrderById(id);
     }
 
+    //GET buyer history for bought games
+    @GetMapping (value = "/history/{buyerId}")
+    public List<Order> buyerOrderHistory(@PathVariable String buyerId) {
+        return orderService.buyerOrderHistory(buyerId);
+    }
+
 
 }
