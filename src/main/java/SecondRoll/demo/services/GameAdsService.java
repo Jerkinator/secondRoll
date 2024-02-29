@@ -9,7 +9,9 @@ import SecondRoll.demo.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 @Service
 public class GameAdsService {
@@ -64,7 +66,16 @@ public class GameAdsService {
     }
 
     // Find all GameAds by user ID.
-    public List<GameAds> findGameAdsByUserId(User user) {
-        return gameAdsRepository.findByUserIdIn(user);
+    public List<GameAds> findGameAdsByUserId(String userId) {
+        User user = userRepository.findById(userId).orElseThrow();
+
+        List<GameAds> gameAds = gameAdsRepository.findAll();
+        List<GameAds> foundGames = new ArrayList<>();
+        for(GameAds gameAd : gameAds) {
+            if(Objects.equals(gameAd.getUser().getId(), user.getId())) {
+                foundGames.add(gameAd);
+            }
+        }
+        return foundGames;
     }
 }
