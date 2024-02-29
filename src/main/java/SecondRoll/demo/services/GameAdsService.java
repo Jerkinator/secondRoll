@@ -9,7 +9,9 @@ import SecondRoll.demo.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.Random;
 
@@ -50,7 +52,6 @@ public class GameAdsService {
     }
 
     // Get a gameAd by id
-
     public Optional<GameAds> getGameAdById(String id) {
         return gameAdsRepository.findById(id);
     }
@@ -61,15 +62,23 @@ public class GameAdsService {
         return "Game Ad deleted";
     }
 
-
     // Filter by tags
     public List<GameAds> findGameAdsByGameDetails(List<EGameCategory> gameDetails) {
         return gameAdsRepository.findByGameDetailsIn(gameDetails);
     }
 
-    // Find GameAds by user ID.
-    public Optional<GameAds> getGameByUserId(String userId) {
-        return gameAdsRepository.findById(userId);
+    // Find all GameAds by user ID.
+    public List<GameAds> findGameAdsByUserId(String userId) {
+        User user = userRepository.findById(userId).orElseThrow();
+
+        List<GameAds> gameAds = gameAdsRepository.findAll();
+        List<GameAds> foundGames = new ArrayList<>();
+        for(GameAds gameAd : gameAds) {
+            if(Objects.equals(gameAd.getUser().getId(), user.getId())) {
+                foundGames.add(gameAd);
+            }
+        }
+        return foundGames;
     }
 
 

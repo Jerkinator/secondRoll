@@ -2,7 +2,7 @@ package SecondRoll.demo.controllers;
 
 import SecondRoll.demo.models.Rating;
 import SecondRoll.demo.models.User;
-import SecondRoll.demo.payload.GameDTO;
+import SecondRoll.demo.payload.WishlistDTO;
 import SecondRoll.demo.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -53,15 +53,15 @@ public class UserController {
 
     // ADD a gameAd to a user wishlist using a Data Transfer Object-reference.
     @PutMapping("/{userId}/wishlist")
-        public ResponseEntity<?> addGameToWishlist (@PathVariable String userId, @RequestBody GameDTO gameDTO){
-            User userWithWishList = userService.addGameToWishlist(userId, gameDTO);
+        public ResponseEntity<?> addGameToWishlist (@PathVariable String userId, @RequestBody WishlistDTO wishlistDTO){
+            User userWithWishList = userService.addGameToWishlist(userId, wishlistDTO);
             return new ResponseEntity<>(userWithWishList, HttpStatus.CREATED);
         }
 
     // REMOVE a gameAd to a user wishlist using a Data Transfer Object-reference.
     @DeleteMapping(value = "/{userId}/wishlist")
-    public ResponseEntity<?> removeGameFromWishlist(@PathVariable String userId, @RequestBody GameDTO gameDTO) {
-        User userWithWishList = userService.removeGameFromWishlist(userId, gameDTO);
+    public ResponseEntity<?> removeGameFromWishlist(@PathVariable String userId, @RequestBody WishlistDTO wishlistDTO) {
+        User userWithWishList = userService.removeGameFromWishlist(userId, wishlistDTO);
         return new ResponseEntity<>(userWithWishList, HttpStatus.CREATED);
     }
 
