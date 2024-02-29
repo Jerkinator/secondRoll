@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -83,7 +84,27 @@ public class OrderService {
         return "Order successfully deleted!";
     }
 
-    //public List<Order>
+   public List<Order> buyerOrderHistory(String buyerId) {
+        Optional<User> userOptional = userRepository.findById(buyerId);
+
+        List<Order> orders = orderRepository.findAll();
+        List<Order> buyerHistory = new ArrayList<>();
+        for (Order order : orders) {
+            // if(order.getBuyer().getId() == userOptional.get().getId())
+            if(Objects.equals(order.getBuyer().getId(), userOptional.get().getId())) {
+                    buyerHistory.add(order);
+            }
+        }
+
+       if(buyerHistory.size() == 0) {
+           throw new IllegalArgumentException("Empty");
+       }
+        return buyerHistory;
+    }
+
+
+
+
 
     /*public List<Order> buyerOrderHistory (String buyerId) {
         //1. check that user exists in db
@@ -95,16 +116,24 @@ public class OrderService {
         List<Order> orders = new ArrayList<>();
         //3. loop through orders if order.getbuyer().getid() == user.getid() add to orders array
         for (Order order : orders) {
-            if (order.getBuyer().getId() == userOptional.get().getId()) {
-                orders.add(order);
+           // if (order.getBuyer().getId() == userOptional.get().getId()) {
+                //orders.add(order);
+                  if(Objects.equals(order.getBuyer().getId(), userOptional.get().getId())) {
+                    orders.add(order);
+
             }
 
+        }
+        if(orders.size() == 0) {
+            throw new IllegalArgumentException("Empty");
         }
         //4. return orders array
         return orders;
     }
 
      */
+
+
 }
 
 
