@@ -31,6 +31,17 @@ public class GameAds {
     private LocalDate updated_at;
 
 
+
+
+    // ArrayList of gameAds for picking a randomized game ad for a user
+    private List<GameAds> gameAdsList;
+
+    public List<GameAds> getGameAdsList() {
+        return gameAdsList;
+    }
+
+    // ------------------------------------
+
     public List<EGameCategory> gameDetails = new ArrayList<>();
 
     public boolean isAvailable = true;
