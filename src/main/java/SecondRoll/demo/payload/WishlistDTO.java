@@ -1,7 +1,7 @@
 package SecondRoll.demo.payload;
 
 //Data Transfer Object for GameAds.
-public class GameDTO {
+public class WishlistDTO {
 
     private String gameId;
 
