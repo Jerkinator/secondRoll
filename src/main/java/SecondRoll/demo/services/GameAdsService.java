@@ -66,9 +66,18 @@ public class GameAdsService {
     }
 
     public Page<GameAds> findGameAdsByGameDetailsPaginated(int page, int size, String sortBy, List<EGameCategory> gameDetails) {
+
+        List<GameAds> searchList = gameAdsRepository.findAll();
+        List<GameAds> foundGames = new ArrayList<>();
+
+        for(GameAds gameAds : searchList) {
+            if(Objects.equals(gameAds.getGameDetails(), gameDetails)) {
+                foundGames.add(gameAds);
+            }
+        }
         Pageable pageable = PageRequest.of(page, size, Sort.by(sortBy));
 
-        return gameAdsRepository.findByGameDetailsPaginatedIn(gameDetails, pageable);
+        return gameAdsRepository.findAll(pageable);
     }
 
     // Filter by tags

@@ -13,7 +13,6 @@ public interface GameAdsRepository extends MongoRepository<GameAds, String> {
 
     List<GameAds> findByGameDetailsIn(List<EGameCategory> gameDetails);
 
-    Page<GameAds> findByGameDetailsPaginatedIn(List<EGameCategory> gameDetails, Pageable pageable);
-
+    Page<GameAds> findByGameDetailsIn(Pageable pageable);
 }
 

@@ -17,7 +17,6 @@ import java.util.Optional;
 @RequestMapping(value="/api/gameAds")
 public class GameAdsController {
     @Autowired
-
     GameAdsService gameAdsService;
 
 
@@ -61,7 +60,7 @@ public class GameAdsController {
     @GetMapping("/search")
     public Page<GameAds> findGameAdsByGameDetailsPaginated (@RequestParam(defaultValue = "0") int page,
                                                             @RequestParam(defaultValue = "10") int size,
-                                                            @RequestParam(defaultValue = "title") String sortBy,
+                                                            @RequestParam(defaultValue = "id") String sortBy,
                                                             @RequestParam List<EGameCategory> gameDetails) {
         return gameAdsService.findGameAdsByGameDetailsPaginated(page, size, sortBy, gameDetails);
     }
