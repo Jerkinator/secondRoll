@@ -82,6 +82,13 @@ public class OrderService {
         orderRepository.deleteById(id);
         return "Order successfully deleted!";
     }
+
+    public List<Order> buyerOrderHistory (String buyerId) {
+        //1. check that user exists in db
+        //2. if user exists create empty array of type orders
+        //3. loop through orders if order.getbuyer().getid() == user.getid() add to orders array
+        //4. return orders array
+    }
 }
 
 
