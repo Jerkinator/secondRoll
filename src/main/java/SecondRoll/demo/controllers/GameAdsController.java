@@ -28,7 +28,7 @@ public class GameAdsController {
         return new ResponseEntity<>(gameAd, HttpStatus.CREATED);
     }
 
-    // GET ALL GAMEADS - With pagination - 10 gameAds per page
+    // GET ALL GAMEADS - With pagination - defaulted at 10 gameAds per page sorted by id
     @GetMapping("/all")
     public Page<GameAds> getAllGamesWithPagination (@RequestParam(defaultValue = "0") int page,
                                                     @RequestParam(defaultValue = "10") int size,
@@ -42,7 +42,7 @@ public class GameAdsController {
         return gameAdsService.updateGameAd(gameAds);
     }
 
-    // GET by id
+    // GET specific gameAd by id
     @GetMapping(value = "/{id}")
     public ResponseEntity<GameAds> getGameAdById(@PathVariable String id) {
         Optional<GameAds> gameAds = gameAdsService.getGameAdById(id);
@@ -51,12 +51,19 @@ public class GameAdsController {
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    // Delete by id
+    // Delete specific gameAd by id
     @RequestMapping(value = "{id}", method = RequestMethod.DELETE)
     public String deleteGameAd(@PathVariable String id) {
         return gameAdsService.deleteGameAd(id);
     }
-
+    // Search with pagination
+    @GetMapping("/search")
+    public Page<GameAds> findGameAdsByGameDetailsPaginated (@RequestParam(defaultValue = "0") int page,
+                                                            @RequestParam(defaultValue = "10") int size,
+                                                            @RequestParam(defaultValue = "title") String sortBy,
+                                                            @RequestParam List<EGameCategory> gameDetails) {
+        return gameAdsService.findGameAdsByGameDetailsPaginated(page, size, sortBy, gameDetails);
+    }
 
     @GetMapping(value = "/search")
     public List<GameAds> findGameAdsByGameDetails(@RequestParam List<EGameCategory> gameDetails) {

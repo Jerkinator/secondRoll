@@ -41,16 +41,11 @@ public class GameAdsService {
         return gameAdsRepository.save(gameAd);
     }
 
+    // Get all games with pagination
     public Page<GameAds> getAllGameAdsWithPagination(int page, int size, String sortBy) {
         Pageable pageable = PageRequest.of(page, size, Sort.by(sortBy));
         return gameAdsRepository.findAll(pageable);
     }
-
-
-    /* Get all gameAds
-    public List<GameAds> getAllGameAds() {
-        return gameAdsRepository.findAll();
-    } */
 
     // Update a gameAd
     public GameAds updateGameAd(GameAds gameAds) {
@@ -69,6 +64,11 @@ public class GameAdsService {
         return "Game Ad deleted";
     }
 
+    public Page<GameAds> findGameAdsByGameDetailsPaginated(int page, int size, String sortBy, List<EGameCategory> gameDetails) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by(sortBy));
+
+        return gameAdsRepository.findByGameDetailsPaginatedIn(gameDetails, pageable);
+    }
 
     // Filter by tags
     public List<GameAds> findGameAdsByGameDetails(List<EGameCategory> gameDetails) {
