@@ -51,8 +51,9 @@ public class GameAdsController {
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    // Delete specific gameAd by id
-    @RequestMapping(value = "{id}", method = RequestMethod.DELETE)
+
+    // Delete by id
+    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     public String deleteGameAd(@PathVariable String id) {
         return gameAdsService.deleteGameAd(id);
     }
@@ -70,10 +71,9 @@ public class GameAdsController {
         return gameAdsService.findGameAdsByGameDetails(gameDetails);
     }
 
-    @GetMapping(value = "/{userId}")
-    public ResponseEntity<GameAds> getGameAdsByUserId(@PathVariable String userId) {
-        Optional<GameAds> gameAds = gameAdsService.getGameByUserId(userId);
-        return gameAds.map(ResponseEntity::ok)
-                .orElseGet(() -> ResponseEntity.notFound().build());
+
+    @GetMapping(value = "/search/userId")
+    public List<GameAds> findGameAdsByUserId(@RequestParam String userId) {
+        return gameAdsService.findGameAdsByUserId(userId);
     }
 }
