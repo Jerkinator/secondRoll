@@ -85,8 +85,21 @@ public class OrderService {
 
     public List<Order> buyerOrderHistory (String buyerId) {
         //1. check that user exists in db
+        Optional<User> userOptional = userRepository.findById(buyerId);
+        if (!userOptional.isPresent()) {
+            throw new IllegalArgumentException("User not found");
+        }
         //2. if user exists create empty array of type orders
+        List<Order> orders = new ArrayList<>();
         //3. loop through orders if order.getbuyer().getid() == user.getid() add to orders array
+        for (Order order : orders) {
+            if (order.getBuyer().getId() == userOptional.get().getId())
+            orders.add(orderRepository.findById(buyerId)
+                    .orElseThrow(() -> new IllegalArgumentException("Game ad not found ")));
+        }
+        return (orders);
+
+
         //4. return orders array
     }
 }
