@@ -30,9 +30,6 @@ public class GameAds {
     @CreatedDate
     private LocalDate updated_at;
 
-
-
-
     // ArrayList of gameAds for picking a randomized game ad for a user
     private List<GameAds> gameAdsList;
 
@@ -44,6 +41,14 @@ public class GameAds {
 
     public List<EGameCategory> gameDetails = new ArrayList<>();
 
+    public boolean isAvailable() {
+        return isAvailable;
+    }
+
+    public void setAvailable(boolean available) {
+        isAvailable = available;
+    }
+
     public boolean isAvailable = true;
 
    // public List<EGameCategory> tags = new ArrayList<>();
@@ -52,7 +57,6 @@ public class GameAds {
     public void setId(String id) {
         this.id = id;
     }
-
 
     public void setTitle(String title) {
         this.title = title;
@@ -105,8 +109,6 @@ public class GameAds {
         return updated_at;
     }
 
-
-
    public List<EGameCategory> getGameDetails() {
         return gameDetails;
     }
@@ -117,14 +119,6 @@ public class GameAds {
 
     public int getShippingCost() {
         return shippingCost;
-    }
-
-    public boolean isAvailable() {
-        return isAvailable;
-    }
-
-    public void setAvailable(boolean available) {
-        isAvailable = available;
     }
 
     public User getUser() {

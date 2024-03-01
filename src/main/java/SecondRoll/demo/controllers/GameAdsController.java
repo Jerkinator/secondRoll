@@ -3,6 +3,7 @@ package SecondRoll.demo.controllers;
 import SecondRoll.demo.models.EGameCategory;
 import SecondRoll.demo.models.GameAds;
 import SecondRoll.demo.payload.CreateGameDTO;
+import SecondRoll.demo.payload.response.GameAdResponse;
 import SecondRoll.demo.services.GameAdsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -27,10 +28,11 @@ public class GameAdsController {
         return new ResponseEntity<>(gameAd, HttpStatus.CREATED);
     }
 
-    // GET
+    // GET ALL gameAds.
     @GetMapping("/all")
-    public List<GameAds> getAllGameAds() {
-        return gameAdsService.getAllGameAds();
+    public ResponseEntity<List<GameAdResponse>> getAllGameAds() {
+        List<GameAdResponse> orders = gameAdsService.getAllGameAds();
+        return ResponseEntity.ok(orders);
     }
 
     // PUT
@@ -60,10 +62,11 @@ public class GameAdsController {
         return gameAdsService.findGameAdsByGameDetails(gameDetails);
     }
 
-
-    @GetMapping(value = "/search/userId")
-    public List<GameAds> findGameAdsByUserId(@RequestParam String userId) {
-        return gameAdsService.findGameAdsByUserId(userId);
+    // UPDATED GET all game ads belonging to a user.
+    @GetMapping("/user/{userId}")
+    public ResponseEntity<List<GameAdResponse>> getUserOrders(@PathVariable String userId) {
+        List<GameAdResponse> gameAds = gameAdsService.getUserOrders(userId);
+        return ResponseEntity.ok(gameAds);
     }
 
     // "Roll the Dice" game ad randomizer
@@ -72,3 +75,10 @@ public class GameAdsController {
         return gameAdsService.getRandomGameAd();
     }
 }
+
+
+ /* // GET all game ads belonging to a user.
+    @GetMapping(value = "/search/userId")
+    public List<GameAds> findGameAdsByUserId(@RequestParam String userId) {
+        return gameAdsService.findGameAdsByUserId(userId);
+    } */

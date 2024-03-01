@@ -1,14 +1,16 @@
-package SecondRoll.demo.payload;
+package SecondRoll.demo.payload.response;
 
 import SecondRoll.demo.models.EGameCategory;
-import org.springframework.data.annotation.CreatedDate;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
-public class CreateGameDTO {
+public class GameAdResponse {
 
-    private String userId;
+    //private String userId? Do we still want to see ID's too, or only username?
+
+    private String username;
 
     private String title;
 
@@ -18,24 +20,22 @@ public class CreateGameDTO {
 
     private int shippingCost = 50;
 
-    @CreatedDate
     private LocalDate created_at;
 
-    @CreatedDate
     private LocalDate updated_at;
 
-    public List<EGameCategory> gameDetails;
+    public List<EGameCategory> gameDetails = new ArrayList<>();
 
     // private boolean isAvailable? Returns twice in postman right now. Looking for a fix.
 
     // GETTERS & SETTERS.
 
-    public String getUserId() {
-        return userId;
+    public String getUsername() {
+        return username;
     }
 
-    public void setUserId(String userId) {
-        this.userId = userId;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getTitle() {
