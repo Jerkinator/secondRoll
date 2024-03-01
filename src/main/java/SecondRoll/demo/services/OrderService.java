@@ -4,6 +4,7 @@ import SecondRoll.demo.models.GameAds;
 import SecondRoll.demo.models.Order;
 import SecondRoll.demo.models.User;
 import SecondRoll.demo.payload.OrderDTO;
+import SecondRoll.demo.payload.response.OrderResponse;
 import SecondRoll.demo.repository.GameAdsRepository;
 import SecondRoll.demo.repository.OrderRepository;
 import SecondRoll.demo.repository.UserRepository;
@@ -12,8 +13,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class OrderService {
@@ -84,7 +85,25 @@ public class OrderService {
         return "Order successfully deleted!";
     }
 
-   public List<Order> buyerOrderHistory(String buyerId) {
+    public List<OrderResponse> buyerOrderHistory(String buyerId){
+
+        List<Order> orders = orderRepository.findByBuyerId(buyerId);
+        return orders.stream().map(this::convertToDTO).collect(Collectors.toList());
+
+    }
+
+    private OrderResponse convertToDTO (Order order) {
+        OrderResponse orderResponse = new OrderResponse();
+        orderResponse.setBuyerId(order.getBuyer().getId());
+
+        orderResponse.setOrderedGameIds(order.getGameAds().stream().map(GameAds::getId).collect(Collectors.toList()));
+        orderResponse.setOrderedDate(order.getOrderedAt());
+
+        return orderResponse;
+    }
+
+
+   /*public List<Order> buyerOrderHistory(String buyerId) {
         Optional<User> userOptional = userRepository.findById(buyerId);
 
         List<Order> orders = orderRepository.findAll();
@@ -102,11 +121,23 @@ public class OrderService {
         return buyerHistory;
     }
 
+    */
 
 
 
 
-    /*public List<Order> buyerOrderHistory (String buyerId) {
+
+
+
+
+}
+
+
+
+
+
+
+/*public List<Order> buyerOrderHistory (String buyerId) {
         //1. check that user exists in db
         Optional<User> userOptional = userRepository.findById(buyerId);
         if (!userOptional.isPresent()) {
@@ -132,9 +163,6 @@ public class OrderService {
     }
 
      */
-
-
-}
 
 
 

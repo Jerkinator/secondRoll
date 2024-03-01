@@ -1,5 +1,6 @@
 package SecondRoll.demo.payload;
 
+import java.util.Date;
 import java.util.List;
 
 public class OrderDTO {
@@ -7,6 +8,8 @@ public class OrderDTO {
 
 
     private List<String> gameAdIds;
+
+    private Date OrderedDate;
 
 
     public String getBuyerId() {
@@ -25,4 +28,11 @@ public class OrderDTO {
         this.gameAdIds = gameAdIds;
     }
 
+    public Date getOrderedDate() {
+        return OrderedDate;
+    }
+
+    public void setOrderedDate(Date orderedDate) {
+        OrderedDate = orderedDate;
+    }
 }
