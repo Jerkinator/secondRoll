@@ -67,7 +67,7 @@ public class GameAdsService {
         return "Game Ad deleted";
     }
 
-    public Page<GameAds> findGameAdsByGameDetailsPaginated(int page, int size, String sortBy, List<EGameCategory> gameDetails) {
+    /* public Page<GameAds> findGameAdsByGameDetailsPaginated(int page, int size, String sortBy, List<EGameCategory> gameDetails) {
 
         List<GameAds> searchList = gameAdsRepository.findAll();
         List<GameAds> foundGames = new ArrayList<>();
@@ -80,7 +80,7 @@ public class GameAdsService {
         Pageable pageable = PageRequest.of(page, size, Sort.by(sortBy));
 
         return gameAdsRepository.findAll(pageable);
-    }
+    } */
 
     // Filter by tags
     public List<GameAds> findGameAdsByGameDetails(List<EGameCategory> gameDetails) {

@@ -57,13 +57,13 @@ public class GameAdsController {
         return gameAdsService.deleteGameAd(id);
     }
     // Search with pagination
-    @GetMapping("/search")
+    /* @GetMapping("/search")
     public Page<GameAds> findGameAdsByGameDetailsPaginated (@RequestParam(defaultValue = "0") int page,
                                                             @RequestParam(defaultValue = "10") int size,
                                                             @RequestParam(defaultValue = "id") String sortBy,
                                                             @RequestParam List<EGameCategory> gameDetails) {
         return gameAdsService.findGameAdsByGameDetailsPaginated(page, size, sortBy, gameDetails);
-    }
+    } */
 
     @GetMapping(value = "/search")
     public List<GameAds> findGameAdsByGameDetails(@RequestParam List<EGameCategory> gameDetails) {
