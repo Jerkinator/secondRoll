@@ -62,6 +62,20 @@ public class GameAdsService {
         return "Game Ad deleted";
     }
 
+    //HELENA:
+    // jag tror ni vet att Enum behöver konverteras till String :)
+    // och ni skulle också kunna förbättra er findGameAdsByUserId
+    // efter det vi gick igenom på lektionen
+    // ni får själva avgöra hur ni väljer att prioritera för metoden fungerar ju som den är
+    // tycker ni det är viktigt att ändra den eller inte?
+
+    // BÅDE GAMEADS OCH ORDER SERVICE:
+    // bör ni se över hur tex user lägger sig i responses, för jag antar att det är hela usern som syns där?
+    // om det är så bör ni nog prioritera att fixa detta dels för att det gör att era response objekt är
+    // otroligt stora om alla info om varje objectid referens ska finnas med och dels för att det här
+    // kan exposa känslig data och det är inte bra. Se över era responses när det gäller referenser med ObjectId
+    // vilken data räcker att ha med i ett respons objekt för respektive metod?
+
     // Filter by tags
     public List<GameAds> findGameAdsByGameDetails(List<EGameCategory> gameDetails) {
         return gameAdsRepository.findByGameDetailsIn(gameDetails);

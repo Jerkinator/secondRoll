@@ -18,6 +18,7 @@ public class UserController {
     @Autowired
     UserService userService;
 
+    // HELENA: den här ska bort ni har register nu..
     // CREATE a User.
     @PostMapping()
     public ResponseEntity<User> createUser(@RequestBody User user) {
@@ -39,6 +40,7 @@ public class UserController {
         return userService.getAllUsers();
     }
 
+    // HELENA: se kommentar i UserService
     // UPDATE a user.
     @PutMapping()
     public User updateUser(@RequestBody User user) {

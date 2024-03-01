@@ -49,6 +49,7 @@ public class OrderController {
    }
 
 
+   // HELENA: nej vi håller på med ordrar här, inte böcker eller?
     //DELETE borrowedBooks by id
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     public String deleteOrderById(@PathVariable String id) {

@@ -60,7 +60,11 @@ public class GameAdsController {
         return gameAdsService.findGameAdsByGameDetails(gameDetails);
     }
 
-
+    //HELENA:
+    // det här blir väl typ search/userId/userId va?
+    // jag hade gjort om det här så att userId är en pathVariable
+    // /search/{userId} och @PathVariable String userId
+    // metoden ska nog funka om ni ändrar så ni ska inte behöva ändra i service
     @GetMapping(value = "/search/userId")
     public List<GameAds> findGameAdsByUserId(@RequestParam String userId) {
         return gameAdsService.findGameAdsByUserId(userId);

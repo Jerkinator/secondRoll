@@ -15,6 +15,7 @@ public class GameAds {
     @Id
     private String id;
 
+    // HELENA: kanske att det här skulle heta seller istället för att vara extra tydligt
     @DBRef
     private User user;
 
@@ -32,6 +33,15 @@ public class GameAds {
 
 
 
+
+    // HELENA:
+    // vad är det som händer här?
+    // varför sparar ni en array med GameAds inne i själva GameAds modellen? det blir väl oerhört konstigt eller?
+    // det räcker väl att ni har en metod som slumpar fram ett random GameAd och använder den metoden i er frontend?
+    // det ni säger är typ:
+    // "jag ska ha en lista som ska vara helt full av mig själv, alltså listan ska vara massa Helena i Helena..."
+    // wierd, right? ^^
+    // ta väck det här...
 
     // ArrayList of gameAds for picking a randomized game ad for a user
     private List<GameAds> gameAdsList;
