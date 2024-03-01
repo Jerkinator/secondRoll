@@ -2,7 +2,7 @@ package SecondRoll.demo.controllers;
 
 import SecondRoll.demo.models.Order;
 import SecondRoll.demo.payload.OrderDTO;
-import SecondRoll.demo.payload.response.OrderResponse;
+import SecondRoll.demo.payload.response.OrderHistoryResponse;
 import SecondRoll.demo.services.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -58,8 +58,8 @@ public class OrderController {
 
     //GET buyer history for bought games
     @GetMapping ("/history/{buyerId}")
-    public ResponseEntity<List<OrderResponse>> buyerOrderHistory(@PathVariable String buyerId) {
-        List<OrderResponse> orders = orderService.buyerOrderHistory(buyerId);
+    public ResponseEntity<List<OrderHistoryResponse>> buyerOrderHistory(@PathVariable String buyerId) {
+        List<OrderHistoryResponse> orders = orderService.buyerOrderHistory(buyerId);
                 return ResponseEntity.ok(orders);
     }
    /* @GetMapping (value = "/history/{buyerId}")

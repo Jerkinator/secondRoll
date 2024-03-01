@@ -4,7 +4,7 @@ import SecondRoll.demo.models.GameAds;
 import SecondRoll.demo.models.Order;
 import SecondRoll.demo.models.User;
 import SecondRoll.demo.payload.OrderDTO;
-import SecondRoll.demo.payload.response.OrderResponse;
+import SecondRoll.demo.payload.response.OrderHistoryResponse;
 import SecondRoll.demo.repository.GameAdsRepository;
 import SecondRoll.demo.repository.OrderRepository;
 import SecondRoll.demo.repository.UserRepository;
@@ -37,13 +37,14 @@ public class OrderService {
         //checks if all gameAds in DTO is present in database otherwise throws error
         List<GameAds> gameAds = new ArrayList<>();
             for (String gameAdId : orderDTO.getGameAdIds()) {
-                gameAds.add(gameAdsRepository.findById(gameAdId)
+                gameAds.add(gameAdsRepository.findById(String.valueOf(gameAdId))
                         .orElseThrow(() -> new IllegalArgumentException("Game ad not found ")));
             }
             //Loops through list of game ads to set them to not available
             Optional <User> seller = Optional.of(new User());
             for (GameAds gameAd : gameAds) {
                 gameAd.setAvailable(false);
+                gameAdsRepository.save(gameAd);
 
                //Gets seller from game ad to make sure it is set to correct seller
                seller = userRepository.findById(gameAd.getUser().getId());
@@ -64,8 +65,8 @@ public class OrderService {
 
             return orderRepository.save(newOrder);
 
-
     }
+
 
 
         //get all orders from order collection
@@ -85,21 +86,21 @@ public class OrderService {
         return "Order successfully deleted!";
     }
 
-    public List<OrderResponse> buyerOrderHistory(String buyerId){
+    public List<OrderHistoryResponse> buyerOrderHistory(String buyerId){
 
         List<Order> orders = orderRepository.findByBuyerId(buyerId);
         return orders.stream().map(this::convertToDTO).collect(Collectors.toList());
 
     }
 
-    private OrderResponse convertToDTO (Order order) {
-        OrderResponse orderResponse = new OrderResponse();
-        orderResponse.setBuyerId(order.getBuyer().getId());
+    private OrderHistoryResponse convertToDTO (Order order) {
+        OrderHistoryResponse orderHistoryResponse = new OrderHistoryResponse();
+        orderHistoryResponse.setBuyerId(order.getBuyer().getUsername());
 
-        orderResponse.setOrderedGameIds(order.getGameAds().stream().map(GameAds::getId).collect(Collectors.toList()));
-        orderResponse.setOrderedDate(order.getOrderedAt());
+        orderHistoryResponse.setOrderedGameIds(order.getGameAds().stream().map(GameAds::getTitle).collect(Collectors.toList()));
+        orderHistoryResponse.setOrderedDate(order.getOrderedAt());
 
-        return orderResponse;
+        return orderHistoryResponse;
     }
 
 

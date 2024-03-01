@@ -3,9 +3,10 @@ package SecondRoll.demo.payload.response;
 import java.util.Date;
 import java.util.List;
 
-public class OrderResponse {
+public class OrderHistoryResponse {
 
-    private String buyerId;
+   private String buyerId;
+
 
     private List<String> orderedGameIds;
 
@@ -18,6 +19,10 @@ public class OrderResponse {
     public void setBuyerId(String buyerId) {
         this.buyerId = buyerId;
     }
+
+
+
+
 
     public List<String> getOrderedGameIds() {
         return orderedGameIds;
@@ -34,4 +39,8 @@ public class OrderResponse {
     public void setOrderedDate(Date orderedDate) {
         this.orderedDate = orderedDate;
     }
+
+
+
+
 }
