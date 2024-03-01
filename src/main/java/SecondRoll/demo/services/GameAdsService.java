@@ -17,6 +17,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.Random;
+
 @Service
 public class GameAdsService {
     @Autowired
@@ -97,5 +99,15 @@ public class GameAdsService {
             }
         }
         return foundGames;
+    }
+
+
+    // "Roll the Dice" game ad randomizer
+    public GameAds getRandomGameAd() {
+        Random randomGameAd = new Random();
+        List<GameAds> allGameAds = gameAdsRepository.findAll();
+        int maxInt = allGameAds.size();
+        GameAds gameAds = allGameAds.get(randomGameAd.nextInt(maxInt));
+        return gameAds;
     }
 }
