@@ -65,4 +65,10 @@ public class GameAdsController {
     public List<GameAds> findGameAdsByUserId(@RequestParam String userId) {
         return gameAdsService.findGameAdsByUserId(userId);
     }
+
+    // "Roll the Dice" game ad randomizer
+    @GetMapping(value = "/rolldice")
+    public GameAds getRandomGameAd() {
+        return gameAdsService.getRandomGameAd();
+    }
 }
