@@ -53,18 +53,6 @@ public class WebSecurityConfig {
         return new BCryptPasswordEncoder();
     }
 
-    // Frågor:
-    // ska man som användare inte kunna se annonser överhuvudtaget om man inte har registrerat ett konto?
-    // oftast kan man ju se alla annonser så att man lockas att vilja köpa och då behöver skapa ett konto
-
-    // det känns inte bra att ALLA users kan hämta all data om ALLA users eftersom ni satt auth med
-    // role USER och ADMIN på samtliga /api/users/** routes... en user bör endast kunna hämta sin egen information
-    // samt kunna uppdatera den. En admin däremot ska väl kunna hämta all info om alla users samt all info om en
-    // specifik user
-
-    // detsamma gäller orders, en user ska inte kunna hämta alla users ordrar utan endast ha tillgång till just sina
-    // egna orders.
-
     // titta över det här kanske hittar ni fler scenarion ni behöver tänka på? ändra authorization mitt tips är auth på
     // metodnivå istället. Vissa kan säker ligga kvar kanske men gå igenom varje end point för att se vilken auth som krävs.
 
@@ -77,8 +65,9 @@ public class WebSecurityConfig {
                         auth.requestMatchers("/api/auth/admin/**").hasRole("ADMIN")
                                 .requestMatchers("/api/auth/signup").permitAll()
                                 .requestMatchers("/api/auth/login").permitAll()
-                                .requestMatchers("/api/users/**").hasAnyRole("USER", "ADMIN")
-                                .requestMatchers("/api/orders/**").hasAnyRole("USER", "ADMIN")
+                                .requestMatchers("/api/gameAds/all").permitAll()
+                                .requestMatchers("/api/users/**").hasAnyRole( "ADMIN")
+                                .requestMatchers("/api/orders/**").hasAnyRole( "ADMIN")
                                 .requestMatchers("/api/gameAds/**").hasAnyRole("USER", "ADMIN")
                                 .requestMatchers("/api/test/admin").hasRole("ADMIN")
                                 .anyRequest().authenticated()
