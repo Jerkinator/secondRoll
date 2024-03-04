@@ -4,6 +4,7 @@ import SecondRoll.demo.models.GameAds;
 import SecondRoll.demo.models.Order;
 import SecondRoll.demo.models.User;
 import SecondRoll.demo.payload.OrderDTO;
+import SecondRoll.demo.payload.response.CreateOrderResponse;
 import SecondRoll.demo.payload.response.OrderHistoryResponse;
 import SecondRoll.demo.repository.GameAdsRepository;
 import SecondRoll.demo.repository.OrderRepository;
@@ -29,9 +30,9 @@ public class OrderService {
 
 
     //create order preparing to use payload object in controller
-    public Order createOrder(OrderDTO orderDTO) {
-        Optional<User> userOptional = userRepository.findById(orderDTO.getBuyerId());
-        if (!userOptional.isPresent()) {
+    public CreateOrderResponse createOrder (OrderDTO orderDTO) {
+        Optional<User> buyer = userRepository.findById(orderDTO.getBuyerId());
+        if (!buyer.isPresent()) {
             throw new IllegalArgumentException("User not found");
         }
         //checks if all gameAds in DTO is present in database otherwise throws error
@@ -52,6 +53,10 @@ public class OrderService {
                     throw new IllegalArgumentException("Seller not found");
                 }
             }
+            //lägg in total på order
+        int totalPrice = (int) gameAds.stream()
+                .mapToDouble(GameAds::getPrice)
+                .sum();
 
             //checking that all passed game ads exists in database
             if (gameAds.size() != orderDTO.getGameAdIds().size()) {
@@ -59,13 +64,16 @@ public class OrderService {
             }
 
             Order newOrder = new Order();
-            newOrder.setBuyer(userOptional.get());
+            newOrder.setBuyer(buyer.get());
             newOrder.setGameAds(gameAds);
             newOrder.setSeller(seller.get());
+            orderRepository.save(newOrder);
 
-            return orderRepository.save(newOrder);
+            //Vill inte returnera hela new order utan
+            return new CreateOrderResponse(buyer.get().getUsername(), totalPrice);
 
     }
+
 
 
 
@@ -104,70 +112,6 @@ public class OrderService {
     }
 
 
-   /*public List<Order> buyerOrderHistory(String buyerId) {
-        Optional<User> userOptional = userRepository.findById(buyerId);
-
-        List<Order> orders = orderRepository.findAll();
-        List<Order> buyerHistory = new ArrayList<>();
-        for (Order order : orders) {
-            // if(order.getBuyer().getId() == userOptional.get().getId())
-            if(Objects.equals(order.getBuyer().getId(), userOptional.get().getId())) {
-                    buyerHistory.add(order);
-            }
-        }
-
-       if(buyerHistory.size() == 0) {
-           throw new IllegalArgumentException("Empty");
-       }
-        return buyerHistory;
-    }
-
-    */
-
-
-
-
-
-
 
 
 }
-
-
-
-
-
-
-/*public List<Order> buyerOrderHistory (String buyerId) {
-        //1. check that user exists in db
-        Optional<User> userOptional = userRepository.findById(buyerId);
-        if (!userOptional.isPresent()) {
-            throw new IllegalArgumentException("User not found");
-        }
-        //2. if user exists create empty array of type orders
-        List<Order> orders = new ArrayList<>();
-        //3. loop through orders if order.getbuyer().getid() == user.getid() add to orders array
-        for (Order order : orders) {
-           // if (order.getBuyer().getId() == userOptional.get().getId()) {
-                //orders.add(order);
-                  if(Objects.equals(order.getBuyer().getId(), userOptional.get().getId())) {
-                    orders.add(order);
-
-            }
-
-        }
-        if(orders.size() == 0) {
-            throw new IllegalArgumentException("Empty");
-        }
-        //4. return orders array
-        return orders;
-    }
-
-     */
-
-
-
-
-
-
-
