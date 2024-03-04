@@ -39,7 +39,7 @@ public class User {
 
     @NotBlank
     @Size(min = 8, max = 30)
-    private String password; //This needs to be hashed and salted.
+    private String password;
 
     @DBRef
     private Set<Role> roles = new HashSet<>();

@@ -1,11 +1,14 @@
 package SecondRoll.demo.payload;
 
+import jakarta.validation.constraints.NotBlank;
+
 import java.util.List;
 
 public class OrderDTO {
+    @NotBlank
     private String buyerId;
 
-
+    @NotBlank
     private List<String> gameAdIds;
 
 

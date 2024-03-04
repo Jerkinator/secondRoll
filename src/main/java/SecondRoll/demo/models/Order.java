@@ -1,5 +1,6 @@
 package SecondRoll.demo.models;
 
+import jakarta.validation.constraints.NotBlank;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
@@ -12,10 +13,11 @@ import java.util.List;
 public class Order {
     @Id
     private String id;
-
+    @NotBlank
     @DBRef
     private List<GameAds> gameAds;
 
+    @NotBlank
     @DBRef
     private User buyer;
 
