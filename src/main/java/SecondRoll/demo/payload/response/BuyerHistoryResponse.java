@@ -3,7 +3,7 @@ package SecondRoll.demo.payload.response;
 import java.util.Date;
 import java.util.List;
 
-public class OrderHistoryResponse {
+public class BuyerHistoryResponse {
 
    private String buyerId;
 

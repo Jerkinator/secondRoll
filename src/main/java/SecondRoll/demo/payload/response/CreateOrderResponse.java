@@ -9,6 +9,7 @@ public class CreateOrderResponse {
 
    private String buyer;
 
+
    private int totalPrice;
 
     public CreateOrderResponse(String buyer, int totalPrice) {

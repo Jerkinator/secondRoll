@@ -3,7 +3,8 @@ package SecondRoll.demo.controllers;
 import SecondRoll.demo.models.Order;
 import SecondRoll.demo.payload.OrderDTO;
 import SecondRoll.demo.payload.response.CreateOrderResponse;
-import SecondRoll.demo.payload.response.OrderHistoryResponse;
+import SecondRoll.demo.payload.response.BuyerHistoryResponse;
+import SecondRoll.demo.payload.response.SellerHistoryResponse;
 import SecondRoll.demo.services.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -58,10 +59,16 @@ public class OrderController {
     }
 
     //GET buyer history for bought games
-    @GetMapping ("/history/{buyerId}")
-    public ResponseEntity<List<OrderHistoryResponse>> buyerOrderHistory(@PathVariable String buyerId) {
-        List<OrderHistoryResponse> orders = orderService.buyerOrderHistory(buyerId);
+    @GetMapping ("/buyerhistory/{buyerId}")
+    public ResponseEntity<List<BuyerHistoryResponse>> buyerOrderHistory(@PathVariable String buyerId) {
+        List<BuyerHistoryResponse> orders = orderService.buyerOrderHistory(buyerId);
                 return ResponseEntity.ok(orders);
+    }
+
+    @GetMapping ("/sellerhistory/{sellerId}")
+    public ResponseEntity<List<SellerHistoryResponse>> sellerOrderHistory(@PathVariable String sellerId) {
+        List<SellerHistoryResponse> orders = orderService.sellerOrderHistory(sellerId);
+            return ResponseEntity.ok(orders);
     }
    /* @GetMapping (value = "/history/{buyerId}")
     public List<Order> buyerOrderHistory(@PathVariable String buyerId) {

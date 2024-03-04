@@ -4,8 +4,9 @@ import SecondRoll.demo.models.GameAds;
 import SecondRoll.demo.models.Order;
 import SecondRoll.demo.models.User;
 import SecondRoll.demo.payload.OrderDTO;
+import SecondRoll.demo.payload.response.BuyerHistoryResponse;
 import SecondRoll.demo.payload.response.CreateOrderResponse;
-import SecondRoll.demo.payload.response.OrderHistoryResponse;
+import SecondRoll.demo.payload.response.SellerHistoryResponse;
 import SecondRoll.demo.repository.GameAdsRepository;
 import SecondRoll.demo.repository.OrderRepository;
 import SecondRoll.demo.repository.UserRepository;
@@ -94,21 +95,36 @@ public class OrderService {
         return "Order successfully deleted!";
     }
 
-    public List<OrderHistoryResponse> buyerOrderHistory(String buyerId){
+    public List<BuyerHistoryResponse> buyerOrderHistory(String buyerId){
 
         List<Order> orders = orderRepository.findByBuyerId(buyerId);
-        return orders.stream().map(this::convertToDTO).collect(Collectors.toList());
+        return orders.stream().map(this::convertToBuyerHistoryDTO).collect(Collectors.toList());
 
     }
 
-    private OrderHistoryResponse convertToDTO (Order order) {
-        OrderHistoryResponse orderHistoryResponse = new OrderHistoryResponse();
-        orderHistoryResponse.setBuyerId(order.getBuyer().getUsername());
+    private BuyerHistoryResponse convertToBuyerHistoryDTO (Order order) {
+        BuyerHistoryResponse buyerHistoryResponse = new BuyerHistoryResponse();
+        buyerHistoryResponse.setBuyerId(order.getBuyer().getUsername());
 
-        orderHistoryResponse.setOrderedGameIds(order.getGameAds().stream().map(GameAds::getTitle).collect(Collectors.toList()));
-        orderHistoryResponse.setOrderedDate(order.getOrderedAt());
+        buyerHistoryResponse.setOrderedGameIds(order.getGameAds().stream().map(GameAds::getTitle).collect(Collectors.toList()));
+        buyerHistoryResponse.setOrderedDate(order.getOrderedAt());
 
-        return orderHistoryResponse;
+        return buyerHistoryResponse;
+    }
+
+    public List<SellerHistoryResponse> sellerOrderHistory(String sellerId) {
+        List<Order> orders = orderRepository.findBySellerId(sellerId);
+        return orders.stream().map(this::convertToSellerHistoryDTO).collect(Collectors.toList());
+    }
+
+    private SellerHistoryResponse convertToSellerHistoryDTO (Order order) {
+        SellerHistoryResponse sellerHistoryResponse = new SellerHistoryResponse();
+        sellerHistoryResponse.setSellerId(order.getSeller().getUsername());
+
+        sellerHistoryResponse.setSoldGameIds(order.getGameAds().stream().map(GameAds::getTitle).collect(Collectors.toList()));
+        sellerHistoryResponse.setSaleDate(order.getOrderedAt());
+
+        return sellerHistoryResponse;
     }
 
 
