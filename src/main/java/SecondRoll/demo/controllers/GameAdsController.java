@@ -49,7 +49,7 @@ public class GameAdsController {
     }
 
     // Delete by id
-    @RequestMapping(value = "{id}", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     public String deleteGameAd(@PathVariable String id) {
         return gameAdsService.deleteGameAd(id);
     }
@@ -59,6 +59,7 @@ public class GameAdsController {
     public List<GameAds> findGameAdsByGameDetails(@RequestParam List<EGameCategory> gameDetails) {
         return gameAdsService.findGameAdsByGameDetails(gameDetails);
     }
+
 
     // Search by latest added gameAd
 
@@ -77,5 +78,22 @@ public class GameAdsController {
         Optional<GameAds> gameAds = gameAdsService.getGameByUserId(userId);
         return gameAds.map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
+    //HELENA:
+    // det här blir väl typ search/userId/userId va?
+    // jag hade gjort om det här så att userId är en pathVariable
+    // /search/{userId} och @PathVariable String userId
+    // metoden ska nog funka om ni ändrar så ni ska inte behöva ändra i service
+    @GetMapping(value = "/search/userId")
+    public List<GameAds> findGameAdsByUserId(@RequestParam String userId) {
+        return gameAdsService.findGameAdsByUserId(userId);
+    }
+
+    // "Roll the Dice" game ad randomizer
+    @GetMapping(value = "/rolldice")
+    public GameAds getRandomGameAd() {
+        return gameAdsService.getRandomGameAd();
+
     }
 }

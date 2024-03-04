@@ -3,7 +3,7 @@ package SecondRoll.demo.services;
 import SecondRoll.demo.models.GameAds;
 import SecondRoll.demo.models.Rating;
 import SecondRoll.demo.models.User;
-import SecondRoll.demo.payload.GameDTO;
+import SecondRoll.demo.payload.WishlistDTO;
 import SecondRoll.demo.repository.GameAdsRepository;
 import SecondRoll.demo.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +22,17 @@ public class UserService {
 
     @Autowired
     GameAdsService gameAdsService;
+
+    // HELENA:
+    // ni har ju register nu och det är där en user skapas
+    // därför bör metoden createUser tas bort här
+
+    // en user ska kunna uppdatera sin info och ni behöver göra en metod för det här
+    // just nu har ni updateuser men jag tolkar det som en admin funktion eftersom den inte är kopplad
+    // till ett specifikt user id.
+    // gör en update funktion med ett userId som pathVariable så kn den användas när en inloggad user
+    // vill uppdatera sin info. Fundera på vilken info en user ska få uppdatera?
+    // ni behöver även ge olika auth åtkomst här som jag skrev i WebSecurityConfig filen
 
     // CREATE a user.
     public User createUser(User user) {
@@ -50,18 +61,18 @@ public class UserService {
     }
 
     // ADD a gameAd to a user wishlist using a Data Transfer Object-reference.
-    public User addGameToWishlist(String userId, GameDTO gameDTO) {
+    public User addGameToWishlist(String userId, WishlistDTO wishlistDTO) {
         User user = userRepository.findById(userId).orElseThrow();
-        GameAds gameAd = gameAdsRepository.findById(gameDTO.getGameId()).orElseThrow();
+        GameAds gameAd = gameAdsRepository.findById(wishlistDTO.getGameId()).orElseThrow();
         user.getWishlist().add(gameAd);
         return userRepository.save(user);
     }
 
     // REMOVE a gameAd to a user wishlist using a Data Transfer Object-reference.
-    public User removeGameFromWishlist(String userId, GameDTO gameDTO) {
+    public User removeGameFromWishlist(String userId, WishlistDTO wishlistDTO) {
         User user = userRepository.findById(userId).orElseThrow();
         List<GameAds> wishlist = user.getWishlist();
-        wishlist.removeIf(gameAd -> gameAd.getId().equals(gameDTO.getGameId()));
+        wishlist.removeIf(gameAd -> gameAd.getId().equals(wishlistDTO.getGameId()));
         return userRepository.save(user);
     }
 

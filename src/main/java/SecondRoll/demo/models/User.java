@@ -53,7 +53,7 @@ public class User {
     @Size(min = 6, max = 12)
     private String phoneNumber;
 
-
+    // Helena: super bra att ni tänkt så här :)
     // Separate strings with the adress details to make it easier and more readable in code and mongodb
     @NotBlank
     private String adress_street;
@@ -69,6 +69,7 @@ public class User {
 
     //List of all user ratings.
     private ArrayList<Integer> ratings = new ArrayList<>();
+
 
     //Holds the average rating of all user ratings.
     private int averageRating;
@@ -115,7 +116,6 @@ public class User {
     public String getPhoneNumber() {
         return phoneNumber;
     }
-
 
     public Set<Role> getRoles() {
         return roles;
