@@ -8,8 +8,6 @@ import java.util.List;
 
 public class GameAdResponse {
 
-    //private String userId? Do we still want to see ID's too, or only username?
-
     private String username;
 
     private String title;

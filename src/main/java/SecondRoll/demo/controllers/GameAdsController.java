@@ -1,5 +1,6 @@
 package SecondRoll.demo.controllers;
 
+import SecondRoll.demo.exception.EntityNotFoundException;
 import SecondRoll.demo.models.EGameCategory;
 import SecondRoll.demo.models.GameAds;
 import SecondRoll.demo.payload.CreateGameDTO;
@@ -16,12 +17,11 @@ import java.util.Optional;
 @RestController
 @RequestMapping(value="/api/gameAds")
 public class GameAdsController {
-    @Autowired
 
+    @Autowired
     GameAdsService gameAdsService;
 
-
-    // POST
+    // POST.
     @PostMapping()
     public ResponseEntity<GameAds> createGameAd(@RequestBody CreateGameDTO createGameDTO) {
         GameAds gameAd = gameAdsService.createGameAd(createGameDTO);
@@ -35,13 +35,18 @@ public class GameAdsController {
         return ResponseEntity.ok(orders);
     }
 
-    // PUT
-    @PutMapping()
-    public GameAds updateGameAd(@RequestBody GameAds gameAds) {
-        return gameAdsService.updateGameAd(gameAds);
+    // UPDATED PUT.
+    @PutMapping("/{gameId}")
+    public ResponseEntity<?> updateGameAd(@PathVariable String gameId, @RequestBody GameAds gameDetails) {
+        try {
+            GameAds updatedGameAd = gameAdsService.updateGameAd(gameId, gameDetails);
+            return ResponseEntity.ok(updatedGameAd);
+        } catch (EntityNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        }
     }
 
-    // GET by id
+    // GET a gameAd by ID.
     @GetMapping(value = "/{id}")
     public ResponseEntity<GameAds> getGameAdById(@PathVariable String id) {
         Optional<GameAds> gameAds = gameAdsService.getGameAdById(id);
@@ -50,13 +55,13 @@ public class GameAdsController {
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    // Delete by id
+    // Delete by ID.
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     public String deleteGameAd(@PathVariable String id) {
         return gameAdsService.deleteGameAd(id);
     }
 
-
+    // FILTER by enum.
     @GetMapping(value = "/search")
     public List<GameAds> findGameAdsByGameDetails(@RequestParam List<EGameCategory> gameDetails) {
         return gameAdsService.findGameAdsByGameDetails(gameDetails);
@@ -77,8 +82,16 @@ public class GameAdsController {
 }
 
 
- /* // GET all game ads belonging to a user.
+
+ /* // OLD GET all game ads belonging to a user, stored for now, just in case.
     @GetMapping(value = "/search/userId")
     public List<GameAds> findGameAdsByUserId(@RequestParam String userId) {
         return gameAdsService.findGameAdsByUserId(userId);
+    } */
+
+ /*
+    // OLD PUT Update a game ad, stored for now, just in case.
+    @PutMapping()
+    public GameAds updateGameAd(@RequestBody GameAds gameAds) {
+        return gameAdsService.updateGameAd(gameAds);
     } */

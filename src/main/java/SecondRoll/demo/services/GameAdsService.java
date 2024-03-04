@@ -1,5 +1,6 @@
 package SecondRoll.demo.services;
 
+import SecondRoll.demo.exception.EntityNotFoundException;
 import SecondRoll.demo.models.EGameCategory;
 import SecondRoll.demo.models.GameAds;
 import SecondRoll.demo.models.User;
@@ -17,12 +18,13 @@ import java.util.stream.Collectors;
 
 @Service
 public class GameAdsService {
+
     @Autowired
     GameAdsRepository gameAdsRepository;
     @Autowired
     UserRepository userRepository;
 
-    // Create a gameAd with user reference, using a DTO.
+    // POST a gameAd with user reference, using a DTO.
     public GameAds createGameAd(CreateGameDTO createGameDTO) {
         User user = userRepository.findById(createGameDTO.getUserId())
                 .orElseThrow(() -> new RuntimeException("User not found."));
@@ -47,23 +49,41 @@ public class GameAdsService {
         return gameAds.stream().map(this::convertToDTO).collect(Collectors.toList());
     }
 
-    // Update a gameAd
-    public GameAds updateGameAd(GameAds gameAds) {
-        return gameAdsRepository.save(gameAds);
+    // UPDATED UPDATE a gameAD
+    public GameAds updateGameAd(String id, GameAds updatedGameAd) {
+        return gameAdsRepository.findById(id).map(existingGameAd -> {
+            if(updatedGameAd.getTitle() != null) {
+                existingGameAd.setTitle(updatedGameAd.getTitle());
+            }
+            if(updatedGameAd.getDescription() != null) {
+                existingGameAd.setDescription(updatedGameAd.getDescription());
+            }
+            if(updatedGameAd.getUpdated_at() != null) {
+                existingGameAd.setUpdated_at(updatedGameAd.getUpdated_at());
+            }
+            if(updatedGameAd.getGameDetails() != null) {
+                existingGameAd.setGameDetails(updatedGameAd.getGameDetails());
+            }
+            existingGameAd.setPrice(updatedGameAd.getPrice());
+            existingGameAd.setShippingCost(updatedGameAd.getShippingCost());
+
+            return gameAdsRepository.save(existingGameAd);
+        })
+                .orElseThrow(() -> new EntityNotFoundException("Game with id " + id + " was not found."));
     }
 
-    // Get a gameAd by id
+    // GET a gameAd by id
     public Optional<GameAds> getGameAdById(String id) {
         return gameAdsRepository.findById(id);
     }
 
-    // Delete a gameAd
+    // DELETE a gameAd
     public String deleteGameAd(String id) {
         gameAdsRepository.deleteById(id);
         return "Game Ad deleted";
     }
 
-    // Filter by tags
+    // FILTER by enum
     public List<GameAds> findGameAdsByGameDetails(List<EGameCategory> gameDetails) {
         return gameAdsRepository.findByGameDetailsIn(gameDetails);
     }
@@ -81,7 +101,6 @@ public class GameAdsService {
     private GameAdResponse convertToDTO(GameAds gameAd) {
         GameAdResponse gameAdResponse = new GameAdResponse();
 
-        //Get ID too?
         gameAdResponse.setUsername(gameAd.getUser().getUsername());
         gameAdResponse.setTitle(gameAd.getTitle());
         gameAdResponse.setDescription(gameAd.getDescription());
@@ -111,7 +130,6 @@ public class GameAdsService {
     } */
 
 
-
    /* // OLD GET all GameAds by user ID, stored for now, just in case.
     public List<GameAds> findGameAdsByUserId(String userId) {
         User user = userRepository.findById(userId).orElseThrow();
@@ -124,4 +142,11 @@ public class GameAdsService {
             }
         }
         return foundGames;
+    } */
+
+
+  /*
+    // OLD UPDATE a gameAd, stored for now, just in case.
+    public GameAds updateGameAd(GameAds gameAds) {
+        return gameAdsRepository.save(gameAds);
     } */
