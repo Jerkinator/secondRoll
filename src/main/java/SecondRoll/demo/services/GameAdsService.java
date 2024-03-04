@@ -11,6 +11,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+
 @Service
 public class GameAdsService {
     @Autowired
@@ -32,7 +34,7 @@ public class GameAdsService {
         gameAd.setCreated_at(createGameDTO.getCreated_at());
         gameAd.setUpdated_at(createGameDTO.getUpdated_at());
         gameAd.setGameDetails(createGameDTO.getGameDetails());
-        gameAd.setAvailable(createGameDTO.isAvailable);
+        // gameAd.setAvailable(createGameDTO.isAvailable);
 
         return gameAdsRepository.save(gameAd);
     }
@@ -65,8 +67,25 @@ public class GameAdsService {
         return gameAdsRepository.findByGameDetailsIn(gameDetails);
     }
 
+    public List<GameAds> findGameAdsByPrice(List price) {
+        List<GameAds> gamePrice = gameAdsRepository.findByPrice(price);
+        return gamePrice;
+    }
+
+
     // Find GameAds by user ID.
     public Optional<GameAds> getGameByUserId(String userId) {
         return gameAdsRepository.findById(userId);
+    }
+
+
+    // Converter method
+    private GameAds convertToDTO(GameAds gameAds) {
+        GameAds gameAd = new GameAds();
+        gameAd.set;
+
+        gameAd.setPrice(gameAds.getTitle().stream().map(GameAds::getPrice).collect(Collectors.toList()));
+
+        return gameAd;
     }
 }
