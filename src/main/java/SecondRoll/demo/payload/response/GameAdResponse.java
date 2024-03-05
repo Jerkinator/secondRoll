@@ -16,7 +16,7 @@ public class GameAdResponse {
 
     private int price;
 
-    private int shippingCost = 50;
+    private int shippingCost;
 
     private LocalDate created_at;
 
