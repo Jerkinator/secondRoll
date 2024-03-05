@@ -59,6 +59,12 @@ public class GameAds {
     // ------------------------------------
 
     public List<EGameCategory> gameDetails = new ArrayList<>();
+    private EGameCategory genres;
+    public GameAds(String genres){
+
+    }
+
+
 
     public boolean isAvailable = true;
 
@@ -150,6 +156,8 @@ public class GameAds {
     public void setUser(User user) {
         this.user = user;
     }
+
+
 
 
    /* public List<EGameCategory> getTags() {
