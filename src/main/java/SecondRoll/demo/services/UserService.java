@@ -23,22 +23,6 @@ public class UserService {
     @Autowired
     GameAdsService gameAdsService;
 
-    // HELENA:
-    // ni har ju register nu och det är där en user skapas
-    // därför bör metoden createUser tas bort här
-
-    // en user ska kunna uppdatera sin info och ni behöver göra en metod för det här
-    // just nu har ni updateuser men jag tolkar det som en admin funktion eftersom den inte är kopplad
-    // till ett specifikt user id.
-    // gör en update funktion med ett userId som pathVariable så kn den användas när en inloggad user
-    // vill uppdatera sin info. Fundera på vilken info en user ska få uppdatera?
-    // ni behöver även ge olika auth åtkomst här som jag skrev i WebSecurityConfig filen
-
-    // CREATE a user.
-    public User createUser(User user) {
-        return userRepository.save(user);
-    }
-
     // GET a user by ID.
     public Optional<User> getUserById(String id) {
         return userRepository.findById(id);
@@ -48,6 +32,16 @@ public class UserService {
     public List<User> getAllUsers() {
         return userRepository.findAll();
     }
+
+    // HELENA:
+
+    // en user ska kunna uppdatera sin info och ni behöver göra en metod för det här
+    // just nu har ni updateuser men jag tolkar det som en admin funktion eftersom den inte är kopplad
+    // till ett specifikt user id.
+    // gör en update funktion med ett userId som pathVariable så kn den användas när en inloggad user
+    // vill uppdatera sin info. Fundera på vilken info en user ska få uppdatera?
+    // ni behöver även ge olika auth åtkomst här som jag skrev i WebSecurityConfig filen
+
 
     // UPDATE a user.
     public User updateUser(User user) {

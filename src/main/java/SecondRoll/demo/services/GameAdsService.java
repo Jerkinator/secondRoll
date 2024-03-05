@@ -83,24 +83,19 @@ public class GameAdsService {
         return gamePrice;
     }
 
+    // Find all GameAds by user ID.
+    public List<GameAds> findGameAdsByUserId (String userId){
+        User user = userRepository.findById(userId).orElseThrow();
 
-    // Find GameAds by user ID.
-    public Optional<GameAds> getGameByUserId(String userId) {
-        return gameAdsRepository.findById(userId);
-    }
-        // Find all GameAds by user ID.
-        public List<GameAds> findGameAdsByUserId (String userId){
-            User user = userRepository.findById(userId).orElseThrow();
-
-            List<GameAds> gameAds = gameAdsRepository.findAll();
-            List<GameAds> foundGames = new ArrayList<>();
-            for (GameAds gameAd : gameAds) {
-                if (Objects.equals(gameAd.getUser().getId(), user.getId())) {
-                    foundGames.add(gameAd);
-                }
+        List<GameAds> gameAds = gameAdsRepository.findAll();
+        List<GameAds> foundGames = new ArrayList<>();
+        for (GameAds gameAd : gameAds) {
+            if (Objects.equals(gameAd.getUser().getId(), user.getId())) {
+                foundGames.add(gameAd);
             }
-            return foundGames;
         }
+        return foundGames;
+    }
 
 
 

@@ -18,13 +18,6 @@ public class UserController {
     @Autowired
     UserService userService;
 
-    // HELENA: den här ska bort ni har register nu..
-    // CREATE a User.
-    @PostMapping()
-    public ResponseEntity<User> createUser(@RequestBody User user) {
-        User newUser = userService.createUser(user);
-        return new ResponseEntity<>(newUser, HttpStatus.CREATED);
-    }
 
     // GET a user by ID.
     @GetMapping("/{id}")

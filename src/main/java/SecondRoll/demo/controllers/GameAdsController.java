@@ -73,13 +73,6 @@ public class GameAdsController {
         return ResponseEntity.ok(gamePrice);
     }
 
-    @GetMapping(value = "/{userId}")
-    public ResponseEntity<GameAds> getGameAdsByUserId(@PathVariable String userId) {
-        Optional<GameAds> gameAds = gameAdsService.getGameByUserId(userId);
-        return gameAds.map(ResponseEntity::ok)
-                .orElseGet(() -> ResponseEntity.notFound().build());
-    }
-
     //HELENA:
     // det här blir väl typ search/userId/userId va?
     // jag hade gjort om det här så att userId är en pathVariable
