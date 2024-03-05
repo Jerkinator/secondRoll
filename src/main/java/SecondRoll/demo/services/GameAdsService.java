@@ -9,11 +9,7 @@ import SecondRoll.demo.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.Random;
+import java.util.*;
 
 @Service
 public class GameAdsService {
@@ -36,7 +32,7 @@ public class GameAdsService {
         gameAd.setCreated_at(createGameDTO.getCreated_at());
         gameAd.setUpdated_at(createGameDTO.getUpdated_at());
         gameAd.setGameDetails(createGameDTO.getGameDetails());
-        gameAd.setAvailable(createGameDTO.isAvailable);
+        // gameAd.setAvailable(createGameDTO.isAvailable);
 
         return gameAdsRepository.save(gameAd);
     }
@@ -81,19 +77,31 @@ public class GameAdsService {
         return gameAdsRepository.findByGameDetailsIn(gameDetails);
     }
 
-    // Find all GameAds by user ID.
-    public List<GameAds> findGameAdsByUserId(String userId) {
-        User user = userRepository.findById(userId).orElseThrow();
 
-        List<GameAds> gameAds = gameAdsRepository.findAll();
-        List<GameAds> foundGames = new ArrayList<>();
-        for(GameAds gameAd : gameAds) {
-            if(Objects.equals(gameAd.getUser().getId(), user.getId())) {
-                foundGames.add(gameAd);
-            }
-        }
-        return foundGames;
+    public List<GameAds> findGameAdsByPrice(List price) {
+        List<GameAds> gamePrice = gameAdsRepository.findByPrice(price);
+        return gamePrice;
     }
+
+
+    // Find GameAds by user ID.
+    public Optional<GameAds> getGameByUserId(String userId) {
+        return gameAdsRepository.findById(userId);
+    }
+        // Find all GameAds by user ID.
+        public List<GameAds> findGameAdsByUserId (String userId){
+            User user = userRepository.findById(userId).orElseThrow();
+
+            List<GameAds> gameAds = gameAdsRepository.findAll();
+            List<GameAds> foundGames = new ArrayList<>();
+            for (GameAds gameAd : gameAds) {
+                if (Objects.equals(gameAd.getUser().getId(), user.getId())) {
+                    foundGames.add(gameAd);
+                }
+            }
+            return foundGames;
+        }
+
 
 
     // "Roll the Dice" game ad randomizer
@@ -103,5 +111,17 @@ public class GameAdsService {
         int maxInt = allGameAds.size();
         GameAds gameAds = allGameAds.get(randomGameAd.nextInt(maxInt));
         return gameAds;
+
     }
+
+
+    // Converter method
+   /* private GameAds convertToDTO(GameAds gameAds) {
+        GameAds gameAd = new GameAds();
+        gameAd.set;
+
+        gameAd.setPrice(gameAds.getTitle().stream().map(GameAds::getPrice).collect(Collectors.toList()));
+
+        return gameAd;
+    } */
 }

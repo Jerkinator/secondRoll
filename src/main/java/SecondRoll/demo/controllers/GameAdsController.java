@@ -54,10 +54,30 @@ public class GameAdsController {
         return gameAdsService.deleteGameAd(id);
     }
 
-
+    // Search by gameDetails
     @GetMapping(value = "/search")
     public List<GameAds> findGameAdsByGameDetails(@RequestParam List<EGameCategory> gameDetails) {
         return gameAdsService.findGameAdsByGameDetails(gameDetails);
+    }
+
+
+    // Search by latest added gameAd
+
+
+
+    // Search by Price
+    @GetMapping(value = "/price")
+    public ResponseEntity<List<GameAds>> findGameAdsByPrice(@PathVariable List price) {
+
+        List<GameAds> gamePrice = gameAdsService.findGameAdsByPrice(price);
+        return ResponseEntity.ok(gamePrice);
+    }
+
+    @GetMapping(value = "/{userId}")
+    public ResponseEntity<GameAds> getGameAdsByUserId(@PathVariable String userId) {
+        Optional<GameAds> gameAds = gameAdsService.getGameByUserId(userId);
+        return gameAds.map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     //HELENA:
@@ -74,5 +94,6 @@ public class GameAdsController {
     @GetMapping(value = "/rolldice")
     public GameAds getRandomGameAd() {
         return gameAdsService.getRandomGameAd();
+
     }
 }
