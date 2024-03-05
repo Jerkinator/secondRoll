@@ -5,7 +5,6 @@ import SecondRoll.demo.models.Order;
 import SecondRoll.demo.models.User;
 import SecondRoll.demo.payload.OrderDTO;
 import SecondRoll.demo.payload.response.BuyerHistoryResponse;
-import SecondRoll.demo.payload.response.CreateOrderResponse;
 import SecondRoll.demo.payload.response.SellerHistoryResponse;
 import SecondRoll.demo.repository.GameAdsRepository;
 import SecondRoll.demo.repository.OrderRepository;
@@ -31,7 +30,7 @@ public class OrderService {
 
 
     //create order preparing to use payload object in controller
-    public CreateOrderResponse createOrder (OrderDTO orderDTO) {
+    public Order createOrder (OrderDTO orderDTO) {
         Optional<User> buyer = userRepository.findById(orderDTO.getBuyerId());
         if (!buyer.isPresent()) {
             throw new IllegalArgumentException("User not found");
@@ -54,10 +53,6 @@ public class OrderService {
                     throw new IllegalArgumentException("Seller not found");
                 }
             }
-            //lägg in total på order
-        int totalPrice = (int) gameAds.stream()
-                .mapToDouble(GameAds::getPrice)
-                .sum();
 
             //checking that all passed game ads exists in database
             if (gameAds.size() != orderDTO.getGameAdIds().size()) {
@@ -70,8 +65,8 @@ public class OrderService {
             newOrder.setSeller(seller.get());
             orderRepository.save(newOrder);
 
-            //Vill inte returnera hela new order utan
-            return new CreateOrderResponse(buyer.get().getUsername(), totalPrice);
+
+            return orderRepository.save(newOrder);
 
     }
 
