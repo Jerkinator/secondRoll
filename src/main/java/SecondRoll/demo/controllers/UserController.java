@@ -8,7 +8,6 @@ import SecondRoll.demo.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.web.bind.annotation.*;
 
@@ -72,14 +71,22 @@ public class UserController {
         User userWithRating = userService.addRatingToUser(userId, rating);
         return new ResponseEntity<>(userWithRating, HttpStatus.CREATED);
     }
+    /* @GetMapping ("/profile/{username}")
+    public Optional<User> getUserProfile(@PathVariable String username) {
+        return userRepository.findByUsername(username);
+    } */
 
-        @GetMapping("/profile/{username}")
+
+
+       /* @GetMapping("/profile/{username}")
         @PreAuthorize("authentication.principal.username == #username || hasRole('USER')")
         public Optional<User> getUserProfile(@PathVariable("username") String username) {
+
             return userRepository.findByUsername(username);
-    }
+    } */
 
 
+    //FUNKAR EJ
     /* @GetMapping("/profile/{username}")
     public ResponseEntity<Optional<User>> getLoggedInUserInfo (@PathVariable String username) {
         if (username == SecurityContextHolder.getContext().getAuthentication().getPrincipal()) {
@@ -89,13 +96,13 @@ public class UserController {
     } */
 
 
-
+    // FUNKAR EJ
     /* @GetMapping("/profile/{userId}")
     public ResponseEntity<User> getLoggedInUser (@PathVariable String username) {
         Optional<User> user = userRepository.findByUsername(username);
 
-        Authentication authentication = authenticationManager.authenticate((user.));
+        Authentication authentication = authenticationManager.authenticate((Authentication) user.get());
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
-
+    return new ResponseEntity<User>(HttpStatus.OK);
     } */
 }
