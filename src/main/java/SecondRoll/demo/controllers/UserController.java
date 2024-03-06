@@ -82,7 +82,7 @@ public class UserController {
     @PreAuthorize("#username == principal.username")
     public ResponseEntity<?> getUserProfile(@PathVariable("username") String username) {
         User user = userRepository.findUserByUsername(username);
-        return ResponseEntity.ok().body(new UserInfoResponse(user.getUsername(), user.getEmail(), user.getLastName()));
+        return ResponseEntity.ok().body(new UserInfoResponse(user.getId(), user.getUsername()));
     }
 
 
