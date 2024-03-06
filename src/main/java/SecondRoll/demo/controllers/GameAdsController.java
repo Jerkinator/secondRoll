@@ -75,18 +75,28 @@ public class GameAdsController {
         return gameAdsService.deleteGameAd(id);
     }
 
-    // FILTER by enum.
+    // Search by gameDetails
     @GetMapping(value = "/search")
     public List<GameAds> findGameAdsByGameDetails(@RequestParam List<EGameCategory> gameDetails) {
         return gameAdsService.findGameAdsByGameDetails(gameDetails);
     }
 
-    // UPDATED GET all game ads belonging to a user.
+    // GET all game ads belonging to a user.
     @GetMapping("/user/{userId}")
     public ResponseEntity<List<GameAdResponse>> getUserOrders(@PathVariable String userId) {
         List<GameAdResponse> gameAds = gameAdsService.getUserOrders(userId);
         return ResponseEntity.ok(gameAds);
     }
+
+    // Search by latest added gameAd.
+
+    // Search by Price, unfinished method.
+    /* @GetMapping(value = "/price")
+    public ResponseEntity<List<GameAds>> findGameAdsByPrice(@PathVariable List price) {
+
+        List<GameAds> gamePrice = gameAdsService.findGameAdsByPrice(price);
+        return ResponseEntity.ok(gamePrice);
+    } */
 
     // "Roll the Dice" game ad randomizer
     @GetMapping(value = "/rolldice")
@@ -98,8 +108,6 @@ public class GameAdsController {
                 gameAd.getCreated_at(), gameAd.getUpdated_at()));
     }
 }
-
-
 
  /* // OLD GET all game ads belonging to a user, stored for now, just in case.
     @GetMapping(value = "/search/userId")
