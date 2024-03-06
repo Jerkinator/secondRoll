@@ -31,11 +31,6 @@ public class GameAds {
     @CreatedDate
     private LocalDate updated_at;
 
-<<<<<<< HEAD
-=======
-
-
-
     // HELENA:
     // vad är det som händer här?
     // varför sparar ni en array med GameAds inne i själva GameAds modellen? det blir väl oerhört konstigt eller?
@@ -45,7 +40,6 @@ public class GameAds {
     // wierd, right? ^^
     // ta väck det här...
 
->>>>>>> e250957924213b72478cdeb86425fbdd158b8720
     // ArrayList of gameAds for picking a randomized game ad for a user
     private List<GameAds> gameAdsList;
 
@@ -150,9 +144,6 @@ public class GameAds {
     public void setUser(User user) {
         this.user = user;
     }
-
-
-
 
    /* public List<EGameCategory> getTags() {
         return tags;
