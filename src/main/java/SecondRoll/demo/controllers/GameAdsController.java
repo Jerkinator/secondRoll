@@ -96,4 +96,9 @@ public class GameAdsController {
         return gameAdsService.getRandomGameAd();
 
     }
+
+    @GetMapping("/sortbyprice/asc")
+    public List<GameAds> findAllGameAdsSortedByPriceAsc() {
+        return gameAdsService.findAllGameAdsSortedByPriceAsc();
+    }
 }

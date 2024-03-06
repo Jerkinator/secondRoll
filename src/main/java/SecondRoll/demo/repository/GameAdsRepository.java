@@ -13,6 +13,8 @@ public interface GameAdsRepository extends MongoRepository<GameAds, String> {
 
     List<GameAds> findByPrice(List<GameAds> price);
 
+    List<GameAds> findAllByOrderByPriceAsc();
+
 
 
 }

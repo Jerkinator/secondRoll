@@ -7,6 +7,7 @@ import SecondRoll.demo.payload.CreateGameDTO;
 import SecondRoll.demo.repository.GameAdsRepository;
 import SecondRoll.demo.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -113,15 +114,10 @@ public class GameAdsService {
         return gameAds;
 
     }
+    public List<GameAds> findAllGameAdsSortedByPriceAsc() {
+        return gameAdsRepository.findAll(Sort.by(Sort.Direction.ASC, "price"));
+    }
 
 
-    // Converter method
-   /* private GameAds convertToDTO(GameAds gameAds) {
-        GameAds gameAd = new GameAds();
-        gameAd.set;
 
-        gameAd.setPrice(gameAds.getTitle().stream().map(GameAds::getPrice).collect(Collectors.toList()));
-
-        return gameAd;
-    } */
 }
