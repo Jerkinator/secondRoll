@@ -113,14 +113,7 @@ public class GameAdsService {
         return gameAds;
 
     }
-    public List<GameAds> findAllGameAdsSortedByPriceAsc() {
-        //List<GameAds> availableGameAds = new ArrayList<>();
-        //i want to populate my List with the gameads that is available
-        //not working by testing the code below...
-
-        //availableGameAds.add(gameAdsRepository.findByIsAvailable(true));
-        //List<GameAds> availableAds = gameAdsRepository.findByIsAvailable(true);
-        //List<GameAds> availableAds = gameAdsRepository.findAll(Sort.by(Sort.Direction.DESC, "price"));
+    public List<GameAds> findAvailableGameAdsSortedByPriceAsc() {
 
         List<GameAds> availableAds = new ArrayList<>();
         availableAds = gameAdsRepository.findByIsAvailable(true);
