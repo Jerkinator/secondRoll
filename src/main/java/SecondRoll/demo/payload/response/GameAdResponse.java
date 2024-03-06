@@ -8,7 +8,7 @@ import java.util.List;
 
 public class GameAdResponse {
 
-    private String username;
+    private String seller;
 
     private String title;
 
@@ -24,9 +24,9 @@ public class GameAdResponse {
 
     public List<EGameCategory> gameDetails = new ArrayList<>();
 
-    public GameAdResponse(String username, String title, String description, int price, int shippingCost, List<EGameCategory> gameDetails
+    public GameAdResponse(String seller, String title, String description, int price, int shippingCost, List<EGameCategory> gameDetails
     , LocalDate created_at, LocalDate updated_at) {
-        this.username = username;
+        this.seller = seller;
         this.title = title;
         this.description = description;
         this.price = price;
@@ -43,12 +43,12 @@ public class GameAdResponse {
 
     // GETTERS & SETTERS.
 
-    public String getUsername() {
-        return username;
+    public String getSeller() {
+        return seller;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setSeller(String seller) {
+        this.seller = seller;
     }
 
     public String getTitle() {

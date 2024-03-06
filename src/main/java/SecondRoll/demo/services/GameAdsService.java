@@ -16,8 +16,6 @@ import java.util.Optional;
 import java.util.Random;
 import java.util.stream.Collectors;
 
-import java.util.*;
-
 @Service
 public class GameAdsService {
 
@@ -125,7 +123,7 @@ public class GameAdsService {
     private GameAdResponse convertToDTO(GameAds gameAd) {
         GameAdResponse gameAdResponse = new GameAdResponse();
 
-        gameAdResponse.setUsername(gameAd.getUser().getUsername());
+        gameAdResponse.setSeller(gameAd.getUser().getUsername());
         gameAdResponse.setTitle(gameAd.getTitle());
         gameAdResponse.setDescription(gameAd.getDescription());
         gameAdResponse.setPrice(gameAd.getPrice());
