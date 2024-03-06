@@ -3,10 +3,13 @@ package SecondRoll.demo.controllers;
 import SecondRoll.demo.models.Rating;
 import SecondRoll.demo.models.User;
 import SecondRoll.demo.payload.WishlistDTO;
+import SecondRoll.demo.repository.UserRepository;
 import SecondRoll.demo.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,6 +20,10 @@ import java.util.Optional;
 public class UserController {
     @Autowired
     UserService userService;
+    @Autowired
+    AuthenticationManager authenticationManager;
+    @Autowired
+    UserRepository userRepository;
 
     // GET a user by ID.
     @GetMapping("/{id}")
@@ -65,4 +72,24 @@ public class UserController {
         User userWithRating = userService.addRatingToUser(userId, rating);
         return new ResponseEntity<>(userWithRating, HttpStatus.CREATED);
     }
+
+
+    @GetMapping("/profiles/{username}")
+    public ResponseEntity<Optional<User>> getLoggedInUserInfo (@PathVariable String username) {
+        if (username == SecurityContextHolder.getContext().getAuthentication().getPrincipal()) {
+            return ResponseEntity.ok((Optional.ofNullable(userRepository.findUserByUsername(username))));
+        }
+        return (ResponseEntity<Optional<User>>) ResponseEntity.badRequest();
+    }
+
+
+
+    /* @GetMapping("/profile/{userId}")
+    public ResponseEntity<User> getLoggedInUser (@PathVariable String username) {
+        Optional<User> user = userRepository.findByUsername(username);
+
+        Authentication authentication = authenticationManager.authenticate((user.));
+        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+
+    } */
 }
