@@ -7,7 +7,6 @@ import SecondRoll.demo.payload.CreateGameDTO;
 import SecondRoll.demo.repository.GameAdsRepository;
 import SecondRoll.demo.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -115,8 +114,28 @@ public class GameAdsService {
 
     }
     public List<GameAds> findAllGameAdsSortedByPriceAsc() {
-        return gameAdsRepository.findAll(Sort.by(Sort.Direction.ASC, "price"));
+        //List<GameAds> availableGameAds = new ArrayList<>();
+        //i want to populate my List with the gameads that is available
+        //not working by testing the code below...
+
+        //availableGameAds.add(gameAdsRepository.findByIsAvailable(true));
+        //List<GameAds> availableAds = gameAdsRepository.findByIsAvailable(true);
+        //List<GameAds> availableAds = gameAdsRepository.findAll(Sort.by(Sort.Direction.DESC, "price"));
+
+        List<GameAds> availableAds = new ArrayList<>();
+        availableAds = gameAdsRepository.findByIsAvailable(true);
+
+       // sortera på pris
+        Collections.sort(availableAds, Comparator.comparing(GameAds::getPrice));
+
+        return availableAds;
+
+
+        //return gameAdsRepository.findByIsAvailable(true);
+        //This works in returning only available ads
     }
+
+
 
 
 
