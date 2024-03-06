@@ -1,14 +1,14 @@
-package SecondRoll.demo.payload;
+package SecondRoll.demo.payload.response;
 
 import SecondRoll.demo.models.EGameCategory;
-import org.springframework.data.annotation.CreatedDate;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
-public class CreateGameDTO {
+public class GameAdResponse {
 
-    private String userId;
+    private String seller;
 
     private String title;
 
@@ -16,26 +16,39 @@ public class CreateGameDTO {
 
     private int price;
 
-    private int shippingCost = 50;
+    private int shippingCost;
 
-    @CreatedDate
     private LocalDate created_at;
 
-    @CreatedDate
     private LocalDate updated_at;
 
-    public List<EGameCategory> gameDetails;
+    public List<EGameCategory> gameDetails = new ArrayList<>();
+
+    public GameAdResponse(String seller, String title, String description, int price, int shippingCost, List<EGameCategory> gameDetails
+    , LocalDate created_at, LocalDate updated_at) {
+        this.seller = seller;
+        this.title = title;
+        this.description = description;
+        this.price = price;
+        this.shippingCost = shippingCost;
+        this.gameDetails = gameDetails;
+        this.created_at = created_at;
+        this.updated_at = updated_at;
+    }
+
+    public GameAdResponse() {
+    }
 
     // private boolean isAvailable? Returns twice in postman right now. Looking for a fix.
 
     // GETTERS & SETTERS.
 
-    public String getUserId() {
-        return userId;
+    public String getSeller() {
+        return seller;
     }
 
-    public void setUserId(String userId) {
-        this.userId = userId;
+    public void setSeller(String seller) {
+        this.seller = seller;
     }
 
     public String getTitle() {

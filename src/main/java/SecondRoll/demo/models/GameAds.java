@@ -31,7 +31,39 @@ public class GameAds {
     @CreatedDate
     private LocalDate updated_at;
 
+    // HELENA:
+    // vad är det som händer här?
+    // varför sparar ni en array med GameAds inne i själva GameAds modellen? det blir väl oerhört konstigt eller?
+    // det räcker väl att ni har en metod som slumpar fram ett random GameAd och använder den metoden i er frontend?
+    // det ni säger är typ:
+    // "jag ska ha en lista som ska vara helt full av mig själv, alltså listan ska vara massa Helena i Helena..."
+    // wierd, right? ^^
+    // ta väck det här...
+
+    // ArrayList of gameAds for picking a randomized game ad for a user
+    private List<GameAds> gameAdsList;
+
+    public List<GameAds> getGameAdsList() {
+        return gameAdsList;
+    }
+
+    // ------------------------------------
+
     public List<EGameCategory> gameDetails = new ArrayList<>();
+    private EGameCategory genres;
+    public GameAds(String genres){
+
+    }
+
+
+
+    public boolean isAvailable() {
+        return isAvailable;
+    }
+
+    public void setAvailable(boolean available) {
+        isAvailable = available;
+    }
 
     public boolean isAvailable = true;
 
@@ -41,7 +73,6 @@ public class GameAds {
     public void setId(String id) {
         this.id = id;
     }
-
 
     public void setTitle(String title) {
         this.title = title;
@@ -94,8 +125,6 @@ public class GameAds {
         return updated_at;
     }
 
-
-
    public List<EGameCategory> getGameDetails() {
         return gameDetails;
     }
@@ -108,14 +137,6 @@ public class GameAds {
         return shippingCost;
     }
 
-    public boolean isAvailable() {
-        return isAvailable;
-    }
-
-    public void setAvailable(boolean available) {
-        isAvailable = available;
-    }
-
     public User getUser() {
         return user;
     }
@@ -123,7 +144,6 @@ public class GameAds {
     public void setUser(User user) {
         this.user = user;
     }
-
 
    /* public List<EGameCategory> getTags() {
         return tags;
