@@ -18,7 +18,6 @@ public class UserController {
     @Autowired
     UserService userService;
 
-
     // GET a user by ID.
     @GetMapping("/{id}")
     public ResponseEntity<User> getUserById(@PathVariable String id){
