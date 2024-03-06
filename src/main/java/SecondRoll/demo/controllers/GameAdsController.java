@@ -96,15 +96,27 @@ public class GameAdsController {
         return gameAdsService.getRandomGameAd();
 
     }
-    // sort available Ads in ascending order
+    // sort available Ads in ascending order by price
     @GetMapping("/sortbyprice/asc")
     public List<GameAds> findAvailableGameAdsSortedByPriceAsc() {
         return gameAdsService.findAvailableGameAdsSortedByPriceAsc();
     }
 
-    // sort available Ads in Descending order
+    // sort available Ads in Descending order by price
     @GetMapping("/sortbyprice/desc")
     public List<GameAds> findAvailableGameAdsSortedByPriceDesc() {
         return gameAdsService.findAvailableGameAdsSortedByPriceDesc();
+    }
+
+    // sort available Ads in Descending order by date created
+    @GetMapping("/sortbydate/asc")
+    public List<GameAds> availableGameAdsSortedByDateAsc() {
+        return gameAdsService.availableGameAdsSortedByDateAsc();
+    }
+
+    // sort available Ads in Descending order by date created
+    @GetMapping("/sortbydate/desc")
+    public List<GameAds> availableGameAdsSortedByDateDesc() {
+        return gameAdsService.availableGameAdsSortedByDateDesc();
     }
 }
