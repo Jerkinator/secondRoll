@@ -8,8 +8,8 @@ import SecondRoll.demo.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -73,14 +73,20 @@ public class UserController {
         return new ResponseEntity<>(userWithRating, HttpStatus.CREATED);
     }
 
+        @GetMapping("/profile/{username}")
+        @PreAuthorize("authentication.principal.username == #username || hasRole('USER')")
+        public Optional<User> getUserProfile(@PathVariable("username") String username) {
+            return userRepository.findByUsername(username);
+    }
 
-    @GetMapping("/profiles/{username}")
+
+    /* @GetMapping("/profile/{username}")
     public ResponseEntity<Optional<User>> getLoggedInUserInfo (@PathVariable String username) {
         if (username == SecurityContextHolder.getContext().getAuthentication().getPrincipal()) {
             return ResponseEntity.ok((Optional.ofNullable(userRepository.findUserByUsername(username))));
         }
         return (ResponseEntity<Optional<User>>) ResponseEntity.badRequest();
-    }
+    } */
 
 
 
