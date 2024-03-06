@@ -1,15 +1,15 @@
 package SecondRoll.demo.payload;
 
-import jakarta.validation.constraints.NotBlank;
-
+import java.util.Date;
 import java.util.List;
 
 public class OrderDTO {
-    @NotBlank
     private String buyerId;
 
-    @NotBlank
+
     private List<String> gameAdIds;
+
+    private Date OrderedDate;
 
 
     public String getBuyerId() {
@@ -28,4 +28,11 @@ public class OrderDTO {
         this.gameAdIds = gameAdIds;
     }
 
+    public Date getOrderedDate() {
+        return OrderedDate;
+    }
+
+    public void setOrderedDate(Date orderedDate) {
+        OrderedDate = orderedDate;
+    }
 }

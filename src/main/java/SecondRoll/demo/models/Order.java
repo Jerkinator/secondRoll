@@ -21,8 +21,6 @@ public class Order {
     @DBRef
     private User buyer;
 
-    //No object id ref in User model atm
-    //change to dbref when user model has dbref (skapa issue!)
     @DBRef
     private User seller;
 
