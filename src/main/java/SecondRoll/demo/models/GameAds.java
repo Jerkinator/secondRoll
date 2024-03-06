@@ -31,9 +31,6 @@ public class GameAds {
     @CreatedDate
     private LocalDate updated_at;
 
-
-
-
     // HELENA:
     // vad är det som händer här?
     // varför sparar ni en array med GameAds inne i själva GameAds modellen? det blir väl oerhört konstigt eller?
@@ -60,6 +57,14 @@ public class GameAds {
 
 
 
+    public boolean isAvailable() {
+        return isAvailable;
+    }
+
+    public void setAvailable(boolean available) {
+        isAvailable = available;
+    }
+
     public boolean isAvailable = true;
 
    // public List<EGameCategory> tags = new ArrayList<>();
@@ -68,7 +73,6 @@ public class GameAds {
     public void setId(String id) {
         this.id = id;
     }
-
 
     public void setTitle(String title) {
         this.title = title;
@@ -121,8 +125,6 @@ public class GameAds {
         return updated_at;
     }
 
-
-
    public List<EGameCategory> getGameDetails() {
         return gameDetails;
     }
@@ -135,14 +137,6 @@ public class GameAds {
         return shippingCost;
     }
 
-    public boolean isAvailable() {
-        return isAvailable;
-    }
-
-    public void setAvailable(boolean available) {
-        isAvailable = available;
-    }
-
     public User getUser() {
         return user;
     }
@@ -150,9 +144,6 @@ public class GameAds {
     public void setUser(User user) {
         this.user = user;
     }
-
-
-
 
    /* public List<EGameCategory> getTags() {
         return tags;
