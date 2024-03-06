@@ -1,6 +1,5 @@
 package SecondRoll.demo.controllers;
 
-import SecondRoll.demo.models.EGameCategory;
 import SecondRoll.demo.models.GameAds;
 import SecondRoll.demo.payload.CreateGameDTO;
 import SecondRoll.demo.services.GameAdsService;
@@ -55,10 +54,10 @@ public class GameAdsController {
     }
 
     // Search by gameDetails
-    @GetMapping(value = "/search")
+  /*  @GetMapping(value = "/search")
     public List<GameAds> findGameAdsByGameDetails(@RequestParam List<EGameCategory> gameDetails) {
         return gameAdsService.findGameAdsByGameDetails(gameDetails);
-    }
+    }*/
 
 
     // Search by latest added gameAd

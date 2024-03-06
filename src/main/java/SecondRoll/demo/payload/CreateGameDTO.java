@@ -1,6 +1,5 @@
 package SecondRoll.demo.payload;
 
-import SecondRoll.demo.models.EGameCategory;
 import org.springframework.data.annotation.CreatedDate;
 
 import java.time.LocalDate;
@@ -16,6 +15,16 @@ public class CreateGameDTO {
 
     private int price;
 
+    private String gameCreator;
+
+    private String gamePlaytime;
+
+    private String gameRecommendedAge;
+
+    private String gamePlayers;
+
+   // private String gameGenre;
+
     private int shippingCost = 50;
 
     @CreatedDate
@@ -24,7 +33,17 @@ public class CreateGameDTO {
     @CreatedDate
     private LocalDate updated_at;
 
-    public List<EGameCategory> gameDetails;
+    public List<String> getGameGenres() {
+        return gameGenres;
+    }
+
+    public void setGameGenres(List<String> gameGenres) {
+        this.gameGenres = gameGenres;
+    }
+
+    public List<String> gameGenres;
+
+    //public List<EGameCategory> gameDetails;
 
     public boolean isAvailable = true;
 
@@ -84,13 +103,13 @@ public class CreateGameDTO {
         this.updated_at = updated_at;
     }
 
-    public List<EGameCategory> getGameDetails() {
+   /* public List<EGameCategory> getGameDetails() {
         return gameDetails;
     }
 
     public void setGameDetails(List<EGameCategory> gameDetails) {
         this.gameDetails = gameDetails;
-    }
+    }*/
 
     public boolean isAvailable() {
         return isAvailable;
@@ -101,4 +120,43 @@ public class CreateGameDTO {
     }
 
 
+    public String getGameCreator() {
+        return gameCreator;
+    }
+
+    public void setGameCreator(String gameCreator) {
+        this.gameCreator = gameCreator;
+    }
+
+    public String getGamePlaytime() {
+        return gamePlaytime;
+    }
+
+    public void setGamePlaytime(String gamePlaytime) {
+        this.gamePlaytime = gamePlaytime;
+    }
+
+    public String getGameRecommendedAge() {
+        return gameRecommendedAge;
+    }
+
+    public void setGameRecommendedAge(String gameRecommendedAge) {
+        this.gameRecommendedAge = gameRecommendedAge;
+    }
+
+    public String getGamePlayers() {
+        return gamePlayers;
+    }
+
+    public void setGamePlayers(String gamePlayers) {
+        this.gamePlayers = gamePlayers;
+    }
+
+   /* public String getGameGenre() {
+        return gameGenre;
+    }
+
+    public void setGameGenre(String gameGenre) {
+        this.gameGenre = gameGenre;
+    }*/
 }

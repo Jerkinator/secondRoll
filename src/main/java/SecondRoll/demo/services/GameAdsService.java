@@ -1,6 +1,5 @@
 package SecondRoll.demo.services;
 
-import SecondRoll.demo.models.EGameCategory;
 import SecondRoll.demo.models.GameAds;
 import SecondRoll.demo.models.User;
 import SecondRoll.demo.payload.CreateGameDTO;
@@ -23,6 +22,8 @@ public class GameAdsService {
         User user = userRepository.findById(createGameDTO.getUserId())
                 .orElseThrow(() -> new RuntimeException("User not found."));
 
+
+
         GameAds gameAd = new GameAds();
         gameAd.setUser(user);
         gameAd.setTitle(createGameDTO.getTitle());
@@ -31,7 +32,11 @@ public class GameAdsService {
         gameAd.setShippingCost(createGameDTO.getShippingCost());
         gameAd.setCreated_at(createGameDTO.getCreated_at());
         gameAd.setUpdated_at(createGameDTO.getUpdated_at());
-        gameAd.setGameDetails(createGameDTO.getGameDetails());
+        gameAd.setGameCreator(createGameDTO.getGameCreator());
+        gameAd.setGamePlayTime(createGameDTO.getGamePlaytime());
+        gameAd.setGameRecommendedAge(createGameDTO.getGameRecommendedAge());
+        gameAd.setGamePlayers(createGameDTO.getGamePlayers());
+        gameAd.setGameGenres(createGameDTO.getGameGenres());
         // gameAd.setAvailable(createGameDTO.isAvailable);
 
         return gameAdsRepository.save(gameAd);
@@ -73,9 +78,9 @@ public class GameAdsService {
     // vilken data räcker att ha med i ett respons objekt för respektive metod?
 
     // Filter by tags
-    public List<GameAds> findGameAdsByGameDetails(List<EGameCategory> gameDetails) {
+    /*public List<GameAds> findGameAdsByGameDetails(List<EGameCategory> gameDetails) {
         return gameAdsRepository.findByGameDetailsIn(gameDetails);
-    }
+    }*/
 
 
     public List<GameAds> findGameAdsByPrice(List price) {
