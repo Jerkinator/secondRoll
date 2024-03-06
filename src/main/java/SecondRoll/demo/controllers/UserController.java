@@ -3,11 +3,13 @@ package SecondRoll.demo.controllers;
 import SecondRoll.demo.models.Rating;
 import SecondRoll.demo.models.User;
 import SecondRoll.demo.payload.WishlistDTO;
+import SecondRoll.demo.payload.response.UserInfoResponse;
 import SecondRoll.demo.repository.UserRepository;
 import SecondRoll.demo.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.web.bind.annotation.*;
 
@@ -76,9 +78,23 @@ public class UserController {
         return userRepository.findByUsername(username);
     } */
 
+    @GetMapping("/profile/{username}")
+    @PreAuthorize("#username == principal.username")
+    public ResponseEntity<?> getUserProfile(@PathVariable("username") String username) {
+        User user = userRepository.findUserByUsername(username);
+        return ResponseEntity.ok().body(new UserInfoResponse(user.getUsername(), user.getEmail(), user.getLastName()));
+    }
 
 
-       /* @GetMapping("/profile/{username}")
+    // FUNKAR
+    /* @GetMapping("/profile/{username}")
+    @PreAuthorize("#username == principal.username")
+    public Optional<User> getUserProfile(@PathVariable("username") String username) {
+
+        return userRepository.findByUsername(username);
+    } */
+
+    /* @GetMapping("/profile/{username}")
         @PreAuthorize("authentication.principal.username == #username || hasRole('USER')")
         public Optional<User> getUserProfile(@PathVariable("username") String username) {
 
