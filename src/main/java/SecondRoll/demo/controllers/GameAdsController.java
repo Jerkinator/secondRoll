@@ -96,9 +96,15 @@ public class GameAdsController {
         return gameAdsService.getRandomGameAd();
 
     }
-
+    // sort available Ads in ascending order
     @GetMapping("/sortbyprice/asc")
     public List<GameAds> findAvailableGameAdsSortedByPriceAsc() {
         return gameAdsService.findAvailableGameAdsSortedByPriceAsc();
+    }
+
+    // sort available Ads in Descending order
+    @GetMapping("/sortbyprice/desc")
+    public List<GameAds> findAvailableGameAdsSortedByPriceDesc() {
+        return gameAdsService.findAvailableGameAdsSortedByPriceDesc();
     }
 }

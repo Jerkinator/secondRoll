@@ -113,19 +113,32 @@ public class GameAdsService {
         return gameAds;
 
     }
+    ////method to get available gameAds in ascending price order
     public List<GameAds> findAvailableGameAdsSortedByPriceAsc() {
 
-        List<GameAds> availableAds = new ArrayList<>();
-        availableAds = gameAdsRepository.findByIsAvailable(true);
+        List<GameAds> availableAdsPriceAsc = new ArrayList<>();
+        //populates the list by using findByIsAvailable method where boolean is set to true
+        availableAdsPriceAsc = gameAdsRepository.findByIsAvailable(true);
 
-       // sortera på pris
-        Collections.sort(availableAds, Comparator.comparing(GameAds::getPrice));
+       // sorting the ads in available ads array based on Price
+        Collections.sort(availableAdsPriceAsc, Comparator.comparing(GameAds::getPrice));
 
-        return availableAds;
+        return availableAdsPriceAsc;
 
+    }
 
-        //return gameAdsRepository.findByIsAvailable(true);
-        //This works in returning only available ads
+    //method to get available gameAds in descending price order
+    public List<GameAds> findAvailableGameAdsSortedByPriceDesc() {
+
+        List<GameAds> availableAdsPriceDesc = new ArrayList<>();
+        //populates the list by using findByIsAvailable method where boolean is set to true
+        availableAdsPriceDesc = gameAdsRepository.findByIsAvailable(true);
+
+        // sorting the ads in available ads array based on Price descending by chaining .reversed
+        Collections.sort(availableAdsPriceDesc, Comparator.comparing(GameAds::getPrice).reversed());
+
+        return availableAdsPriceDesc;
+
     }
 
 
