@@ -24,6 +24,21 @@ public class GameAdResponse {
 
     public List<EGameCategory> gameDetails = new ArrayList<>();
 
+    public GameAdResponse(String username, String title, String description, int price, int shippingCost, List<EGameCategory> gameDetails
+    , LocalDate created_at, LocalDate updated_at) {
+        this.username = username;
+        this.title = title;
+        this.description = description;
+        this.price = price;
+        this.shippingCost = shippingCost;
+        this.gameDetails = gameDetails;
+        this.created_at = created_at;
+        this.updated_at = updated_at;
+    }
+
+    public GameAdResponse() {
+    }
+
     // private boolean isAvailable? Returns twice in postman right now. Looking for a fix.
 
     // GETTERS & SETTERS.

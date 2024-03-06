@@ -3,6 +3,7 @@ package SecondRoll.demo.controllers;
 import SecondRoll.demo.exception.EntityNotFoundException;
 import SecondRoll.demo.models.EGameCategory;
 import SecondRoll.demo.models.GameAds;
+import SecondRoll.demo.models.User;
 import SecondRoll.demo.payload.CreateGameDTO;
 import SecondRoll.demo.payload.response.GameAdResponse;
 import SecondRoll.demo.services.GameAdsService;
@@ -23,9 +24,12 @@ public class GameAdsController {
 
     // POST.
     @PostMapping()
-    public ResponseEntity<GameAds> createGameAd(@RequestBody CreateGameDTO createGameDTO) {
+    public ResponseEntity<GameAdResponse> createGameAd(@RequestBody CreateGameDTO createGameDTO) {
         GameAds gameAd = gameAdsService.createGameAd(createGameDTO);
-        return new ResponseEntity<>(gameAd, HttpStatus.CREATED);
+        User user = gameAd.getUser();
+        return ResponseEntity.ok().body(new GameAdResponse(user.getUsername(), gameAd.getTitle(),
+                gameAd.getDescription(), gameAd.getPrice(), gameAd.getShippingCost(),
+                gameAd.getGameDetails(), gameAd.getCreated_at(), gameAd.getUpdated_at()));
     }
 
     // GET ALL gameAds.
@@ -40,7 +44,11 @@ public class GameAdsController {
     public ResponseEntity<?> updateGameAd(@PathVariable String gameId, @RequestBody GameAds gameDetails) {
         try {
             GameAds updatedGameAd = gameAdsService.updateGameAd(gameId, gameDetails);
-            return ResponseEntity.ok(updatedGameAd);
+            User user = updatedGameAd.getUser();
+            return ResponseEntity.ok().body(new GameAdResponse(user.getUsername(), updatedGameAd.getTitle(),
+                    updatedGameAd.getDescription(), updatedGameAd.getPrice(), updatedGameAd.getShippingCost(),
+                    updatedGameAd.getGameDetails(), updatedGameAd.getCreated_at(),
+                    updatedGameAd.getUpdated_at()));
         } catch (EntityNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }
@@ -48,11 +56,17 @@ public class GameAdsController {
 
     // GET a gameAd by ID.
     @GetMapping(value = "/{id}")
-    public ResponseEntity<GameAds> getGameAdById(@PathVariable String id) {
-        Optional<GameAds> gameAds = gameAdsService.getGameAdById(id);
+    public ResponseEntity<?> getGameAdById(@PathVariable String id) {
+        try {
+            Optional<GameAds> gameAd = gameAdsService.getGameAdById(id);
+            User user = gameAd.get().getUser();
 
-        return gameAds.map(ResponseEntity::ok)
-                .orElseGet(() -> ResponseEntity.notFound().build());
+            return ResponseEntity.ok().body(new GameAdResponse(user.getUsername(), gameAd.get().getTitle(),
+                    gameAd.get().getDescription(), gameAd.get().getPrice(), gameAd.get().getShippingCost(),
+                    gameAd.get().getGameDetails(), gameAd.get().getCreated_at(), gameAd.get().getUpdated_at()));
+        } catch (EntityNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        }
     }
 
     // Delete by ID.
@@ -76,8 +90,12 @@ public class GameAdsController {
 
     // "Roll the Dice" game ad randomizer
     @GetMapping(value = "/rolldice")
-    public GameAds getRandomGameAd() {
-        return gameAdsService.getRandomGameAd();
+    public ResponseEntity<GameAdResponse> getRandomGameAd() {
+        GameAds gameAd = gameAdsService.getRandomGameAd();
+        User user = gameAd.getUser();
+        return ResponseEntity.ok().body(new GameAdResponse(user.getUsername(), gameAd.getTitle(),
+                gameAd.getDescription(), gameAd.getPrice(), gameAd.getShippingCost(), gameAd.getGameDetails(),
+                gameAd.getCreated_at(), gameAd.getUpdated_at()));
     }
 }
 
