@@ -25,6 +25,17 @@ public class GameAds {
 
     private int price;
 
+    private String gameCreator;
+
+    private String gamePlayTime;
+
+    private String gameRecommendedAge;
+
+    private String gamePlayers;
+
+    public List<String> gameGenres = new ArrayList<>();
+
+
     private int shippingCost = 50;
     @CreatedDate
     private LocalDate created_at;
@@ -41,16 +52,25 @@ public class GameAds {
     // ta väck det här...
 
     // ArrayList of gameAds for picking a randomized game ad for a user
-    private List<GameAds> gameAdsList;
+   // private List<GameAds> gameAdsList;
 
-    public List<GameAds> getGameAdsList() {
+   /* public List<GameAds> getGameAdsList() {
         return gameAdsList;
+    }*/
+
+
+    public List<String> getGameGenres() {
+        return gameGenres;
     }
 
-    // ------------------------------------
+    public void setGameGenres(List<String> gameGenres) {
+        this.gameGenres = gameGenres;
+    }
 
-    public List<EGameCategory> gameDetails = new ArrayList<>();
-    private EGameCategory genres;
+
+
+   // public List<GameAds> gameCreators = new ArrayList<>();
+
     public GameAds(String genres){
 
     }
@@ -125,13 +145,15 @@ public class GameAds {
         return updated_at;
     }
 
-   public List<EGameCategory> getGameDetails() {
+
+  /* public List<EGameCategory> getGameDetails() {
         return gameDetails;
     }
 
     public void setGameDetails(List<EGameCategory> gameDetails) {
         this.gameDetails = gameDetails;
-    }
+    }*/
+
 
     public int getShippingCost() {
         return shippingCost;
@@ -145,12 +167,55 @@ public class GameAds {
         this.user = user;
     }
 
-   /* public List<EGameCategory> getTags() {
-        return tags;
+
+    public String getGameCreator() {
+        return gameCreator;
     }
 
-    public void setTags(List<EGameCategory> tags) {
-        this.tags = tags;
+   /* public List<EGameCategory> getTags() {
+        return tags;
+
     }*/
+
+    public void setGameCreator(String gameCreator) {
+        this.gameCreator = gameCreator;
+    }
+
+    public String getGamePlayTime() {
+        return gamePlayTime;
+    }
+
+    public void setGamePlayTime(String gamePlayTime) {
+        this.gamePlayTime = gamePlayTime;
+    }
+
+    public String getGameRecommendedAge() {
+        return gameRecommendedAge;
+    }
+
+    public void setGameRecommendedAge(String gameRecommendedAge) {
+        this.gameRecommendedAge = gameRecommendedAge;
+    }
+
+    public String getGamePlayers() {
+        return gamePlayers;
+    }
+
+    public void setGamePlayers(String gamePlayers) {
+        this.gamePlayers = gamePlayers;
+    }
+
+    /*public String getGameGenre() {
+        return gameGenre;
+    }
+
+    public void setGameGenre(String gameGenre) {
+        this.gameGenre = gameGenre;
+    }*/
+
+
+
+
+
 }
 
