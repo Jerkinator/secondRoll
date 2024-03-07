@@ -1,6 +1,8 @@
 package SecondRoll.demo.payload.response;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 public class GameAdResponse {
 
@@ -14,6 +16,16 @@ public class GameAdResponse {
 
     private int shippingCost;
 
+    private String gameCreator;
+
+    private String gamePlayTime;
+
+    private String gameRecommendedAge;
+
+    private String gamePlayers;
+
+    private List<String> gameGenres = new ArrayList<>();
+
     private LocalDate created_at;
 
     private LocalDate updated_at;
@@ -21,12 +33,19 @@ public class GameAdResponse {
     //public List<EGameCategory> gameDetails = new ArrayList<>();
 
     public GameAdResponse(String seller, String title, String description, int price, int shippingCost,
+        String gameCreator, String gamePlayTime, String gameRecommendedAge, String gamePlayers, List<String> gameGenres,
         LocalDate created_at, LocalDate updated_at) {
         this.seller = seller;
         this.title = title;
         this.description = description;
+        this.gameCreator = gameCreator;
+        this.gamePlayTime = gamePlayTime;
+        this.gameRecommendedAge = gameRecommendedAge;
+        this.gamePlayers = gamePlayers;
+        this.gameGenres = gameGenres;
         this.price = price;
         this.shippingCost = shippingCost;
+
        // this.gameDetails = gameDetails;
         this.created_at = created_at;
         this.updated_at = updated_at;
@@ -93,6 +112,46 @@ public class GameAdResponse {
 
     public void setUpdated_at(LocalDate updated_at) {
         this.updated_at = updated_at;
+    }
+
+    public String getGameCreator() {
+        return gameCreator;
+    }
+
+    public void setGameCreator(String gameCreator) {
+        this.gameCreator = gameCreator;
+    }
+
+    public String getGamePlayTime() {
+        return gamePlayTime;
+    }
+
+    public void setGamePlayTime(String gamePlayTime) {
+        this.gamePlayTime = gamePlayTime;
+    }
+
+    public String getGameRecommendedAge() {
+        return gameRecommendedAge;
+    }
+
+    public void setGameRecommendedAge(String gameRecommendedAge) {
+        this.gameRecommendedAge = gameRecommendedAge;
+    }
+
+    public String getGamePlayers() {
+        return gamePlayers;
+    }
+
+    public void setGamePlayers(String gamePlayers) {
+        this.gamePlayers = gamePlayers;
+    }
+
+    public List<String> getGameGenres() {
+        return gameGenres;
+    }
+
+    public void setGameGenres(List<String> gameGenres) {
+        this.gameGenres = gameGenres;
     }
 
   /*  public List<EGameCategory> getGameDetails() {
