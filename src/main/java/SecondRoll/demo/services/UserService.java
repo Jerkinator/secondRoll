@@ -23,6 +23,7 @@ public class UserService {
     @Autowired
     GameAdsService gameAdsService;
 
+
     // en user ska kunna uppdatera sin info och ni behöver göra en metod för det här
     // just nu har ni updateuser men jag tolkar det som en admin funktion eftersom den inte är kopplad
     // till ett specifikt user id.
@@ -40,6 +41,16 @@ public class UserService {
     public List<User> getAllUsers() {
         return userRepository.findAll();
     }
+
+    // HELENA:
+
+    // en user ska kunna uppdatera sin info och ni behöver göra en metod för det här
+    // just nu har ni updateuser men jag tolkar det som en admin funktion eftersom den inte är kopplad
+    // till ett specifikt user id.
+    // gör en update funktion med ett userId som pathVariable så kn den användas när en inloggad user
+    // vill uppdatera sin info. Fundera på vilken info en user ska få uppdatera?
+    // ni behöver även ge olika auth åtkomst här som jag skrev i WebSecurityConfig filen
+
 
     // UPDATE a user.
     public User updateUser(User user) {

@@ -4,6 +4,7 @@ import SecondRoll.demo.models.Order;
 import SecondRoll.demo.payload.OrderDTO;
 import SecondRoll.demo.payload.response.BuyerHistoryResponse;
 import SecondRoll.demo.payload.response.SellerHistoryResponse;
+import SecondRoll.demo.repository.UserRepository;
 import SecondRoll.demo.services.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,6 +20,8 @@ public class OrderController {
 
     @Autowired
     OrderService orderService;
+    @Autowired
+    UserRepository userRepository;
 
 
     @PostMapping
@@ -71,6 +74,5 @@ public class OrderController {
             return ResponseEntity.ok(orders);
     }
 
-
-
 }
+

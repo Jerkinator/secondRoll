@@ -1,5 +1,7 @@
 package SecondRoll.demo.models;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
@@ -16,46 +18,30 @@ public class GameAds {
     private String id;
 
     // HELENA: kanske att det här skulle heta seller istället för att vara extra tydligt
+    @NotBlank
     @DBRef
     private User user;
-
+    @NotBlank
     private String title;
-
+    @NotBlank
+    @Size(min = 1, max = 1000)
     private String description;
-
+    @NotBlank
+    @Size(min = 1, max = 50000)
     private int price;
-
-    private int shippingCost = 50;
+    @NotBlank
+    @Size(min = 1, max = 2000)
+    private int shippingCost;
     @CreatedDate
     private LocalDate created_at;
     @CreatedDate
     private LocalDate updated_at;
-
-    // HELENA:
-    // vad är det som händer här?
-    // varför sparar ni en array med GameAds inne i själva GameAds modellen? det blir väl oerhört konstigt eller?
-    // det räcker väl att ni har en metod som slumpar fram ett random GameAd och använder den metoden i er frontend?
-    // det ni säger är typ:
-    // "jag ska ha en lista som ska vara helt full av mig själv, alltså listan ska vara massa Helena i Helena..."
-    // wierd, right? ^^
-    // ta väck det här...
-
-    // ArrayList of gameAds for picking a randomized game ad for a user
-    private List<GameAds> gameAdsList;
-
-    public List<GameAds> getGameAdsList() {
-        return gameAdsList;
-    }
-
-    // ------------------------------------
 
     public List<EGameCategory> gameDetails = new ArrayList<>();
     private EGameCategory genres;
     public GameAds(String genres){
 
     }
-
-
 
     public boolean isAvailable() {
         return isAvailable;

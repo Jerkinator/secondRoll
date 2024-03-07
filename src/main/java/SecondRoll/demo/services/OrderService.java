@@ -5,12 +5,16 @@ import SecondRoll.demo.models.Order;
 import SecondRoll.demo.models.User;
 import SecondRoll.demo.payload.OrderDTO;
 import SecondRoll.demo.payload.response.BuyerHistoryResponse;
+import SecondRoll.demo.payload.response.GameAdResponse;
 import SecondRoll.demo.payload.response.SellerHistoryResponse;
 import SecondRoll.demo.repository.GameAdsRepository;
 import SecondRoll.demo.repository.OrderRepository;
 import SecondRoll.demo.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -71,7 +75,22 @@ public class OrderService {
     }
 
 
+    // get orders for specific user WIP
+    public List<Order> getOrdersByUsername (String username) {
+        User user = userRepository.findUserByUsername(username);
+        if (user.equals(username)) {
+            Order orderList = orderRepository.findAll().stream().allMatch(String username);
 
+        }
+    }
+
+
+    /*
+    @GetMapping("/user/{userId}")
+    public ResponseEntity<List<GameAdResponse>> getUserOrders(@PathVariable String userId) {
+        List<GameAdResponse> gameAds = gameAdsService.getUserOrders(userId);
+        return ResponseEntity.ok(gameAds);
+    } */
 
         //get all orders from order collection
     public List<Order> getAllOrders () {
@@ -121,8 +140,5 @@ public class OrderService {
 
         return sellerHistoryResponse;
     }
-
-
-
 
 }
