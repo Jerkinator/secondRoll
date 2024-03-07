@@ -1,6 +1,5 @@
 package SecondRoll.demo.payload;
 
-import SecondRoll.demo.models.EGameCategory;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import org.springframework.data.annotation.CreatedDate;

@@ -1,6 +1,7 @@
 package SecondRoll.demo.controllers;
 
 import SecondRoll.demo.models.Order;
+import SecondRoll.demo.models.User;
 import SecondRoll.demo.payload.OrderDTO;
 import SecondRoll.demo.payload.response.BuyerHistoryResponse;
 import SecondRoll.demo.payload.response.SellerHistoryResponse;
@@ -9,6 +10,7 @@ import SecondRoll.demo.services.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -73,6 +75,25 @@ public class OrderController {
         List<SellerHistoryResponse> orders = orderService.sellerOrderHistory(sellerId);
             return ResponseEntity.ok(orders);
     }
+
+
+    // Lists all orders for a authenticated user
+    @GetMapping("/all/{username}")
+    @PreAuthorize("#username == principal.username")
+    public ResponseEntity<List<Order>> getUserOrders(@PathVariable("username") String username) {
+        User user = userRepository.findUserByUsername(username);
+        List<Order> ordersByUsername = orderService.getOrdersByUsername(user.getUsername());
+        return ResponseEntity.ok(ordersByUsername);
+    }
+
+
+/*
+    @GetMapping("/profile/{username}")
+    @PreAuthorize("#username == principal.username")
+    public ResponseEntity<?> getUserProfile(@PathVariable("username") String username) {
+        User user = userRepository.findUserByUsername(username);
+        return ResponseEntity.ok().body(new UserInfoResponse(user.getId(), user.getUsername()));
+    }  */
 
 }
 
