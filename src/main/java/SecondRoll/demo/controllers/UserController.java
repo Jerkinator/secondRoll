@@ -53,7 +53,8 @@ public class UserController {
 
     // HELENA: se kommentar i UserService
     // UPDATE a user.
-    @PutMapping()
+    @PutMapping("/{username}/update")
+    @PreAuthorize("#username == principal.username")
     public User updateUser(@RequestBody User user) {
         return userService.updateUser(user);
     }
@@ -90,19 +91,6 @@ public class UserController {
     }
 
 
-/*
-    @PutMapping("/{username}/wishlist")
-    @PreAuthorize("#username == principal.username")
-    public ResponseEntity<?> addGameToWishlist (@PathVariable("username") String username, @RequestBody WishlistDTO wishlistDTO){
-        userService.addGameToWishlist(username, wishlistDTO);
-        return  ResponseEntity.ok().header(String.valueOf(HttpStatus.CREATED))
-                .body(new MessageResponse("Game added to wishlist"));
-    } */
-
-
-
-
-
     // FUNKAR
     /* @GetMapping("/profile/{username}")
     @PreAuthorize("#username == principal.username")
@@ -111,32 +99,5 @@ public class UserController {
         return userRepository.findByUsername(username);
     } */
 
-    /* @GetMapping("/profile/{username}")
-        @PreAuthorize("authentication.principal.username == #username || hasRole('USER')")
-        public Optional<User> getUserProfile(@PathVariable("username") String username) {
-
-            return userRepository.findByUsername(username);
-    } */
-
-
-    //FUNKAR EJ
-    /* @GetMapping("/profile/{username}")
-    public ResponseEntity<Optional<User>> getLoggedInUserInfo (@PathVariable String username) {
-        if (username == SecurityContextHolder.getContext().getAuthentication().getPrincipal()) {
-            return ResponseEntity.ok((Optional.ofNullable(userRepository.findUserByUsername(username))));
-        }
-        return (ResponseEntity<Optional<User>>) ResponseEntity.badRequest();
-    } */
-
-
-    // FUNKAR EJ
-    /* @GetMapping("/profile/{userId}")
-    public ResponseEntity<User> getLoggedInUser (@PathVariable String username) {
-        Optional<User> user = userRepository.findByUsername(username);
-
-        Authentication authentication = authenticationManager.authenticate((Authentication) user.get());
-        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
-    return new ResponseEntity<User>(HttpStatus.OK);
-    } */
 }
 
