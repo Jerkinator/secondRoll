@@ -37,8 +37,6 @@ public class GameAds {
     @CreatedDate
     private LocalDate updated_at;
 
-<<<<<<< HEAD
-=======
     // HELENA:
     // vad är det som händer här?
     // varför sparar ni en array med GameAds inne i själva GameAds modellen? det blir väl oerhört konstigt eller?
@@ -57,14 +55,11 @@ public class GameAds {
 
     // ------------------------------------
 
->>>>>>> 35142e1b5c478ce7cc0833c8b847c570d43c51dd
     public List<EGameCategory> gameDetails = new ArrayList<>();
     private EGameCategory genres;
     public GameAds(String genres){
 
     }
-
-
 
     public boolean isAvailable() {
         return isAvailable;
