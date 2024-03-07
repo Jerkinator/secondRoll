@@ -96,7 +96,21 @@ public class GameAdsController {
 
         List<GameAds> gamePrice = gameAdsService.findGameAdsByPrice(price);
         return ResponseEntity.ok(gamePrice);
+<<<<<<< HEAD
+    }
+
+    //HELENA:
+    // det här blir väl typ search/userId/userId va?
+    // jag hade gjort om det här så att userId är en pathVariable
+    // /search/{userId} och @PathVariable String userId
+    // metoden ska nog funka om ni ändrar så ni ska inte behöva ändra i service
+    @GetMapping(value = "/search/userId")
+    public List<GameAds> findGameAdsByUserId(@RequestParam String userId) {
+        return gameAdsService.findGameAdsByUserId(userId);
+    }
+=======
     } */
+>>>>>>> 35142e1b5c478ce7cc0833c8b847c570d43c51dd
 
     // "Roll the Dice" game ad randomizer
     @GetMapping(value = "/rolldice")

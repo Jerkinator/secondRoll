@@ -39,7 +39,7 @@ public class User {
 
     @NotBlank
     @Size(min = 8, max = 30)
-    private String password; //This needs to be hashed and salted.
+    private String password;
 
     @DBRef
     private Set<Role> roles = new HashSet<>();
@@ -53,7 +53,6 @@ public class User {
     @Size(min = 6, max = 12)
     private String phoneNumber;
 
-    // Helena: super bra att ni tänkt så här :)
     // Separate strings with the adress details to make it easier and more readable in code and mongodb
     @NotBlank
     private String adress_street;

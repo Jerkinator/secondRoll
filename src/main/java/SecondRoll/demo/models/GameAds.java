@@ -1,5 +1,7 @@
 package SecondRoll.demo.models;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
@@ -16,16 +18,20 @@ public class GameAds {
     private String id;
 
     // HELENA: kanske att det här skulle heta seller istället för att vara extra tydligt
+    @NotBlank
     @DBRef
     private User user;
-
+    @NotBlank
     private String title;
-
+    @NotBlank
+    @Size(min = 1, max = 1000)
     private String description;
-
+    @NotBlank
+    @Size(min = 1, max = 50000)
     private int price;
-
-    private int shippingCost = 50;
+    @NotBlank
+    @Size(min = 1, max = 2000)
+    private int shippingCost;
     @CreatedDate
     private LocalDate created_at;
     @CreatedDate
@@ -54,8 +60,6 @@ public class GameAds {
     public GameAds(String genres){
 
     }
-
-
 
     public boolean isAvailable() {
         return isAvailable;
