@@ -3,10 +3,12 @@ package SecondRoll.demo.controllers;
 import SecondRoll.demo.models.Rating;
 import SecondRoll.demo.models.User;
 import SecondRoll.demo.payload.WishlistDTO;
+import SecondRoll.demo.payload.response.MessageResponse;
 import SecondRoll.demo.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -61,10 +63,12 @@ public class UserController {
         }
 
     // REMOVE a gameAd to a user wishlist using a Data Transfer Object-reference.
-    @DeleteMapping(value = "/{userId}/wishlist")
-    public ResponseEntity<?> removeGameFromWishlist(@PathVariable String userId, @RequestBody WishlistDTO wishlistDTO) {
-        User userWithWishList = userService.removeGameFromWishlist(userId, wishlistDTO);
-        return new ResponseEntity<>(userWithWishList, HttpStatus.CREATED);
+    @DeleteMapping(value = "/{username}/wishlist")
+    @PreAuthorize("#username == principal.username")
+    public ResponseEntity<?> removeGameFromWishlist(@PathVariable("username") String username, @RequestBody WishlistDTO wishlistDTO) {
+        userService.removeGameFromWishlist(username, wishlistDTO);
+        return  ResponseEntity.ok().header(String.valueOf(HttpStatus.I_AM_A_TEAPOT))
+                .body(new MessageResponse("Game removed from wishlist"));
     }
 
     // ADD rating to a user.
@@ -74,3 +78,11 @@ public class UserController {
         return new ResponseEntity<>(userWithRating, HttpStatus.CREATED);
     }
 }
+/*
+    @PutMapping("/{username}/wishlist")
+    @PreAuthorize("#username == principal.username")
+    public ResponseEntity<?> addGameToWishlist (@PathVariable("username") String username, @RequestBody WishlistDTO wishlistDTO){
+        userService.addGameToWishlist(username, wishlistDTO);
+        return  ResponseEntity.ok().header(String.valueOf(HttpStatus.CREATED))
+                .body(new MessageResponse("Game added to wishlist"));
+    } */

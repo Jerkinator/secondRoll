@@ -69,8 +69,8 @@ public class UserService {
     }
 
     // REMOVE a gameAd to a user wishlist using a Data Transfer Object-reference.
-    public User removeGameFromWishlist(String userId, WishlistDTO wishlistDTO) {
-        User user = userRepository.findById(userId).orElseThrow();
+    public User removeGameFromWishlist(String username, WishlistDTO wishlistDTO) {
+        User user = userRepository.findUserByUsername(username);
         List<GameAds> wishlist = user.getWishlist();
         wishlist.removeIf(gameAd -> gameAd.getId().equals(wishlistDTO.getGameId()));
         return userRepository.save(user);
