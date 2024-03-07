@@ -17,13 +17,14 @@ public class CreateGameDTO {
 
     private String gameCreator;
 
-    private String gamePlaytime;
+    private String gamePlayTime;
 
     private String gameRecommendedAge;
 
     private String gamePlayers;
 
    // private String gameGenre;
+    public List<String> gameGenres;
 
     private int shippingCost = 50;
 
@@ -33,6 +34,8 @@ public class CreateGameDTO {
     @CreatedDate
     private LocalDate updated_at;
 
+    private boolean isAvailable = true;
+
     public List<String> getGameGenres() {
         return gameGenres;
     }
@@ -41,11 +44,13 @@ public class CreateGameDTO {
         this.gameGenres = gameGenres;
     }
 
-    public List<String> gameGenres;
+
 
     //public List<EGameCategory> gameDetails;
 
-    public boolean isAvailable = true;
+    // private boolean isAvailable? Returns twice in postman right now. Looking for a fix.
+
+    // GETTERS & SETTERS.
 
     public String getUserId() {
         return userId;
@@ -109,6 +114,7 @@ public class CreateGameDTO {
 
     public void setGameDetails(List<EGameCategory> gameDetails) {
         this.gameDetails = gameDetails;
+
     }*/
 
     public boolean isAvailable() {
@@ -128,12 +134,12 @@ public class CreateGameDTO {
         this.gameCreator = gameCreator;
     }
 
-    public String getGamePlaytime() {
-        return gamePlaytime;
+    public String getGamePlayTime() {
+        return gamePlayTime;
     }
 
-    public void setGamePlaytime(String gamePlaytime) {
-        this.gamePlaytime = gamePlaytime;
+    public void setGamePlayTime(String gamePlayTime) {
+        this.gamePlayTime = gamePlayTime;
     }
 
     public String getGameRecommendedAge() {
@@ -159,4 +165,7 @@ public class CreateGameDTO {
     public void setGameGenre(String gameGenre) {
         this.gameGenre = gameGenre;
     }*/
+
+
+
 }
