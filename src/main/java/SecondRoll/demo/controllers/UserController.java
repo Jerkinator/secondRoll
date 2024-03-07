@@ -54,9 +54,10 @@ public class UserController {
     }
 
     // ADD a gameAd to a user wishlist using a Data Transfer Object-reference.
-    @PutMapping("/{userId}/wishlist")
-        public ResponseEntity<?> addGameToWishlist (@PathVariable String userId, @RequestBody WishlistDTO wishlistDTO){
-            User userWithWishList = userService.addGameToWishlist(userId, wishlistDTO);
+    @PutMapping("/{username}/wishlist")
+    @PreAuthorize("#username == principal.username")
+        public ResponseEntity<?> addGameToWishlist (@PathVariable("username") String username, @RequestBody WishlistDTO wishlistDTO){
+            User userWithWishList = userService.addGameToWishlist(username, wishlistDTO);
             return new ResponseEntity<>(userWithWishList, HttpStatus.CREATED);
         }
 
@@ -73,10 +74,6 @@ public class UserController {
         User userWithRating = userService.addRatingToUser(userId, rating);
         return new ResponseEntity<>(userWithRating, HttpStatus.CREATED);
     }
-    /* @GetMapping ("/profile/{username}")
-    public Optional<User> getUserProfile(@PathVariable String username) {
-        return userRepository.findByUsername(username);
-    } */
 
     @GetMapping("/profile/{username}")
     @PreAuthorize("#username == principal.username")
