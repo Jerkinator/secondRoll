@@ -3,7 +3,7 @@ package SecondRoll.demo.controllers;
 import SecondRoll.demo.models.Rating;
 import SecondRoll.demo.models.User;
 import SecondRoll.demo.payload.WishlistDTO;
-import SecondRoll.demo.payload.response.UserInfoResponse;
+import SecondRoll.demo.payload.response.UserProfileResponse;
 import SecondRoll.demo.repository.UserRepository;
 import SecondRoll.demo.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -82,7 +82,10 @@ public class UserController {
     @PreAuthorize("#username == principal.username")
     public ResponseEntity<?> getUserProfile(@PathVariable("username") String username) {
         User user = userRepository.findUserByUsername(username);
-        return ResponseEntity.ok().body(new UserInfoResponse(user.getId(), user.getUsername()));
+
+        return ResponseEntity.ok().body(new UserProfileResponse(user.getId(), user.getUsername(), user.getEmail(),
+                user.getFirstName(), user.getLastName(), user.getPhoneNumber(), user.getAdress_street(),
+                user.getAdress_zip(), user.getAdress_city(), user.getWishlist(), user.getRatings(), user.getAverageRating()));
     }
 
 
