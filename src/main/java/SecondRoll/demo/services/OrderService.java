@@ -79,7 +79,7 @@ public class OrderService {
     public List<Order> getOrdersByUsername (String username) {
         User user = userRepository.findUserByUsername(username);
         if (user.equals(username)) {
-            Order orderList = orderRepository.findAll().stream().allMatch(String username);
+            Order orderList = orderRepository.findAll().stream().filter(order -> )
 
         }
     }
