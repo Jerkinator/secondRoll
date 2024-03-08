@@ -151,6 +151,60 @@ public class GameAdsService {
         GameAds gameAds = allGameAds.get(randomGameAd.nextInt(maxInt));
         return gameAds;
     }
+    ////method to get available gameAds in ascending price order
+    public List<GameAds> findAvailableGameAdsSortedByPriceAsc() {
+
+        List<GameAds> availableAdsPriceAsc = new ArrayList<>();
+        //populates the list by using findByIsAvailable method where boolean is set to true
+        availableAdsPriceAsc = gameAdsRepository.findByIsAvailable(true);
+
+       // sorting the ads in available ads array based on Price
+        Collections.sort(availableAdsPriceAsc, Comparator.comparing(GameAds::getPrice));
+
+        return availableAdsPriceAsc;
+
+    }
+
+    //method to get available gameAds in descending price order
+    public List<GameAds> findAvailableGameAdsSortedByPriceDesc() {
+
+        List<GameAds> availableAdsPriceDesc = new ArrayList<>();
+        //populates the list by using findByIsAvailable method where boolean is set to true
+        availableAdsPriceDesc = gameAdsRepository.findByIsAvailable(true);
+
+        // sorting the ads in available ads array based on Price descending by chaining .reversed
+        Collections.sort(availableAdsPriceDesc, Comparator.comparing(GameAds::getPrice).reversed());
+
+        return availableAdsPriceDesc;
+
+    }
+    //sorting available ads based on date created ascending order
+    public List<GameAds> availableGameAdsSortedByDateAsc() {
+
+        List<GameAds> availableAdsDateAsc = new ArrayList<>();
+        //populates the list by using findByIsAvailable method where boolean is set to true
+        availableAdsDateAsc = gameAdsRepository.findByIsAvailable(true);
+
+        // sorting the ads in available ads array based on Created_at
+        Collections.sort(availableAdsDateAsc, Comparator.comparing(GameAds::getCreated_at));
+
+        return availableAdsDateAsc;
+    }
+
+    //sorting available ads based on date created descending order
+    public List<GameAds> availableGameAdsSortedByDateDesc() {
+
+        List<GameAds> availableAdsDateDesc = new ArrayList<>();
+        //populates the list by using findByIsAvailable method where boolean is set to true
+        availableAdsDateDesc = gameAdsRepository.findByIsAvailable(true);
+
+        // sorting the ads in available ads array based on Created_at
+        Collections.sort(availableAdsDateDesc, Comparator.comparing(GameAds::getCreated_at).reversed());
+
+        return availableAdsDateDesc;
+    }
+
+
 
 
 
@@ -192,9 +246,13 @@ public class GameAdsService {
         GameAds gameAd = new GameAds();
         gameAd.set;
 
-        gameAd.setPrice(gameAds.getTitle().stream().map(GameAds::getPrice).collect(Collectors.toList()));
+
+
+
+}
 
         return gameAd;
     } */
 }
+
 
