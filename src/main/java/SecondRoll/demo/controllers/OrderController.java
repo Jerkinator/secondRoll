@@ -46,17 +46,17 @@ public class OrderController {
         return orderService.getAllOrders();
     }
 
-   //GET
+    //GET
     //retrieve specific order based on id
-   @GetMapping("/{id}")
-   public ResponseEntity<Order> getOrdersById(@PathVariable String id) {
-       Optional<Order> order = orderService.getOrdersById(id);
-       return order.map(ResponseEntity::ok)
-               .orElseGet(() -> ResponseEntity.notFound().build());
-   }
+    @GetMapping("/{id}")
+    public ResponseEntity<Order> getOrdersById(@PathVariable String id) {
+        Optional<Order> order = orderService.getOrdersById(id);
+        return order.map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.notFound().build());
+    }
 
 
-   // HELENA: nej vi håller på med ordrar här, inte böcker eller?
+    // HELENA: nej vi håller på med ordrar här, inte böcker eller?
     //DELETE borrowedBooks by id
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     public String deleteOrderById(@PathVariable String id) {
@@ -64,26 +64,25 @@ public class OrderController {
     }
 
     //GET buyer history for bought games
-    @GetMapping ("/buyerhistory/{buyerId}")
+    @GetMapping("/buyerhistory/{buyerId}")
     public ResponseEntity<List<BuyerHistoryResponse>> buyerOrderHistory(@PathVariable String buyerId) {
         List<BuyerHistoryResponse> orders = orderService.buyerOrderHistory(buyerId);
-                return ResponseEntity.ok(orders);
+        return ResponseEntity.ok(orders);
     }
 
-    @GetMapping ("/sellerhistory/{sellerId}")
+    @GetMapping("/sellerhistory/{sellerId}")
     public ResponseEntity<List<SellerHistoryResponse>> sellerOrderHistory(@PathVariable String sellerId) {
         List<SellerHistoryResponse> orders = orderService.sellerOrderHistory(sellerId);
-            return ResponseEntity.ok(orders);
+        return ResponseEntity.ok(orders);
     }
 
 
     // Lists all orders for a authenticated user
     @GetMapping("/all/{username}")
-    @PreAuthorize("#username == principal.username")
+    @PreAuthorize("hasRole('ADMIN') or #username == principal.username")
     public ResponseEntity<List<Order>> getUserOrders(@PathVariable("username") String username) {
         User user = userRepository.findUserByUsername(username);
         List<Order> ordersByUsername = orderService.getOrdersByUsername(user.getUsername());
         return ResponseEntity.ok(ordersByUsername);
     }
 }
-
