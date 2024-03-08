@@ -123,7 +123,6 @@ public class GameAdsService {
         return userGames.stream().map(this::convertToDTO).collect(Collectors.toList());
     }
 
-<<<<<<< HEAD
     // Find all GameAds by user ID.
     public List<GameAds> findGameAdsByUserId (String userId){
         User user = userRepository.findById(userId).orElseThrow();
@@ -139,7 +138,6 @@ public class GameAdsService {
     }
 
 
-=======
     // This utility-method converts the content of a GameAd-object into a GameAdResponse-object.
     private GameAdResponse convertToDTO(GameAds gameAd) {
         GameAdResponse gameAdResponse = new GameAdResponse();
@@ -155,7 +153,6 @@ public class GameAdsService {
 
         return gameAdResponse;
     }
->>>>>>> 35142e1b5c478ce7cc0833c8b847c570d43c51dd
 
     // "Roll the Dice" game ad randomizer
     public GameAds getRandomGameAd() {
