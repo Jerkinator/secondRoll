@@ -2,8 +2,6 @@ package SecondRoll.demo.services;
 
 
 import SecondRoll.demo.exception.EntityNotFoundException;
-//import SecondRoll.demo.models.EGameCategory;
-
 import SecondRoll.demo.models.GameAds;
 import SecondRoll.demo.models.User;
 import SecondRoll.demo.payload.CreateGameDTO;
@@ -13,9 +11,7 @@ import SecondRoll.demo.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.Random;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -235,11 +231,11 @@ public class GameAdsService {
         return gameAdsRepository.save(gameAds);
     } */
 
-    //Unfinished method for finding all games by price.
+   /* //Unfinished method for finding all games by price.
     public List<GameAds> findGameAdsByPrice(List price) {
         List<GameAds> gamePrice = gameAdsRepository.findByPrice(price);
         return gamePrice;
-    }
+    } */
 
     // Converter method
    /* private GameAds convertToDTO(GameAds gameAds) {

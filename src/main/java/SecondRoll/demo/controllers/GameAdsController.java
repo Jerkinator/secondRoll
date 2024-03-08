@@ -117,7 +117,7 @@ public class GameAdsController {
                 gameAd.getGameGenres(),/* gameAd.getGameDetails(),*/
                 gameAd.getCreated_at(), gameAd.getUpdated_at()));
     }
-}
+
 
  /* // OLD GET all game ads belonging to a user, stored for now, just in case.
     @GetMapping(value = "/search/userId")
@@ -125,7 +125,7 @@ public class GameAdsController {
         return gameAdsService.findGameAdsByUserId(userId);
     } */
 
-    }
+
     // sort available Ads in ascending order by price
     @GetMapping("/sortbyprice/asc")
     public List<GameAds> findAvailableGameAdsSortedByPriceAsc() {
