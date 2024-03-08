@@ -1,7 +1,9 @@
 package SecondRoll.demo.services;
 
+
 import SecondRoll.demo.exception.EntityNotFoundException;
-import SecondRoll.demo.models.EGameCategory;
+//import SecondRoll.demo.models.EGameCategory;
+
 import SecondRoll.demo.models.GameAds;
 import SecondRoll.demo.models.User;
 import SecondRoll.demo.payload.CreateGameDTO;
@@ -29,6 +31,8 @@ public class GameAdsService {
         User user = userRepository.findById(createGameDTO.getUserId())
                 .orElseThrow(() -> new RuntimeException("User not found."));
 
+
+
         GameAds gameAd = new GameAds();
         gameAd.setUser(user);
         gameAd.setTitle(createGameDTO.getTitle());
@@ -37,7 +41,11 @@ public class GameAdsService {
         gameAd.setShippingCost(createGameDTO.getShippingCost());
         gameAd.setCreated_at(createGameDTO.getCreated_at());
         gameAd.setUpdated_at(createGameDTO.getUpdated_at());
-        gameAd.setGameDetails(createGameDTO.getGameDetails());
+        gameAd.setGameCreator(createGameDTO.getGameCreator());
+        gameAd.setGamePlayTime(createGameDTO.getGamePlayTime());
+        gameAd.setGameRecommendedAge(createGameDTO.getGameRecommendedAge());
+        gameAd.setGamePlayers(createGameDTO.getGamePlayers());
+        gameAd.setGameGenres(createGameDTO.getGameGenres());
         // gameAd.setAvailable(createGameDTO.isAvailable);
 
         return gameAdsRepository.save(gameAd);
@@ -62,9 +70,9 @@ public class GameAdsService {
             if(updatedGameAd.getUpdated_at() != null) {
                 existingGameAd.setUpdated_at(updatedGameAd.getUpdated_at());
             }
-            if(updatedGameAd.getGameDetails() != null) {
-                existingGameAd.setGameDetails(updatedGameAd.getGameDetails());
-            }
+          //  if(updatedGameAd.getGameDetails() != null) {
+            //    existingGameAd.setGameDetails(updatedGameAd.getGameDetails());
+           // }
             existingGameAd.setPrice(updatedGameAd.getPrice());
             existingGameAd.setShippingCost(updatedGameAd.getShippingCost());
 
@@ -106,9 +114,9 @@ public class GameAdsService {
     // :OBS: USERINFON I GAMEADS ÄR FIXAD NU MED GAMEADRESPONSEDTO.
 
     // Filter by tags
-    public List<GameAds> findGameAdsByGameDetails(List<EGameCategory> gameDetails) {
+    /*public List<GameAds> findGameAdsByGameDetails(List<EGameCategory> gameDetails) {
         return gameAdsRepository.findByGameDetailsIn(gameDetails);
-    }
+    }*/
 
     // UPDATED Find all GameAds by user ID.
     public List<GameAdResponse> getUserOrders(String userId) {
@@ -147,7 +155,7 @@ public class GameAdsService {
         gameAdResponse.setShippingCost(gameAd.getShippingCost());
         gameAdResponse.setCreated_at(gameAd.getCreated_at());
         gameAdResponse.setUpdated_at(gameAd.getUpdated_at());
-        gameAdResponse.setGameDetails(gameAd.gameDetails);
+     //   gameAdResponse.setGameDetails(gameAd.gameDetails);
 
         return gameAdResponse;
     }
