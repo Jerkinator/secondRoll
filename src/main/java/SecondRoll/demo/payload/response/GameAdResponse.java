@@ -1,19 +1,20 @@
-package SecondRoll.demo.payload;
-
-import org.springframework.data.annotation.CreatedDate;
+package SecondRoll.demo.payload.response;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
-public class CreateGameDTO {
+public class GameAdResponse {
 
-    private String userId;
+    private String seller;
 
     private String title;
 
     private String description;
 
     private int price;
+
+    private int shippingCost;
 
     private String gameCreator;
 
@@ -23,41 +24,46 @@ public class CreateGameDTO {
 
     private String gamePlayers;
 
-   // private String gameGenre;
-    public List<String> gameGenres;
+    private List<String> gameGenres = new ArrayList<>();
 
-    private int shippingCost = 50;
-
-    @CreatedDate
     private LocalDate created_at;
 
-    @CreatedDate
     private LocalDate updated_at;
 
-    private boolean isAvailable = true;
+    //public List<EGameCategory> gameDetails = new ArrayList<>();
 
-    public List<String> getGameGenres() {
-        return gameGenres;
-    }
-
-    public void setGameGenres(List<String> gameGenres) {
+    public GameAdResponse(String seller, String title, String description, int price, int shippingCost,
+        String gameCreator, String gamePlayTime, String gameRecommendedAge, String gamePlayers, List<String> gameGenres,
+        LocalDate created_at, LocalDate updated_at) {
+        this.seller = seller;
+        this.title = title;
+        this.description = description;
+        this.gameCreator = gameCreator;
+        this.gamePlayTime = gamePlayTime;
+        this.gameRecommendedAge = gameRecommendedAge;
+        this.gamePlayers = gamePlayers;
         this.gameGenres = gameGenres;
+        this.price = price;
+        this.shippingCost = shippingCost;
+
+       // this.gameDetails = gameDetails;
+        this.created_at = created_at;
+        this.updated_at = updated_at;
     }
 
-
-
-    //public List<EGameCategory> gameDetails;
+    public GameAdResponse() {
+    }
 
     // private boolean isAvailable? Returns twice in postman right now. Looking for a fix.
 
     // GETTERS & SETTERS.
 
-    public String getUserId() {
-        return userId;
+    public String getSeller() {
+        return seller;
     }
 
-    public void setUserId(String userId) {
-        this.userId = userId;
+    public void setSeller(String seller) {
+        this.seller = seller;
     }
 
     public String getTitle() {
@@ -108,24 +114,6 @@ public class CreateGameDTO {
         this.updated_at = updated_at;
     }
 
-   /* public List<EGameCategory> getGameDetails() {
-        return gameDetails;
-    }
-
-    public void setGameDetails(List<EGameCategory> gameDetails) {
-        this.gameDetails = gameDetails;
-
-    }*/
-
-    public boolean isAvailable() {
-        return isAvailable;
-    }
-
-    public void setAvailable(boolean available) {
-        isAvailable = available;
-    }
-
-
     public String getGameCreator() {
         return gameCreator;
     }
@@ -158,14 +146,19 @@ public class CreateGameDTO {
         this.gamePlayers = gamePlayers;
     }
 
-   /* public String getGameGenre() {
-        return gameGenre;
+    public List<String> getGameGenres() {
+        return gameGenres;
     }
 
-    public void setGameGenre(String gameGenre) {
-        this.gameGenre = gameGenre;
+    public void setGameGenres(List<String> gameGenres) {
+        this.gameGenres = gameGenres;
+    }
+
+  /*  public List<EGameCategory> getGameDetails() {
+        return gameDetails;
+    }
+
+    public void setGameDetails(List<EGameCategory> gameDetails) {
+        this.gameDetails = gameDetails;
     }*/
-
-
-
 }

@@ -1,27 +1,37 @@
 package SecondRoll.demo.services;
 
-import SecondRoll.demo.models.EGameCategory;
+
+import SecondRoll.demo.exception.EntityNotFoundException;
+//import SecondRoll.demo.models.EGameCategory;
+
 import SecondRoll.demo.models.GameAds;
 import SecondRoll.demo.models.User;
 import SecondRoll.demo.payload.CreateGameDTO;
+import SecondRoll.demo.payload.response.GameAdResponse;
 import SecondRoll.demo.repository.GameAdsRepository;
 import SecondRoll.demo.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.List;
+import java.util.Optional;
+import java.util.Random;
+import java.util.stream.Collectors;
 
 @Service
 public class GameAdsService {
+
     @Autowired
     GameAdsRepository gameAdsRepository;
     @Autowired
     UserRepository userRepository;
 
-    // Create a gameAd with user reference, using a DTO.
+    // POST a gameAd with user reference, using a DTO.
     public GameAds createGameAd(CreateGameDTO createGameDTO) {
         User user = userRepository.findById(createGameDTO.getUserId())
                 .orElseThrow(() -> new RuntimeException("User not found."));
+
+
 
         GameAds gameAd = new GameAds();
         gameAd.setUser(user);
@@ -31,32 +41,59 @@ public class GameAdsService {
         gameAd.setShippingCost(createGameDTO.getShippingCost());
         gameAd.setCreated_at(createGameDTO.getCreated_at());
         gameAd.setUpdated_at(createGameDTO.getUpdated_at());
-        gameAd.setGameDetails(createGameDTO.getGameDetails());
+        gameAd.setGameCreator(createGameDTO.getGameCreator());
+        gameAd.setGamePlayTime(createGameDTO.getGamePlayTime());
+        gameAd.setGameRecommendedAge(createGameDTO.getGameRecommendedAge());
+        gameAd.setGamePlayers(createGameDTO.getGamePlayers());
+        gameAd.setGameGenres(createGameDTO.getGameGenres());
         // gameAd.setAvailable(createGameDTO.isAvailable);
 
         return gameAdsRepository.save(gameAd);
     }
 
-    // Get all gameAds
-    public List<GameAds> getAllGameAds() {
-        return gameAdsRepository.findAll();
+    // GET all gameAds.
+    public List<GameAdResponse> getAllGameAds() {
+        List<GameAds> gameAds = gameAdsRepository.findAll();
+
+        return gameAds.stream().map(this::convertToDTO).collect(Collectors.toList());
     }
 
-    // Update a gameAd
-    public GameAds updateGameAd(GameAds gameAds) {
-        return gameAdsRepository.save(gameAds);
+    // UPDATE a gameAD
+    public GameAds updateGameAd(String id, GameAds updatedGameAd) {
+        return gameAdsRepository.findById(id).map(existingGameAd -> {
+            if(updatedGameAd.getTitle() != null) {
+                existingGameAd.setTitle(updatedGameAd.getTitle());
+            }
+            if(updatedGameAd.getDescription() != null) {
+                existingGameAd.setDescription(updatedGameAd.getDescription());
+            }
+            if(updatedGameAd.getUpdated_at() != null) {
+                existingGameAd.setUpdated_at(updatedGameAd.getUpdated_at());
+            }
+          //  if(updatedGameAd.getGameDetails() != null) {
+            //    existingGameAd.setGameDetails(updatedGameAd.getGameDetails());
+           // }
+            existingGameAd.setPrice(updatedGameAd.getPrice());
+            existingGameAd.setShippingCost(updatedGameAd.getShippingCost());
+
+            return gameAdsRepository.save(existingGameAd);
+        })
+                .orElseThrow(() -> new EntityNotFoundException("Game with id " + id + " was not found."));
     }
 
-    // Get a gameAd by id
+    // GET a gameAd by id
     public Optional<GameAds> getGameAdById(String id) {
-        return gameAdsRepository.findById(id);
+        return Optional.ofNullable(gameAdsRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Game not found.")));
     }
 
-    // Delete a gameAd
+    // DELETE a gameAd
     public String deleteGameAd(String id) {
         gameAdsRepository.deleteById(id);
         return "Game Ad deleted";
     }
+
+    // FILTER by enum
 
     //HELENA:
     // jag tror ni vet att Enum behöver konverteras till String :)
@@ -65,6 +102,8 @@ public class GameAdsService {
     // ni får själva avgöra hur ni väljer att prioritera för metoden fungerar ju som den är
     // tycker ni det är viktigt att ändra den eller inte?
 
+    // :OBS: METODEN FINDGAMEADSBYUSERID ÄR FIXAD NU.
+
     // BÅDE GAMEADS OCH ORDER SERVICE:
     // bör ni se över hur tex user lägger sig i responses, för jag antar att det är hela usern som syns där?
     // om det är så bör ni nog prioritera att fixa detta dels för att det gör att era response objekt är
@@ -72,37 +111,37 @@ public class GameAdsService {
     // kan exposa känslig data och det är inte bra. Se över era responses när det gäller referenser med ObjectId
     // vilken data räcker att ha med i ett respons objekt för respektive metod?
 
+    // :OBS: USERINFON I GAMEADS ÄR FIXAD NU MED GAMEADRESPONSEDTO.
+
     // Filter by tags
-    public List<GameAds> findGameAdsByGameDetails(List<EGameCategory> gameDetails) {
+    /*public List<GameAds> findGameAdsByGameDetails(List<EGameCategory> gameDetails) {
         return gameAdsRepository.findByGameDetailsIn(gameDetails);
+    }*/
+
+    // UPDATED Find all GameAds by user ID.
+    public List<GameAdResponse> getUserOrders(String userId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("User not found."));
+
+        List<GameAds> userGames = gameAdsRepository.findByUserId(userId);
+        return userGames.stream().map(this::convertToDTO).collect(Collectors.toList());
     }
 
+    // This utility-method converts the content of a GameAd-object into a GameAdResponse-object.
+    private GameAdResponse convertToDTO(GameAds gameAd) {
+        GameAdResponse gameAdResponse = new GameAdResponse();
 
-    public List<GameAds> findGameAdsByPrice(List price) {
-        List<GameAds> gamePrice = gameAdsRepository.findByPrice(price);
-        return gamePrice;
+        gameAdResponse.setSeller(gameAd.getUser().getUsername());
+        gameAdResponse.setTitle(gameAd.getTitle());
+        gameAdResponse.setDescription(gameAd.getDescription());
+        gameAdResponse.setPrice(gameAd.getPrice());
+        gameAdResponse.setShippingCost(gameAd.getShippingCost());
+        gameAdResponse.setCreated_at(gameAd.getCreated_at());
+        gameAdResponse.setUpdated_at(gameAd.getUpdated_at());
+     //   gameAdResponse.setGameDetails(gameAd.gameDetails);
+
+        return gameAdResponse;
     }
-
-
-    // Find GameAds by user ID.
-    public Optional<GameAds> getGameByUserId(String userId) {
-        return gameAdsRepository.findById(userId);
-    }
-        // Find all GameAds by user ID.
-        public List<GameAds> findGameAdsByUserId (String userId){
-            User user = userRepository.findById(userId).orElseThrow();
-
-            List<GameAds> gameAds = gameAdsRepository.findAll();
-            List<GameAds> foundGames = new ArrayList<>();
-            for (GameAds gameAd : gameAds) {
-                if (Objects.equals(gameAd.getUser().getId(), user.getId())) {
-                    foundGames.add(gameAd);
-                }
-            }
-            return foundGames;
-        }
-
-
 
     // "Roll the Dice" game ad randomizer
     public GameAds getRandomGameAd() {
@@ -111,7 +150,6 @@ public class GameAdsService {
         int maxInt = allGameAds.size();
         GameAds gameAds = allGameAds.get(randomGameAd.nextInt(maxInt));
         return gameAds;
-
     }
     ////method to get available gameAds in ascending price order
     public List<GameAds> findAvailableGameAdsSortedByPriceAsc() {
@@ -170,4 +208,51 @@ public class GameAdsService {
 
 
 
+   /* // OLD GET ALL gameAds, stored for now, just in case.
+    public List<GameAds> getAllGameAds() {
+        return gameAdsRepository.findAll();
+    } */
+
+
+   /* // OLD GET all GameAds by user ID, stored for now, just in case.
+    public List<GameAds> findGameAdsByUserId(String userId) {
+        User user = userRepository.findById(userId).orElseThrow();
+
+        List<GameAds> gameAds = gameAdsRepository.findAll();
+        List<GameAds> foundGames = new ArrayList<>();
+        for(GameAds gameAd : gameAds) {
+            if(Objects.equals(gameAd.getUser().getId(), user.getId())) {
+                foundGames.add(gameAd);
+            }
+        }
+        return foundGames;
+    } */
+
+
+  /*
+    // OLD UPDATE a gameAd, stored for now, just in case.
+    public GameAds updateGameAd(GameAds gameAds) {
+        return gameAdsRepository.save(gameAds);
+    } */
+
+    //Unfinished method for finding all games by price.
+    public List<GameAds> findGameAdsByPrice(List price) {
+        List<GameAds> gamePrice = gameAdsRepository.findByPrice(price);
+        return gamePrice;
+    }
+
+    // Converter method
+   /* private GameAds convertToDTO(GameAds gameAds) {
+        GameAds gameAd = new GameAds();
+        gameAd.set;
+
+
+
+
 }
+
+        return gameAd;
+    } */
+}
+
+
