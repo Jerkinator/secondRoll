@@ -85,15 +85,5 @@ public class OrderController {
         List<Order> ordersByUsername = orderService.getOrdersByUsername(user.getUsername());
         return ResponseEntity.ok(ordersByUsername);
     }
-
-
-/*
-    @GetMapping("/profile/{username}")
-    @PreAuthorize("#username == principal.username")
-    public ResponseEntity<?> getUserProfile(@PathVariable("username") String username) {
-        User user = userRepository.findUserByUsername(username);
-        return ResponseEntity.ok().body(new UserInfoResponse(user.getId(), user.getUsername()));
-    }  */
-
 }
 
