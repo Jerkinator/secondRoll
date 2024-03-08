@@ -110,7 +110,7 @@ public class GameAdsController {
     }
 =======
     } */
->>>>>>> 35142e1b5c478ce7cc0833c8b847c570d43c51dd
+
 
     // "Roll the Dice" game ad randomizer
     @GetMapping(value = "/rolldice")
