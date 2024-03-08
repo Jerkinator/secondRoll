@@ -77,12 +77,13 @@ public class OrderController {
     }
 
 
-    // Lists all orders for a authenticated user
+    // Lists all orders for a authenticated(/logged in user
+    // Admin role also has access to this endpoint
     @GetMapping("/all/{username}")
     @PreAuthorize("hasRole('ADMIN') or #username == principal.username")
-    public ResponseEntity<List<Order>> getUserOrders(@PathVariable("username") String username) {
+    public ResponseEntity<List<Order>> getAllUserOrders(@PathVariable("username") String username) {
         User user = userRepository.findUserByUsername(username);
-        List<Order> ordersByUsername = orderService.getOrdersByUsername(user.getUsername());
+        List<Order> ordersByUsername = orderService.getAllOrdersByUsername(user.getUsername());
         return ResponseEntity.ok(ordersByUsername);
     }
 }

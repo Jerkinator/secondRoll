@@ -73,8 +73,7 @@ public class OrderService {
 
     // get orders for specific user WIP
 
-
-    public List<Order> getOrdersByUsername(String username) {
+    public List<Order> getAllOrdersByUsername(String username) {
         List<Order> userOrders = new ArrayList<>();
 
         List<Order> sellerList = orderRepository
