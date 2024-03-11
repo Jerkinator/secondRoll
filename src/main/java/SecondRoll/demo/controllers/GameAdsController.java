@@ -9,6 +9,7 @@ import SecondRoll.demo.models.User;
 import SecondRoll.demo.payload.CreateGameDTO;
 import SecondRoll.demo.payload.response.GameAdResponse;
 import SecondRoll.demo.services.GameAdsService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,7 +27,7 @@ public class GameAdsController {
 
     // POST.
     @PostMapping()
-    public ResponseEntity<GameAdResponse> createGameAd(@RequestBody CreateGameDTO createGameDTO) {
+    public ResponseEntity<GameAdResponse> createGameAd(@Valid @RequestBody CreateGameDTO createGameDTO) {
         GameAds gameAd = gameAdsService.createGameAd(createGameDTO);
         User user = gameAd.getUser();
         return ResponseEntity.ok().body(new GameAdResponse(user.getUsername(), gameAd.getTitle(),

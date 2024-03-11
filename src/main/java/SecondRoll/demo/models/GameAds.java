@@ -1,7 +1,9 @@
 package SecondRoll.demo.models;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+import org.hibernate.validator.constraints.Range;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
@@ -22,30 +24,42 @@ public class GameAds {
     @DBRef
     private User user;
     @NotBlank
+    @Size(min = 1, max = 30)
     private String title;
     @NotBlank
-    @Size(min = 1, max = 1000)
+    @Size(min = 1, max = 999)
     private String description;
-    @NotBlank
-    @Size(min = 1, max = 50000)
+    @NotNull
+    @Range(min = 1, max = 50000)
     private int price;
     @NotBlank
+    @Size(min = 1, max = 200)
     private String gameCreator;
     @NotBlank
+    @Size(min = 1, max = 200)
     private String gamePlayTime;
     @NotBlank
+    @Size(min = 1, max = 200)
     private String gameRecommendedAge;
     @NotBlank
+    @Size(min = 1, max = 200)
     private String gamePlayers;
     @NotBlank
+    @Size(min = 1, max = 200)
     public List<String> gameGenres = new ArrayList<>();
-    @NotBlank
+    @NotNull
+    @Range(min = 1, max = 500)
     private int shippingCost;
     @CreatedDate
     private LocalDate created_at;
     @CreatedDate
     private LocalDate updated_at;
 
+
+
+    public GameAds() {
+
+    }
 
 
     public List<String> getGameGenres() {
@@ -60,9 +74,6 @@ public class GameAds {
 
    // public List<GameAds> gameCreators = new ArrayList<>();
 
-    public GameAds(String genres){
-
-    }
 
     public boolean isAvailable() {
         return isAvailable;
@@ -103,9 +114,6 @@ public class GameAds {
 
     public void setUpdated_at(LocalDate updated_at) {
         this.updated_at = updated_at;
-    }
-
-    public GameAds() {
     }
 
     public String getId() {
