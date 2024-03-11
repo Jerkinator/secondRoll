@@ -96,6 +96,7 @@ public class GameAdsController {
         return ResponseEntity.ok(gameAds);
     }
 
+
     // Search by latest added gameAd.
 
     // Search by Price, unfinished method.
@@ -149,6 +150,21 @@ public class GameAdsController {
     public List<GameAds> availableGameAdsSortedByDateDesc() {
         return gameAdsService.availableGameAdsSortedByDateDesc();
     }
+
+
+    @GetMapping("/findbytitle/{title}")
+    public List<GameAds> getGameAdsByTitle(@PathVariable String title) {
+        List<GameAds> adsByTitle = gameAdsService.getGameAdsByTitle(title);
+        return adsByTitle;
+    }
+
+    @GetMapping("/findbygenre/{genre}")
+    public List<GameAds> getGameAdsByGenre(@PathVariable String genre) {
+        List<GameAds> adsByGenre = gameAdsService.getGameAdsByGenre(genre);
+        return adsByGenre;
+    }
+
+
 }
 
  /*

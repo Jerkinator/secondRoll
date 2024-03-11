@@ -91,7 +91,6 @@ public class OrderService {
     }
 
     public List<BuyerHistoryResponse> buyerOrderHistory(String buyerId){
-
         List<Order> orders = orderRepository.findByBuyerId(buyerId);
         return orders.stream().map(this::convertToBuyerHistoryDTO).collect(Collectors.toList());
 
@@ -109,6 +108,7 @@ public class OrderService {
 
     public List<SellerHistoryResponse> sellerOrderHistory(String sellerId) {
         List<Order> orders = orderRepository.findBySellerId(sellerId);
+
         return orders.stream().map(this::convertToSellerHistoryDTO).collect(Collectors.toList());
     }
 
