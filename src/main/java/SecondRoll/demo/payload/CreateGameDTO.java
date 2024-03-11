@@ -35,8 +35,6 @@ public class CreateGameDTO {
     private String gamePlayers;
 
    // private String gameGenre;
-
-
     public List<String> gameGenres;
     @NotNull
     @Range(min = 1, max = 500)
