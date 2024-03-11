@@ -94,7 +94,7 @@ public class UserController {
     public Optional<User> getUserProfile(@PathVariable("username") String username) {
 
         return userRepository.findByUsername(username);
-    } */
+    }
 
     /* @GetMapping("/profile/{username}")
         @PreAuthorize("authentication.principal.username == #username || hasRole('USER')")
