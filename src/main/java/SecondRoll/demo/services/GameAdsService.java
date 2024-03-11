@@ -202,11 +202,8 @@ public class GameAdsService {
         return availableAdsDateDesc;
     }
 
-    public List<GameAds> getGameAdsByTitle(String title) {
-        List<GameAds> AdsByTitle = gameAdsRepository.findByTitle(title);
-        return AdsByTitle;
 
-    }
+
 
     public List<GameAds> getGameAdsByGenre(String genre) {
         List<GameAds> AdsByGenre = gameAdsRepository.findByGameGenres(genre);

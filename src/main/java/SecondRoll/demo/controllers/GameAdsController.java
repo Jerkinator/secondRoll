@@ -8,6 +8,7 @@ import SecondRoll.demo.models.GameAds;
 import SecondRoll.demo.models.User;
 import SecondRoll.demo.payload.CreateGameDTO;
 import SecondRoll.demo.payload.response.GameAdResponse;
+import SecondRoll.demo.repository.GameAdsRepository;
 import SecondRoll.demo.services.GameAdsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -23,6 +24,8 @@ public class GameAdsController {
 
     @Autowired
     GameAdsService gameAdsService;
+    @Autowired
+    GameAdsRepository gameAdsRepository;
 
     // POST.
     @PostMapping()
@@ -153,16 +156,47 @@ public class GameAdsController {
 
 
     @GetMapping("/findbytitle/{title}")
-    public List<GameAds> getGameAdsByTitle(@PathVariable String title) {
+    public ResponseEntity<?> getGameAdsByTitle(@PathVariable  String title) {
+        try {
+            List<GameAds> adsByTitle = gameAdsRepository.findByTitle(title);
+            if (adsByTitle.isEmpty()) {
+                return ResponseEntity.ok().body("No ads found for the title: " + title);
+            } else {
+                return ResponseEntity.ok().body(adsByTitle);
+            }
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(("An error occurred: " + e.getMessage()));
+        }
+
+    }
+    /*public List<GameAds> getGameAdsByTitle(@PathVariable String title) {
         List<GameAds> adsByTitle = gameAdsService.getGameAdsByTitle(title);
         return adsByTitle;
     }
 
+     */
+
     @GetMapping("/findbygenre/{genre}")
-    public List<GameAds> getGameAdsByGenre(@PathVariable String genre) {
+    public ResponseEntity<?> getGameAdsByGenre(@PathVariable  String genre) {
+        try {
+            List<GameAds> adsByGenre = gameAdsRepository.findByGameGenres(genre);
+            if (adsByGenre.isEmpty()) {
+                return ResponseEntity.ok().body("No ads found for the genre: " + genre);
+            } else {
+                return ResponseEntity.ok().body(adsByGenre);
+            }
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(("An error occurred: " + e.getMessage()));
+        }
+
+    }
+
+    /*public List<GameAds> getGameAdsByGenre(@PathVariable String genre) {
         List<GameAds> adsByGenre = gameAdsService.getGameAdsByGenre(genre);
         return adsByGenre;
     }
+
+     */
 
 
 }
