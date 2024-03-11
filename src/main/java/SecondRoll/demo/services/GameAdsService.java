@@ -1,7 +1,7 @@
 package SecondRoll.demo.services;
 
 
-import SecondRoll.demo.exception.EntityNotFoundException;
+import SecondRoll.demo.exception.GameAdServiceException;
 import SecondRoll.demo.models.GameAds;
 import SecondRoll.demo.models.User;
 import SecondRoll.demo.payload.CreateGameDTO;
@@ -9,8 +9,6 @@ import SecondRoll.demo.payload.response.GameAdResponse;
 import SecondRoll.demo.repository.GameAdsRepository;
 import SecondRoll.demo.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -27,9 +25,7 @@ public class GameAdsService {
     // POST a gameAd with user reference, using a DTO.
     public GameAds createGameAd(CreateGameDTO createGameDTO) {
         User user = userRepository.findById(createGameDTO.getUserId())
-                .orElseThrow(() -> new RuntimeException("User not found."));
-
-
+                .orElseThrow(() -> new GameAdServiceException("User not found."));
 
         GameAds gameAd = new GameAds();
         gameAd.setUser(user);
@@ -76,13 +72,13 @@ public class GameAdsService {
 
             return gameAdsRepository.save(existingGameAd);
         })
-                .orElseThrow(() -> new EntityNotFoundException("Game with id " + id + " was not found."));
+                .orElseThrow(() -> new GameAdServiceException("Game with id " + id + " was not found."));
     }
 
     // GET a gameAd by id
     public Optional<GameAds> getGameAdById(String id) {
         return Optional.ofNullable(gameAdsRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Game not found.")));
+                .orElseThrow(() -> new GameAdServiceException("Game not found.")));
     }
 
     // DELETE a gameAd
@@ -120,9 +116,8 @@ public class GameAdsService {
     public List<GameAdResponse> getUserOrders(String userId) {
         Optional<User> user = userRepository.findById(userId);
         if (!user.isPresent()) {
-            return (List<GameAdResponse>) ResponseEntity.status(HttpStatus.NOT_FOUND);
+            throw new GameAdServiceException("User not found.");
         }
-
 
         List<GameAds> userGames = gameAdsRepository.findByUserId(userId);
         return userGames.stream().map(this::convertToDTO).collect(Collectors.toList());
@@ -152,6 +147,7 @@ public class GameAdsService {
         GameAds gameAds = allGameAds.get(randomGameAd.nextInt(maxInt));
         return gameAds;
     }
+
     ////method to get available gameAds in ascending price order
     public List<GameAds> findAvailableGameAdsSortedByPriceAsc() {
 
@@ -163,7 +159,6 @@ public class GameAdsService {
         Collections.sort(availableAdsPriceAsc, Comparator.comparing(GameAds::getPrice));
 
         return availableAdsPriceAsc;
-
     }
 
     //method to get available gameAds in descending price order
@@ -177,8 +172,8 @@ public class GameAdsService {
         Collections.sort(availableAdsPriceDesc, Comparator.comparing(GameAds::getPrice).reversed());
 
         return availableAdsPriceDesc;
-
     }
+
     //sorting available ads based on date created ascending order
     public List<GameAds> availableGameAdsSortedByDateAsc() {
 
