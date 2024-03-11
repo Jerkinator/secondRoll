@@ -1,10 +1,12 @@
 package SecondRoll.demo.controllers;
 
+import SecondRoll.demo.models.GameAds;
 import SecondRoll.demo.models.Rating;
 import SecondRoll.demo.models.User;
 import SecondRoll.demo.payload.WishlistDTO;
 import SecondRoll.demo.payload.response.MessageResponse;
 import SecondRoll.demo.payload.response.UserProfileResponse;
+import SecondRoll.demo.repository.GameAdsRepository;
 import SecondRoll.demo.repository.UserRepository;
 import SecondRoll.demo.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +28,8 @@ public class UserController {
     AuthenticationManager authenticationManager;
     @Autowired
     UserRepository userRepository;
+    @Autowired
+    GameAdsRepository gameAdsRepository;
 
     // GET a user by ID.
     @GetMapping("/{id}")
@@ -66,13 +70,30 @@ public class UserController {
     }
 
     // ADD a gameAd to a user wishlist using a Data Transfer Object-reference.
-    @PutMapping("/{username}/wishlist")
+    /* @PutMapping("/{username}/wishlist")
     @PreAuthorize("#username == principal.username")
         public ResponseEntity<?> addGameToWishlist (@PathVariable("username") String username, @RequestBody WishlistDTO wishlistDTO){
             userService.addGameToWishlist(username, wishlistDTO);
         return  ResponseEntity.ok().header(String.valueOf(HttpStatus.CREATED))
                 .body(new MessageResponse("Game added to wishlist"));
+        } */
+
+    @PutMapping("/{username}/wishlist")
+    @PreAuthorize("#username == principal.username")
+    public ResponseEntity<?> addGameToWishlist (@PathVariable("username") String username, @RequestBody WishlistDTO wishlistDTO){
+        User userWishlist = userRepository.findUserByUsername(username);
+        GameAds gameAd = gameAdsRepository.findById(wishlistDTO.getGameId());
+        if (userWishlist.getWishlist().contains(gameAd)) {
+            return ResponseEntity.ok().header(String.valueOf(HttpStatus.CREATED))
+                    .body(new MessageResponse("Game already in wishlist"));
+        } else {
+            userService.addGameToWishlist(username, wishlistDTO);
+            return  ResponseEntity.ok().header(String.valueOf(HttpStatus.CREATED))
+                    .body(new MessageResponse("Game added to wishlist"));
         }
+    }
+
+
 
     // REMOVE a gameAd to a user wishlist using a Data Transfer Object-reference.
     @DeleteMapping(value = "/{username}/wishlist")
@@ -97,7 +118,7 @@ public class UserController {
     public Optional<User> getUserProfile(@PathVariable("username") String username) {
 
         return userRepository.findByUsername(username);
-    }
+    } */
 
 }
 
