@@ -1,18 +1,21 @@
 package SecondRoll.demo.payload;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import org.springframework.data.annotation.CreatedDate;
 
 import java.time.LocalDate;
 import java.util.List;
 
 public class CreateGameDTO {
-
+    @NotBlank
     private String userId;
-
+    @NotBlank
     private String title;
-
+    @NotBlank
     private String description;
-
+    @NotBlank
+    @Size(min = 1, max = 50000)
     private int price;
 
     private String gameCreator;

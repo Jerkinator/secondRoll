@@ -91,7 +91,7 @@ public class GameAdsController {
 
     // GET all game ads belonging to a user.
     @GetMapping("/user/{userId}")
-    public ResponseEntity<List<GameAdResponse>> getUserOrders(@PathVariable String userId) {
+    public ResponseEntity<List<GameAdResponse>> getUserGameAds(@PathVariable String userId) {
         List<GameAdResponse> gameAds = gameAdsService.getUserOrders(userId);
         return ResponseEntity.ok(gameAds);
     }
