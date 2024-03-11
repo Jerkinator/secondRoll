@@ -134,6 +134,11 @@ public class GameAdsService {
         gameAdResponse.setShippingCost(gameAd.getShippingCost());
         gameAdResponse.setCreated_at(gameAd.getCreated_at());
         gameAdResponse.setUpdated_at(gameAd.getUpdated_at());
+        gameAdResponse.setGameCreator(gameAd.getGameCreator());
+        gameAdResponse.setGamePlayTime(gameAd.getGamePlayTime());
+        gameAdResponse.setGameRecommendedAge(gameAd.getGameRecommendedAge());
+        gameAdResponse.setGamePlayers(gameAd.getGamePlayers());
+        gameAdResponse.setGameGenres(gameAd.getGameGenres());
      //   gameAdResponse.setGameDetails(gameAd.gameDetails);
 
         return gameAdResponse;
