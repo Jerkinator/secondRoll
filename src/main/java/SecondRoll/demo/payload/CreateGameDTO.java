@@ -22,16 +22,17 @@ public class CreateGameDTO {
     @NotBlank
     @Size(min = 1, max = 2000)
     private int shippingCost;
-
+    @NotBlank
     private String gameCreator;
-
+    @NotBlank
     private String gamePlayTime;
-
+    @NotBlank
     private String gameRecommendedAge;
-
+    @NotBlank
     private String gamePlayers;
 
    // private String gameGenre;
+    @NotBlank
     public List<String> gameGenres;
 
     @CreatedDate

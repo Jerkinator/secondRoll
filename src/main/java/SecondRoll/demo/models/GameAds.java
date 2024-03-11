@@ -24,7 +24,7 @@ public class GameAds {
     @NotBlank
     private String title;
     @NotBlank
-    @Size(min = 1, max = 1000)
+    @Size(min = 1, max = 999)
     private String description;
     @NotBlank
     @Size(min = 1, max = 50000)
@@ -34,15 +34,15 @@ public class GameAds {
     @Size(min = 1, max = 2000)
     private int shippingCost;
 
-
+    @NotBlank
     private String gameCreator;
-
+    @NotBlank
     private String gamePlayTime;
-
+    @NotBlank
     private String gameRecommendedAge;
-
+    @NotBlank
     private String gamePlayers;
-
+    @NotBlank
     public List<String> gameGenres = new ArrayList<>();
 
 
