@@ -1,7 +1,7 @@
 package SecondRoll.demo.services;
 
 
-import SecondRoll.demo.exception.GameAdServiceException;
+import SecondRoll.demo.exception.ServiceException;
 import SecondRoll.demo.models.GameAds;
 import SecondRoll.demo.models.User;
 import SecondRoll.demo.payload.CreateGameDTO;
@@ -25,7 +25,7 @@ public class GameAdsService {
     // POST a gameAd with user reference, using a DTO.
     public GameAds createGameAd(CreateGameDTO createGameDTO) {
         User user = userRepository.findById(createGameDTO.getUserId())
-                .orElseThrow(() -> new GameAdServiceException("User not found."));
+                .orElseThrow(() -> new ServiceException("User not found."));
 
         GameAds gameAd = new GameAds();
         gameAd.setUser(user);
@@ -72,13 +72,13 @@ public class GameAdsService {
 
             return gameAdsRepository.save(existingGameAd);
         })
-                .orElseThrow(() -> new GameAdServiceException("Game with id " + id + " was not found."));
+                .orElseThrow(() -> new ServiceException("Game with id " + id + " was not found."));
     }
 
     // GET a gameAd by id
     public Optional<GameAds> getGameAdById(String id) {
         return Optional.ofNullable(gameAdsRepository.findById(id)
-                .orElseThrow(() -> new GameAdServiceException("Game not found.")));
+                .orElseThrow(() -> new ServiceException("Game not found.")));
     }
 
     // DELETE a gameAd
@@ -116,7 +116,7 @@ public class GameAdsService {
     public List<GameAdResponse> getUserOrders(String userId) {
         Optional<User> user = userRepository.findById(userId);
         if (!user.isPresent()) {
-            throw new GameAdServiceException("User not found.");
+            throw new ServiceException("User not found.");
         }
 
         List<GameAds> userGames = gameAdsRepository.findByUserId(userId);
