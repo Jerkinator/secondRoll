@@ -97,7 +97,7 @@ public class UserController {
     public Optional<User> getUserProfile(@PathVariable("username") String username) {
 
         return userRepository.findByUsername(username);
-    } */
+    }
 
 }
 

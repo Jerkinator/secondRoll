@@ -91,7 +91,7 @@ public class GameAdsController {
 
     // GET all game ads belonging to a user.
     @GetMapping("/user/{userId}")
-    public ResponseEntity<List<GameAdResponse>> getUserOrders(@PathVariable String userId) {
+    public ResponseEntity<List<GameAdResponse>> getUserGameAds(@PathVariable String userId) {
         List<GameAdResponse> gameAds = gameAdsService.getUserOrders(userId);
         return ResponseEntity.ok(gameAds);
     }
@@ -104,21 +104,7 @@ public class GameAdsController {
 
         List<GameAds> gamePrice = gameAdsService.findGameAdsByPrice(price);
         return ResponseEntity.ok(gamePrice);
-<<<<<<< HEAD
-    }
-
-    //HELENA:
-    // det här blir väl typ search/userId/userId va?
-    // jag hade gjort om det här så att userId är en pathVariable
-    // /search/{userId} och @PathVariable String userId
-    // metoden ska nog funka om ni ändrar så ni ska inte behöva ändra i service
-    @GetMapping(value = "/search/userId")
-    public List<GameAds> findGameAdsByUserId(@RequestParam String userId) {
-        return gameAdsService.findGameAdsByUserId(userId);
-    }
-=======
     } */
-
 
     // "Roll the Dice" game ad randomizer
     @GetMapping(value = "/rolldice")
