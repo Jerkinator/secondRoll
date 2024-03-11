@@ -29,19 +29,18 @@ public class GameAds {
     @NotBlank
     @Size(min = 1, max = 50000)
     private int price;
-
+    @NotBlank
     private String gameCreator;
-
+    @NotBlank
     private String gamePlayTime;
-
+    @NotBlank
     private String gameRecommendedAge;
-
+    @NotBlank
     private String gamePlayers;
-
+    @NotBlank
     public List<String> gameGenres = new ArrayList<>();
-
-
-    private int shippingCost = 50;
+    @NotBlank
+    private int shippingCost;
     @CreatedDate
     private LocalDate created_at;
     @CreatedDate
