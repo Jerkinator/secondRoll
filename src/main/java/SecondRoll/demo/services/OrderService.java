@@ -113,9 +113,9 @@ public class OrderService {
     public List<BuyerHistoryResponse> buyerOrderHistory(String buyerId) {
 
         List<Order> orders = orderRepository.findByBuyerId(buyerId);
-        if (!buyerId.isEmpty()) {
+        /* if (!buyerId.isEmpty()) {
             throw new ServiceException("Buyer with id: " + buyerId + " was not found.");
-        }
+        } */
 
         return orders.stream().map(this::convertToBuyerHistoryDTO).collect(Collectors.toList());
     }
