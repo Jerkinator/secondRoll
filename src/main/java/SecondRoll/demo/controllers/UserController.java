@@ -10,7 +10,6 @@ import SecondRoll.demo.repository.UserRepository;
 import SecondRoll.demo.services.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -101,9 +100,9 @@ public class UserController {
     // ADD rating to a user.
     @PreAuthorize("hasRole('USER')")
     @PutMapping("/{userId}/rating")
-    public ResponseEntity<?> addRatingToUser (@PathVariable String userId, @RequestBody Rating rating) {
-        User userWithRating = userService.addRatingToUser(userId, rating);
-        return new ResponseEntity<>(userWithRating, HttpStatus.CREATED);
+    public ResponseEntity<?> addRatingToUser (@PathVariable ("userId") String userId, @RequestBody Rating rating) {
+        userService.addRatingToUser(userId, rating);
+        return ResponseEntity.ok().body(new MessageResponse("Rating added."));
     }
 
     @GetMapping("/profile/{username}")
@@ -115,32 +114,5 @@ public class UserController {
                 user.getFirstName(), user.getLastName(), user.getPhoneNumber(), user.getAdress_street(),
                 user.getAdress_zip(), user.getAdress_city(), user.getWishlist(), user.getRatings(), user.getAverageRating()));
     }
-
-
-    // FUNKAR
-    /* @GetMapping("/profile/{username}")
-    @PreAuthorize("#username == principal.username")
-    public Optional<User> getUserProfile(@PathVariable("username") String username) {
-
-        return userRepository.findByUsername(username);
-    } */
-
-
-    // Saving this for the future, putting back the old version of the wishlistController
-    /*
-    @PutMapping("/{username}/wishlist")
-    @PreAuthorize("#username == principal.username")
-        public ResponseEntity<?> addGameToWishlist (@PathVariable("username") String username, @RequestBody WishlistDTO wishlistDTO){
-            userService.addGameToWishlist(username, wishlistDTO);
-        return  ResponseEntity.ok().header(String.valueOf(HttpStatus.CREATED))
-                .body(new MessageResponse("Game added to wishlist"));
-        } */
-
-    /* @GetMapping("/profile/{username}")
-        @PreAuthorize("authentication.principal.username == #username || hasRole('USER')")
-        public Optional<User> getUserProfile(@PathVariable("username") String username) {
-
-            return userRepository.findByUsername(username);
-    } */
 
 }
