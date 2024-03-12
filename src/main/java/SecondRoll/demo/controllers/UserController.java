@@ -3,7 +3,6 @@ package SecondRoll.demo.controllers;
 import SecondRoll.demo.models.Rating;
 import SecondRoll.demo.models.User;
 import SecondRoll.demo.payload.WishlistDTO;
-import SecondRoll.demo.payload.response.MessageResponse;
 import SecondRoll.demo.payload.response.UserProfileResponse;
 import SecondRoll.demo.repository.UserRepository;
 import SecondRoll.demo.services.UserService;
@@ -28,6 +27,7 @@ public class UserController {
     UserRepository userRepository;
 
     // GET a user by ID.
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     @GetMapping("/{id}")
     public ResponseEntity<User> getUserById(@PathVariable String id){
         Optional<User> user = userService.getUserById(id);
@@ -36,6 +36,7 @@ public class UserController {
     }
 
     // GET ALL users.
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/all")
     public List<User> getAllUsers(){
         return userService.getAllUsers();
@@ -43,27 +44,28 @@ public class UserController {
 
     // HELENA: se kommentar i UserService
     // UPDATE a user.
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     @PutMapping()
     public User updateUser(@RequestBody User user) {
         return userService.updateUser(user);
     }
 
     // DELETE a user based on ID.
+    @PreAuthorize("hasRole('ADMIN')")
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     public String deleteUser(@PathVariable String id) {
         return userService.deleteUser(id);
     }
 
     // ADD a gameAd to a user wishlist using a Data Transfer Object-reference.
-    @PutMapping("/{username}/wishlist")
-    @PreAuthorize("#username == principal.username")
-        public ResponseEntity<?> addGameToWishlist (@PathVariable("username") String username, @RequestBody WishlistDTO wishlistDTO){
-            userService.addGameToWishlist(username, wishlistDTO);
-        return  ResponseEntity.ok().header(String.valueOf(HttpStatus.CREATED))
-                .body(new MessageResponse("Game added to wishlist"));
-        }
+    @PutMapping("/{userId}/wishlist")
+    public ResponseEntity<?> addGameToWishlist (@PathVariable String userId, @RequestBody WishlistDTO wishlistDTO){
+        User userWithWishList = userService.addGameToWishlist(userId, wishlistDTO);
+        return new ResponseEntity<>(userWithWishList, HttpStatus.CREATED);
+    }
 
     // REMOVE a gameAd from a user wishlist using a Data Transfer Object-reference.
+    @PreAuthorize("hasRole('USER')")
     @DeleteMapping(value = "/{userId}/wishlist")
     public ResponseEntity<?> removeGameFromWishlist(@PathVariable String userId, @RequestBody WishlistDTO wishlistDTO) {
         User userWithWishList = userService.removeGameFromWishlist(userId, wishlistDTO);
@@ -71,6 +73,7 @@ public class UserController {
     }
 
     // ADD rating to a user.
+    @PreAuthorize("hasRole('USER')")
     @PutMapping("/{userId}/rating")
     public ResponseEntity<?> addRatingToUser (@PathVariable String userId, @RequestBody Rating rating) {
         User userWithRating = userService.addRatingToUser(userId, rating);
@@ -94,7 +97,18 @@ public class UserController {
     public Optional<User> getUserProfile(@PathVariable("username") String username) {
 
         return userRepository.findByUsername(username);
-    }
+    } */
+
+
+    // Saving this for the future, putting back the old version of the wishlistController
+    /*
+    @PutMapping("/{username}/wishlist")
+    @PreAuthorize("#username == principal.username")
+        public ResponseEntity<?> addGameToWishlist (@PathVariable("username") String username, @RequestBody WishlistDTO wishlistDTO){
+            userService.addGameToWishlist(username, wishlistDTO);
+        return  ResponseEntity.ok().header(String.valueOf(HttpStatus.CREATED))
+                .body(new MessageResponse("Game added to wishlist"));
+        } */
 
     /* @GetMapping("/profile/{username}")
         @PreAuthorize("authentication.principal.username == #username || hasRole('USER')")
@@ -103,24 +117,4 @@ public class UserController {
             return userRepository.findByUsername(username);
     } */
 
-
-    //FUNKAR EJ
-    /* @GetMapping("/profile/{username}")
-    public ResponseEntity<Optional<User>> getLoggedInUserInfo (@PathVariable String username) {
-        if (username == SecurityContextHolder.getContext().getAuthentication().getPrincipal()) {
-            return ResponseEntity.ok((Optional.ofNullable(userRepository.findUserByUsername(username))));
-        }
-        return (ResponseEntity<Optional<User>>) ResponseEntity.badRequest();
-    } */
-
-
-    // FUNKAR EJ
-    /* @GetMapping("/profile/{userId}")
-    public ResponseEntity<User> getLoggedInUser (@PathVariable String username) {
-        Optional<User> user = userRepository.findByUsername(username);
-
-        Authentication authentication = authenticationManager.authenticate((Authentication) user.get());
-        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
-    return new ResponseEntity<User>(HttpStatus.OK);
-    } */
 }
