@@ -1,7 +1,7 @@
 package SecondRoll.demo.services;
 
 
-import SecondRoll.demo.exception.EntityNotFoundException;
+import SecondRoll.demo.exception.ServiceException;
 import SecondRoll.demo.models.GameAds;
 import SecondRoll.demo.models.User;
 import SecondRoll.demo.payload.CreateGameDTO;
@@ -25,9 +25,7 @@ public class GameAdsService {
     // POST a gameAd with user reference, using a DTO.
     public GameAds createGameAd(CreateGameDTO createGameDTO) {
         User user = userRepository.findById(createGameDTO.getUserId())
-                .orElseThrow(() -> new RuntimeException("User not found."));
-
-
+                .orElseThrow(() -> new ServiceException("User not found."));
 
         GameAds gameAd = new GameAds();
         gameAd.setUser(user);
@@ -74,13 +72,13 @@ public class GameAdsService {
 
             return gameAdsRepository.save(existingGameAd);
         })
-                .orElseThrow(() -> new EntityNotFoundException("Game with id " + id + " was not found."));
+                .orElseThrow(() -> new ServiceException("Game with id " + id + " was not found."));
     }
 
     // GET a gameAd by id
     public Optional<GameAds> getGameAdById(String id) {
         return Optional.ofNullable(gameAdsRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Game not found.")));
+                .orElseThrow(() -> new ServiceException("Game not found.")));
     }
 
     // DELETE a gameAd
@@ -116,8 +114,10 @@ public class GameAdsService {
 
     // UPDATED Find all GameAds by user ID.
     public List<GameAdResponse> getUserOrders(String userId) {
-        User user = userRepository.findById(userId)
-                .orElseThrow(() -> new RuntimeException("User not found."));
+        Optional<User> user = userRepository.findById(userId);
+        if (!user.isPresent()) {
+            throw new ServiceException("User not found.");
+        }
 
         List<GameAds> userGames = gameAdsRepository.findByUserId(userId);
         return userGames.stream().map(this::convertToDTO).collect(Collectors.toList());
@@ -149,6 +149,11 @@ public class GameAdsService {
         gameAdResponse.setShippingCost(gameAd.getShippingCost());
         gameAdResponse.setCreated_at(gameAd.getCreated_at());
         gameAdResponse.setUpdated_at(gameAd.getUpdated_at());
+        gameAdResponse.setGameCreator(gameAd.getGameCreator());
+        gameAdResponse.setGamePlayTime(gameAd.getGamePlayTime());
+        gameAdResponse.setGameRecommendedAge(gameAd.getGameRecommendedAge());
+        gameAdResponse.setGamePlayers(gameAd.getGamePlayers());
+        gameAdResponse.setGameGenres(gameAd.getGameGenres());
      //   gameAdResponse.setGameDetails(gameAd.gameDetails);
 
         return gameAdResponse;
@@ -162,6 +167,7 @@ public class GameAdsService {
         GameAds gameAds = allGameAds.get(randomGameAd.nextInt(maxInt));
         return gameAds;
     }
+
     ////method to get available gameAds in ascending price order
     public List<GameAds> findAvailableGameAdsSortedByPriceAsc() {
 
@@ -173,7 +179,6 @@ public class GameAdsService {
         Collections.sort(availableAdsPriceAsc, Comparator.comparing(GameAds::getPrice));
 
         return availableAdsPriceAsc;
-
     }
 
     //method to get available gameAds in descending price order
@@ -187,8 +192,8 @@ public class GameAdsService {
         Collections.sort(availableAdsPriceDesc, Comparator.comparing(GameAds::getPrice).reversed());
 
         return availableAdsPriceDesc;
-
     }
+
     //sorting available ads based on date created ascending order
     public List<GameAds> availableGameAdsSortedByDateAsc() {
 
