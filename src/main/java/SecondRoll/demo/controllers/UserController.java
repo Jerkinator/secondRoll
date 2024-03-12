@@ -44,6 +44,7 @@ public class UserController {
     public List<User> getAllUsers(){
         return userService.getAllUsers();
     }
+    // NEW AND "IMPROVED" UPDATE USER - goes through DTO to restrain the info that is ok for user to update.
     @PreAuthorize("hasRole('USER')")
     @PutMapping("/{userId}/update")
     public ResponseEntity<?> updateUser(@Valid @RequestBody UpdateUserDTO updateUserDTO, @PathVariable ("userId") String userId) {
@@ -67,8 +68,8 @@ public class UserController {
     }
 
     // HELENA: se kommentar i UserService
-    // UPDATE a user.
-    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+    // UPDATE a user. (OLD, REMOVE IF EVERYONE AGREES)
+    @PreAuthorize("hasRole('USER')")
     @PutMapping()
     public User updateUser(@RequestBody User user) {
         return userService.updateUser(user);
@@ -84,17 +85,17 @@ public class UserController {
     // ADD a gameAd to a user wishlist using a Data Transfer Object-reference.
     @PreAuthorize("hasRole('USER')")
     @PutMapping("/{userId}/wishlist")
-    public ResponseEntity<?> addGameToWishlist (@PathVariable String userId, @RequestBody WishlistDTO wishlistDTO){
-        User userWithWishList = userService.addGameToWishlist(userId, wishlistDTO);
-        return new ResponseEntity<>(userWithWishList, HttpStatus.CREATED);
+    public ResponseEntity<?> addGameToWishlist (@PathVariable ("userId") String userId, @RequestBody WishlistDTO wishlistDTO){
+        userService.addGameToWishlist(userId, wishlistDTO);
+        return ResponseEntity.ok().body(new MessageResponse("Game added to wishlist."));
     }
 
     // REMOVE a gameAd from a user wishlist using a Data Transfer Object-reference.
     @PreAuthorize("hasRole('USER')")
     @DeleteMapping(value = "/{userId}/wishlist")
-    public ResponseEntity<?> removeGameFromWishlist(@PathVariable String userId, @RequestBody WishlistDTO wishlistDTO) {
-        User userWithWishList = userService.removeGameFromWishlist(userId, wishlistDTO);
-        return new ResponseEntity<>(userWithWishList, HttpStatus.CREATED);
+    public ResponseEntity<?> removeGameFromWishlist(@PathVariable ("userId") String userId, @RequestBody WishlistDTO wishlistDTO) {
+        userService.removeGameFromWishlist(userId, wishlistDTO);
+        return ResponseEntity.ok().body(new MessageResponse("Game removed from wishlist."));
     }
 
     // ADD rating to a user.

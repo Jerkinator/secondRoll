@@ -56,8 +56,8 @@ public class UserService {
     }
 
     // ADD a gameAd to a user wishlist using a Data Transfer Object-reference.
-    public User addGameToWishlist(String username, WishlistDTO wishlistDTO) {
-        User user = userRepository.findUserByUsername(username);
+    public User addGameToWishlist(String userId, WishlistDTO wishlistDTO) {
+        User user = userRepository.findById(userId).orElseThrow();
         GameAds gameAd = gameAdsRepository.findById(wishlistDTO.getGameId()).orElseThrow();
         user.getWishlist().add(gameAd);
         return userRepository.save(user);
