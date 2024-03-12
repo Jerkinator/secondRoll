@@ -23,5 +23,13 @@ public interface GameAdsRepository extends MongoRepository<GameAds, String> {
 
     List<GameAds> findByGameGenres(String genre);
 
+    List<GameAds> findByGameCreator(String creator);
+
+    List<GameAds> findByGamePlayTime(String gameTime);
+
+    List<GameAds> findByGameRecommendedAge(String recommendedAge);
+
+    List<GameAds> findByGamePlayers(String players);
+
 }
 

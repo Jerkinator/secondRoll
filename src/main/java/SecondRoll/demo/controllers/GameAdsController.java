@@ -191,12 +191,20 @@ public class GameAdsController {
 
     }
 
-    /*public List<GameAds> getGameAdsByGenre(@PathVariable String genre) {
-        List<GameAds> adsByGenre = gameAdsService.getGameAdsByGenre(genre);
-        return adsByGenre;
-    }
+    @GetMapping("/findbycreator/{cretor}")
+    public ResponseEntity<?> getGameAdsByGameCreator(@PathVariable  String creator) {
+        try {
+            List<GameAds> adsByCreator = gameAdsRepository.findByGameCreator(creator);
+            if (adsByCreator.isEmpty()) {
+                return ResponseEntity.ok().body("No ads found with the game creator: " + creator);
+            } else {
+                return ResponseEntity.ok().body(adsByCreator);
+            }
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(("An error occurred: " + e.getMessage()));
+        }
 
-     */
+    }
 
 
 }
