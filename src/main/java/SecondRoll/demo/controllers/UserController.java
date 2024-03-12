@@ -58,6 +58,7 @@ public class UserController {
     }
 
     // ADD a gameAd to a user wishlist using a Data Transfer Object-reference.
+    @PreAuthorize("hasRole('USER')")
     @PutMapping("/{userId}/wishlist")
     public ResponseEntity<?> addGameToWishlist (@PathVariable String userId, @RequestBody WishlistDTO wishlistDTO){
         User userWithWishList = userService.addGameToWishlist(userId, wishlistDTO);
