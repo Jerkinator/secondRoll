@@ -3,10 +3,15 @@ package SecondRoll.demo.controllers;
 import SecondRoll.demo.models.Rating;
 import SecondRoll.demo.models.User;
 import SecondRoll.demo.payload.WishlistDTO;
+import SecondRoll.demo.payload.response.MessageResponse;
+import SecondRoll.demo.payload.response.UserProfileResponse;
+import SecondRoll.demo.repository.UserRepository;
 import SecondRoll.demo.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,14 +22,10 @@ import java.util.Optional;
 public class UserController {
     @Autowired
     UserService userService;
-
-    // HELENA: den här ska bort ni har register nu..
-    // CREATE a User.
-    @PostMapping()
-    public ResponseEntity<User> createUser(@RequestBody User user) {
-        User newUser = userService.createUser(user);
-        return new ResponseEntity<>(newUser, HttpStatus.CREATED);
-    }
+    @Autowired
+    AuthenticationManager authenticationManager;
+    @Autowired
+    UserRepository userRepository;
 
     // GET a user by ID.
     @GetMapping("/{id}")
@@ -54,13 +55,15 @@ public class UserController {
     }
 
     // ADD a gameAd to a user wishlist using a Data Transfer Object-reference.
-    @PutMapping("/{userId}/wishlist")
-        public ResponseEntity<?> addGameToWishlist (@PathVariable String userId, @RequestBody WishlistDTO wishlistDTO){
-            User userWithWishList = userService.addGameToWishlist(userId, wishlistDTO);
-            return new ResponseEntity<>(userWithWishList, HttpStatus.CREATED);
+    @PutMapping("/{username}/wishlist")
+    @PreAuthorize("#username == principal.username")
+        public ResponseEntity<?> addGameToWishlist (@PathVariable("username") String username, @RequestBody WishlistDTO wishlistDTO){
+            userService.addGameToWishlist(username, wishlistDTO);
+        return  ResponseEntity.ok().header(String.valueOf(HttpStatus.CREATED))
+                .body(new MessageResponse("Game added to wishlist"));
         }
 
-    // REMOVE a gameAd to a user wishlist using a Data Transfer Object-reference.
+    // REMOVE a gameAd from a user wishlist using a Data Transfer Object-reference.
     @DeleteMapping(value = "/{userId}/wishlist")
     public ResponseEntity<?> removeGameFromWishlist(@PathVariable String userId, @RequestBody WishlistDTO wishlistDTO) {
         User userWithWishList = userService.removeGameFromWishlist(userId, wishlistDTO);
@@ -73,4 +76,51 @@ public class UserController {
         User userWithRating = userService.addRatingToUser(userId, rating);
         return new ResponseEntity<>(userWithRating, HttpStatus.CREATED);
     }
+
+    @GetMapping("/profile/{username}")
+    @PreAuthorize("#username == principal.username")
+    public ResponseEntity<?> getUserProfile(@PathVariable("username") String username) {
+        User user = userRepository.findUserByUsername(username);
+
+        return ResponseEntity.ok().body(new UserProfileResponse(user.getId(), user.getUsername(), user.getEmail(),
+                user.getFirstName(), user.getLastName(), user.getPhoneNumber(), user.getAdress_street(),
+                user.getAdress_zip(), user.getAdress_city(), user.getWishlist(), user.getRatings(), user.getAverageRating()));
+    }
+
+
+    // FUNKAR
+    /* @GetMapping("/profile/{username}")
+    @PreAuthorize("#username == principal.username")
+    public Optional<User> getUserProfile(@PathVariable("username") String username) {
+
+        return userRepository.findByUsername(username);
+    }
+
+    /* @GetMapping("/profile/{username}")
+        @PreAuthorize("authentication.principal.username == #username || hasRole('USER')")
+        public Optional<User> getUserProfile(@PathVariable("username") String username) {
+
+            return userRepository.findByUsername(username);
+    } */
+
+
+    //FUNKAR EJ
+    /* @GetMapping("/profile/{username}")
+    public ResponseEntity<Optional<User>> getLoggedInUserInfo (@PathVariable String username) {
+        if (username == SecurityContextHolder.getContext().getAuthentication().getPrincipal()) {
+            return ResponseEntity.ok((Optional.ofNullable(userRepository.findUserByUsername(username))));
+        }
+        return (ResponseEntity<Optional<User>>) ResponseEntity.badRequest();
+    } */
+
+
+    // FUNKAR EJ
+    /* @GetMapping("/profile/{userId}")
+    public ResponseEntity<User> getLoggedInUser (@PathVariable String username) {
+        Optional<User> user = userRepository.findByUsername(username);
+
+        Authentication authentication = authenticationManager.authenticate((Authentication) user.get());
+        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+    return new ResponseEntity<User>(HttpStatus.OK);
+    } */
 }
