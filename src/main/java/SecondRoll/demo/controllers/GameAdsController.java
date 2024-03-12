@@ -217,7 +217,7 @@ public class GameAdsController {
 
     }
 
-    //finds gameAds where the passed game play time is checked and if present returns a list of all matching ads
+    //finds gameAds where the passed recommended age is checked and if present returns a list of all matching ads
     @GetMapping("/findbyage/{recommendedAge}")
     public ResponseEntity<?> getGameAdsByGameRecommendedAge(@PathVariable  String recommendedAge) {
         try {
@@ -233,6 +233,21 @@ public class GameAdsController {
 
     }
 
+    //finds gameAds where the passed number of players is checked and if present returns a list of all matching ads
+    @GetMapping("/findbyplayers/{players}")
+    public ResponseEntity<?> getGameAdsByGamePlayers(@PathVariable  String players) {
+        try {
+            List<GameAds> adsByPlayers = gameAdsRepository.findByGamePlayers(players);
+            if (adsByPlayers.isEmpty()) {
+                return ResponseEntity.ok().body("No ads found with the number of players: " + players);
+            } else {
+                return ResponseEntity.ok().body(adsByPlayers);
+            }
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(("An error occurred: " + e.getMessage()));
+        }
+
+    }
 }
 
 
