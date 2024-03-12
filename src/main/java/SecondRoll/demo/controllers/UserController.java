@@ -84,7 +84,7 @@ public class UserController {
     @PreAuthorize("#username == principal.username")
     public ResponseEntity<?> removeGameFromWishlist(@PathVariable("username") String username, @RequestBody WishlistDTO wishlistDTO) {
         userService.removeGameFromWishlist(username, wishlistDTO);
-        return ResponseEntity.ok().header(String.valueOf(HttpStatus.I_AM_A_TEAPOT))
+        return ResponseEntity.ok().header(String.valueOf(HttpStatus.ACCEPTED))
                 .body(new MessageResponse("Game removed from wishlist"));
     }
 
