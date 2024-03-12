@@ -155,7 +155,7 @@ public class GameAdsController {
         return gameAdsService.availableGameAdsSortedByDateDesc();
     }
 
-
+    //finds gameAds where the passed title is checked and if present returns a list of all matching ads
     @GetMapping("/findbytitle/{title}")
     public ResponseEntity<?> getGameAdsByTitle(@PathVariable  String title) {
         try {
@@ -170,13 +170,8 @@ public class GameAdsController {
         }
 
     }
-    /*public List<GameAds> getGameAdsByTitle(@PathVariable String title) {
-        List<GameAds> adsByTitle = gameAdsService.getGameAdsByTitle(title);
-        return adsByTitle;
-    }
 
-     */
-
+    //finds gameAds where the passed genre is checked and if present returns a list of all matching ads
     @GetMapping("/findbygenre/{genre}")
     public ResponseEntity<?> getGameAdsByGenre(@PathVariable  String genre) {
         try {
@@ -191,8 +186,8 @@ public class GameAdsController {
         }
 
     }
-
-    @GetMapping("/findbycreator/{cretor}")
+    //finds gameAds where the passed game creator is checked and if present returns a list of all matching ads
+    @GetMapping("/findbycreator/{creator}")
     public ResponseEntity<?> getGameAdsByGameCreator(@PathVariable  String creator) {
         try {
             List<GameAds> adsByCreator = gameAdsRepository.findByGameCreator(creator);
@@ -206,9 +201,41 @@ public class GameAdsController {
         }
 
     }
+    //finds gameAds where the passed game play time is checked and if present returns a list of all matching ads
+    @GetMapping("/findbygametime/{gameTime}")
+    public ResponseEntity<?> getGameAdsByGamePlayTime(@PathVariable  String gameTime) {
+        try {
+            List<GameAds> adsByGameTime = gameAdsRepository.findByGamePlayTime(gameTime);
+            if (adsByGameTime.isEmpty()) {
+                return ResponseEntity.ok().body("No ads found with the gameTime: " + gameTime);
+            } else {
+                return ResponseEntity.ok().body(adsByGameTime);
+            }
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(("An error occurred: " + e.getMessage()));
+        }
 
+    }
+
+    //finds gameAds where the passed game play time is checked and if present returns a list of all matching ads
+    @GetMapping("/findbyage/{recommendedAge}")
+    public ResponseEntity<?> getGameAdsByGameRecommendedAge(@PathVariable  String recommendedAge) {
+        try {
+            List<GameAds> adsByGameRecommendedAge = gameAdsRepository.findByGameRecommendedAge(recommendedAge);
+            if (adsByGameRecommendedAge.isEmpty()) {
+                return ResponseEntity.ok().body("No ads found with the recommendedAge: " + recommendedAge);
+            } else {
+                return ResponseEntity.ok().body(adsByGameRecommendedAge);
+            }
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(("An error occurred: " + e.getMessage()));
+        }
+
+    }
 
 }
+
+
 
  /*
     // OLD PUT Update a game ad, stored for now, just in case.
