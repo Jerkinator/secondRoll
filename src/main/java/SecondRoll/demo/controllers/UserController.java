@@ -2,10 +2,13 @@ package SecondRoll.demo.controllers;
 
 import SecondRoll.demo.models.Rating;
 import SecondRoll.demo.models.User;
+import SecondRoll.demo.payload.UpdateUserDTO;
 import SecondRoll.demo.payload.WishlistDTO;
+import SecondRoll.demo.payload.response.MessageResponse;
 import SecondRoll.demo.payload.response.UserProfileResponse;
 import SecondRoll.demo.repository.UserRepository;
 import SecondRoll.demo.services.UserService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -40,6 +43,27 @@ public class UserController {
     @GetMapping("/all")
     public List<User> getAllUsers(){
         return userService.getAllUsers();
+    }
+    @PreAuthorize("hasRole('USER')")
+    @PutMapping("/{userId}/update")
+    public ResponseEntity<?> updateUser(@Valid @RequestBody UpdateUserDTO updateUserDTO, @PathVariable ("userId") String userId) {
+        if (userRepository.existsById((userId))) {
+
+            User updatedUser = userRepository.findUserById(userId);
+            updatedUser.setFirstName(updateUserDTO.getFirstName());
+            updatedUser.setLastName(updateUserDTO.getLastName());
+            updatedUser.setPhoneNumber(updateUserDTO.getPhoneNumber());
+            updatedUser.setAdress_street(updateUserDTO.getAdress_street());
+            updatedUser.setAdress_zip(updateUserDTO.getAdress_zip());
+            updatedUser.setAdress_city(updateUserDTO.getAdress_city());
+            userRepository.save(updatedUser);
+            return ResponseEntity.ok().body(new MessageResponse("User updated"));
+
+        } else {
+            return ResponseEntity
+                    .badRequest()
+                    .body(new MessageResponse("userId could not be found"));
+        }
     }
 
     // HELENA: se kommentar i UserService
