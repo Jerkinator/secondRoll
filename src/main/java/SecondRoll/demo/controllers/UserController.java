@@ -3,7 +3,8 @@ package SecondRoll.demo.controllers;
 import SecondRoll.demo.models.Rating;
 import SecondRoll.demo.models.User;
 import SecondRoll.demo.payload.WishlistDTO;
-import SecondRoll.demo.payload.response.UserInfoResponse;
+import SecondRoll.demo.payload.response.MessageResponse;
+import SecondRoll.demo.payload.response.UserProfileResponse;
 import SecondRoll.demo.repository.UserRepository;
 import SecondRoll.demo.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,13 +55,15 @@ public class UserController {
     }
 
     // ADD a gameAd to a user wishlist using a Data Transfer Object-reference.
-    @PutMapping("/{userId}/wishlist")
-        public ResponseEntity<?> addGameToWishlist (@PathVariable String userId, @RequestBody WishlistDTO wishlistDTO){
-            User userWithWishList = userService.addGameToWishlist(userId, wishlistDTO);
-            return new ResponseEntity<>(userWithWishList, HttpStatus.CREATED);
+    @PutMapping("/{username}/wishlist")
+    @PreAuthorize("#username == principal.username")
+        public ResponseEntity<?> addGameToWishlist (@PathVariable("username") String username, @RequestBody WishlistDTO wishlistDTO){
+            userService.addGameToWishlist(username, wishlistDTO);
+        return  ResponseEntity.ok().header(String.valueOf(HttpStatus.CREATED))
+                .body(new MessageResponse("Game added to wishlist"));
         }
 
-    // REMOVE a gameAd to a user wishlist using a Data Transfer Object-reference.
+    // REMOVE a gameAd from a user wishlist using a Data Transfer Object-reference.
     @DeleteMapping(value = "/{userId}/wishlist")
     public ResponseEntity<?> removeGameFromWishlist(@PathVariable String userId, @RequestBody WishlistDTO wishlistDTO) {
         User userWithWishList = userService.removeGameFromWishlist(userId, wishlistDTO);
@@ -73,16 +76,15 @@ public class UserController {
         User userWithRating = userService.addRatingToUser(userId, rating);
         return new ResponseEntity<>(userWithRating, HttpStatus.CREATED);
     }
-    /* @GetMapping ("/profile/{username}")
-    public Optional<User> getUserProfile(@PathVariable String username) {
-        return userRepository.findByUsername(username);
-    } */
 
     @GetMapping("/profile/{username}")
     @PreAuthorize("#username == principal.username")
     public ResponseEntity<?> getUserProfile(@PathVariable("username") String username) {
         User user = userRepository.findUserByUsername(username);
-        return ResponseEntity.ok().body(new UserInfoResponse(user.getId(), user.getUsername()));
+
+        return ResponseEntity.ok().body(new UserProfileResponse(user.getId(), user.getUsername(), user.getEmail(),
+                user.getFirstName(), user.getLastName(), user.getPhoneNumber(), user.getAdress_street(),
+                user.getAdress_zip(), user.getAdress_city(), user.getWishlist(), user.getRatings(), user.getAverageRating()));
     }
 
 

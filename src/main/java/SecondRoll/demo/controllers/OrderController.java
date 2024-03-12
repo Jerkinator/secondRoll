@@ -55,6 +55,7 @@ public class OrderController {
     //GET
     //retrieve specific order based on id
     @GetMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Order> getOrdersById(@PathVariable String id) {
         Optional<Order> order = orderService.getOrdersById(id);
         return order.map(ResponseEntity::ok)
@@ -70,7 +71,6 @@ public class OrderController {
     }
 
     //GET buyer history for bought games
-
     @GetMapping("/buyerhistory/{buyerId}")
     @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     public ResponseEntity<List<BuyerHistoryResponse>> buyerOrderHistory(@PathVariable String buyerId, HttpServletRequest request) {
