@@ -1,5 +1,9 @@
 package SecondRoll.demo.models;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
+import org.hibernate.validator.constraints.Range;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
@@ -16,47 +20,46 @@ public class GameAds {
     private String id;
 
     // HELENA: kanske att det här skulle heta seller istället för att vara extra tydligt
+    @NotBlank
     @DBRef
     private User user;
-
+    @NotBlank
+    @Size(min = 1, max = 30)
     private String title;
-
+    @NotBlank
+    @Size(min = 1, max = 999)
     private String description;
-
+    @NotNull
+    @Range(min = 1, max = 50000)
     private int price;
-
+    @NotBlank
+    @Size(min = 1, max = 200)
     private String gameCreator;
-
+    @NotBlank
+    @Size(min = 1, max = 200)
     private String gamePlayTime;
-
+    @NotBlank
+    @Size(min = 1, max = 200)
     private String gameRecommendedAge;
-
+    @NotBlank
+    @Size(min = 1, max = 200)
     private String gamePlayers;
-
+    @NotBlank
+    @Size(min = 1, max = 200)
     public List<String> gameGenres = new ArrayList<>();
-
-
-    private int shippingCost = 50;
+    @NotNull
+    @Range(min = 1, max = 500)
+    private int shippingCost;
     @CreatedDate
     private LocalDate created_at;
     @CreatedDate
     private LocalDate updated_at;
 
-    // HELENA:
-    // vad är det som händer här?
-    // varför sparar ni en array med GameAds inne i själva GameAds modellen? det blir väl oerhört konstigt eller?
-    // det räcker väl att ni har en metod som slumpar fram ett random GameAd och använder den metoden i er frontend?
-    // det ni säger är typ:
-    // "jag ska ha en lista som ska vara helt full av mig själv, alltså listan ska vara massa Helena i Helena..."
-    // wierd, right? ^^
-    // ta väck det här...
 
-    // ArrayList of gameAds for picking a randomized game ad for a user
-   // private List<GameAds> gameAdsList;
 
-   /* public List<GameAds> getGameAdsList() {
-        return gameAdsList;
-    }*/
+    public GameAds() {
+
+    }
 
 
     public List<String> getGameGenres() {
@@ -70,11 +73,6 @@ public class GameAds {
 
 
    // public List<GameAds> gameCreators = new ArrayList<>();
-
-    public GameAds(String genres){
-
-    }
-
 
 
     public boolean isAvailable() {
@@ -116,9 +114,6 @@ public class GameAds {
 
     public void setUpdated_at(LocalDate updated_at) {
         this.updated_at = updated_at;
-    }
-
-    public GameAds() {
     }
 
     public String getId() {

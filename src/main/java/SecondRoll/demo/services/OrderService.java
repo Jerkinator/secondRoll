@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -28,26 +29,27 @@ public class OrderService {
     @Autowired
     private UserRepository userRepository;
 
-    //create order preparing to use payload object in controller
-    public Order createOrder (OrderDTO orderDTO) {
+    /* //create order preparing to use payload object in controller
+    public Order createOrder(OrderDTO orderDTO) {
         Optional<User> buyer = userRepository.findById(orderDTO.getBuyerId());
         if (!buyer.isPresent()) {
             throw new ServiceException("User was not found.");
         }
+
         //checks if all gameAds in DTO is present in database otherwise throws error
         List<GameAds> gameAds = new ArrayList<>();
-            for (String gameAdId : orderDTO.getGameAdIds()) {
-                gameAds.add(gameAdsRepository.findById(String.valueOf(gameAdId))
-                        .orElseThrow(() -> new ServiceException("Game with id: " + gameAdId + " was not found.")));
-            }
+        for (String gameAdId : orderDTO.getGameAdIds()) {
+            gameAds.add(gameAdsRepository.findById(String.valueOf(gameAdId))
+                    .orElseThrow(() -> new ServiceException("Game with id: " + gameAdId + " was not found.")));
+
             //Loops through list of game ads to set them to not available
-            Optional <User> seller = Optional.of(new User());
+            Optional<User> seller = Optional.of(new User());
             for (GameAds gameAd : gameAds) {
                 gameAd.setAvailable(false);
                 gameAdsRepository.save(gameAd);
 
-               //Gets seller from game ad to make sure it is set to correct seller
-               seller = userRepository.findById(gameAd.getUser().getId());
+                //Gets seller from game ad to make sure it is set to correct seller
+                seller = userRepository.findById(gameAd.getUser().getId());
                 if (!seller.isPresent()) {
                     throw new ServiceException("Seller not found.");
                 }
@@ -65,10 +67,34 @@ public class OrderService {
             orderRepository.save(newOrder);
 
             return orderRepository.save(newOrder);
+        }
+    } */
+
+
+    // get orders for specific user WIP
+    public List<Order> getAllOrdersByUsername(String username) {
+        List<Order> userOrders = new ArrayList<>();
+
+        List<Order> sellerList = orderRepository
+                .findAll()
+                .stream()
+                .filter(order -> Objects.equals(order.getSeller().getUsername(), username))
+                .toList();
+
+        List<Order> buyerList = orderRepository
+                .findAll()
+                .stream()
+                .filter(order -> Objects.equals(order.getBuyer().getUsername(), username))
+                .toList();
+
+        userOrders.addAll(sellerList);
+        userOrders.addAll(buyerList);
+
+        return userOrders;
     }
 
     //get all orders from order collection
-    public List<Order> getAllOrders () {
+    public List<Order> getAllOrders() {
         return orderRepository.findAll();
     }
 
@@ -84,7 +110,7 @@ public class OrderService {
         return "Order successfully deleted!";
     }
 
-    public List<BuyerHistoryResponse> buyerOrderHistory(String buyerId){
+    public List<BuyerHistoryResponse> buyerOrderHistory(String buyerId) {
 
         List<Order> orders = orderRepository.findByBuyerId(buyerId);
         if (!buyerId.isEmpty()) {
@@ -94,7 +120,7 @@ public class OrderService {
         return orders.stream().map(this::convertToBuyerHistoryDTO).collect(Collectors.toList());
     }
 
-    private BuyerHistoryResponse convertToBuyerHistoryDTO (Order order) {
+    private BuyerHistoryResponse convertToBuyerHistoryDTO(Order order) {
         BuyerHistoryResponse buyerHistoryResponse = new BuyerHistoryResponse();
         buyerHistoryResponse.setBuyerId(order.getBuyer().getUsername());
 
@@ -109,7 +135,7 @@ public class OrderService {
         return orders.stream().map(this::convertToSellerHistoryDTO).collect(Collectors.toList());
     }
 
-    private SellerHistoryResponse convertToSellerHistoryDTO (Order order) {
+    private SellerHistoryResponse convertToSellerHistoryDTO(Order order) {
         SellerHistoryResponse sellerHistoryResponse = new SellerHistoryResponse();
         sellerHistoryResponse.setSellerId(order.getSeller().getUsername());
 
