@@ -1,12 +1,14 @@
 package SecondRoll.demo.controllers;
 
+import SecondRoll.demo.models.ERole;
 import SecondRoll.demo.models.Order;
 import SecondRoll.demo.models.User;
 import SecondRoll.demo.payload.OrderDTO;
 import SecondRoll.demo.payload.response.BuyerHistoryResponse;
-import SecondRoll.demo.payload.response.SellerHistoryResponse;
 import SecondRoll.demo.repository.UserRepository;
+import SecondRoll.demo.security.jwt.JwtUtils;
 import SecondRoll.demo.services.OrderService;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +16,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @RestController
@@ -24,6 +27,8 @@ public class OrderController {
     OrderService orderService;
     @Autowired
     UserRepository userRepository;
+    @Autowired
+    JwtUtils jwtUtils;
 
 
     @PostMapping
@@ -42,6 +47,7 @@ public class OrderController {
     //GET
     //retrieving all orders from order collection
     @GetMapping("/all")
+    @PreAuthorize("hasRole('ADMIN')")
     public List<Order> getAllOrders() {
         return orderService.getAllOrders();
     }
@@ -64,21 +70,38 @@ public class OrderController {
     }
 
     //GET buyer history for bought games
+
     @GetMapping("/buyerhistory/{buyerId}")
-    public ResponseEntity<List<BuyerHistoryResponse>> buyerOrderHistory(@PathVariable String buyerId) {
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
+    public ResponseEntity<List<BuyerHistoryResponse>> buyerOrderHistory(@PathVariable String buyerId, HttpServletRequest request) {
+        String jwt = jwtUtils.getJwtFromCookie(request);
+        String username = jwtUtils.getUsernameFromJwtToken(jwt);
+        User user = userRepository.findUserByUsername(username);
+        List<String> userRoles = user.getRoles().stream().map(r -> r.getName().name()).toList();
+        if(Objects.equals(buyerId, user.getId()) || userRoles.contains(ERole.ROLE_ADMIN.name())){
         List<BuyerHistoryResponse> orders = orderService.buyerOrderHistory(buyerId);
         return ResponseEntity.ok(orders);
+        } else {
+            throw new RuntimeException("NOT AUTHORIZED!");
+        }
     }
 
+
+    /*
     @GetMapping("/sellerhistory/{sellerId}")
     public ResponseEntity<List<SellerHistoryResponse>> sellerOrderHistory(@PathVariable String sellerId) {
         List<SellerHistoryResponse> orders = orderService.sellerOrderHistory(sellerId);
         return ResponseEntity.ok(orders);
     }
+*/
 
 
+
+
+
+
+     /*
     // Lists all orders for a authenticated(/logged in user
-    // Admin role also has access to this endpoint
     @GetMapping("/all/{username}")
     @PreAuthorize("hasRole('ADMIN') or #username == principal.username")
     public ResponseEntity<List<Order>> getAllUserOrders(@PathVariable("username") String username) {
@@ -86,4 +109,5 @@ public class OrderController {
         List<Order> ordersByUsername = orderService.getAllOrdersByUsername(user.getUsername());
         return ResponseEntity.ok(ordersByUsername);
     }
+      */
 }
