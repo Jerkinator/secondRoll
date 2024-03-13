@@ -43,7 +43,7 @@ public class UserController {
     public List<User> getAllUsers(){
         return userService.getAllUsers();
     }
-    // NEW AND "IMPROVED" UPDATE USER - goes through DTO to restrain the info that is ok for user to update.
+    // NEW AND "IMPROVED" UPDATE USER - goes through DTO to restrain the info that is ok for user to update
     @PreAuthorize("hasRole('USER')")
     @PutMapping("/{userId}/update")
     public ResponseEntity<?> updateUser(@Valid @RequestBody UpdateUserDTO updateUserDTO, @PathVariable ("userId") String userId) {
