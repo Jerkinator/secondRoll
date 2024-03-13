@@ -3,7 +3,7 @@ package SecondRoll.demo.payload.response;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SearchGameResponse {
+public class GameAdSearchResponse {
 
     private String seller;
 
@@ -25,7 +25,7 @@ public class SearchGameResponse {
 
     private List<String> gameGenres = new ArrayList<>();
 
-    public SearchGameResponse(String seller, String title, String description, int price, int shippingCost, String gameCreator, String gamePlayTime, String gameRecommendedAge, String gamePlayers, List<String> gameGenres) {
+    public GameAdSearchResponse(String seller, String title, String description, int price, int shippingCost, String gameCreator, String gamePlayTime, String gameRecommendedAge, String gamePlayers, List<String> gameGenres) {
         this.seller = seller;
         this.title = title;
         this.description = description;

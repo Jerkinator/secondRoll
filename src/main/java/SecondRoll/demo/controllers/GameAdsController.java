@@ -6,7 +6,7 @@ import SecondRoll.demo.models.GameAds;
 import SecondRoll.demo.models.User;
 import SecondRoll.demo.payload.CreateGameDTO;
 import SecondRoll.demo.payload.response.GameAdResponse;
-import SecondRoll.demo.payload.response.SearchGameResponse;
+import SecondRoll.demo.payload.response.GameAdSearchResponse;
 import SecondRoll.demo.repository.GameAdsRepository;
 import SecondRoll.demo.services.GameAdsService;
 import jakarta.validation.Valid;
@@ -166,11 +166,12 @@ public class GameAdsController {
             if (adsByTitle.isEmpty()) {
                 return ResponseEntity.ok().body("No ads found for the title: " + title);
             } else {
-                List<SearchGameResponse> adsByTitleResponse = new ArrayList<>();
+                List<GameAdSearchResponse> adsByTitleResponse = new ArrayList<>();
                 for (GameAds gameAd : adsByTitle) {
                     User user =gameAd.getUser();
-                    adsByTitleResponse.add(new SearchGameResponse(user.getUsername(),gameAd.getTitle(), gameAd.getDescription(), gameAd.getPrice(),gameAd.getShippingCost()
-                    ,gameAd.getGameCreator(), gameAd.getGamePlayTime(),gameAd.getGameRecommendedAge(), gameAd.getGamePlayers(), gameAd.getGameGenres()));
+                    adsByTitleResponse.add(new GameAdSearchResponse(user.getUsername(),gameAd.getTitle(), gameAd.getDescription()
+                            , gameAd.getPrice(),gameAd.getShippingCost(),gameAd.getGameCreator(), gameAd.getGamePlayTime()
+                            , gameAd.getGameRecommendedAge(), gameAd.getGamePlayers(), gameAd.getGameGenres()));
                 }
                 return ResponseEntity.ok().body(adsByTitleResponse);
             }
@@ -190,11 +191,12 @@ public class GameAdsController {
             if (adsByGenre.isEmpty()) {
                 return ResponseEntity.ok().body("No ads found for the genre: " + genre);
             } else {
-                List<SearchGameResponse> adsByGenreResponse = new ArrayList<>();
+                List<GameAdSearchResponse> adsByGenreResponse = new ArrayList<>();
                 for (GameAds gameAd : adsByGenre) {
                     User user =gameAd.getUser();
-                    adsByGenreResponse.add(new SearchGameResponse(user.getUsername(),gameAd.getTitle(), gameAd.getDescription(), gameAd.getPrice(),gameAd.getShippingCost()
-                            ,gameAd.getGameCreator(), gameAd.getGamePlayTime(),gameAd.getGameRecommendedAge(), gameAd.getGamePlayers(), gameAd.getGameGenres()));
+                    adsByGenreResponse.add(new GameAdSearchResponse(user.getUsername(),gameAd.getTitle(), gameAd.getDescription()
+                            , gameAd.getPrice(),gameAd.getShippingCost(), gameAd.getGameCreator(), gameAd.getGamePlayTime()
+                            , gameAd.getGameRecommendedAge(), gameAd.getGamePlayers(), gameAd.getGameGenres()));
                 }
                 return ResponseEntity.ok().body(adsByGenreResponse);
             }
@@ -211,11 +213,12 @@ public class GameAdsController {
             if (adsByCreator.isEmpty()) {
                 return ResponseEntity.ok().body("No ads found with the game creator: " + creator);
             } else {
-                List<SearchGameResponse> adsByCreatorResponse = new ArrayList<>();
+                List<GameAdSearchResponse> adsByCreatorResponse = new ArrayList<>();
                 for (GameAds gameAd : adsByCreator) {
                     User user =gameAd.getUser();
-                    adsByCreatorResponse.add(new SearchGameResponse(user.getUsername(),gameAd.getTitle(), gameAd.getDescription(), gameAd.getPrice(),gameAd.getShippingCost()
-                            ,gameAd.getGameCreator(), gameAd.getGamePlayTime(),gameAd.getGameRecommendedAge(), gameAd.getGamePlayers(), gameAd.getGameGenres()));
+                    adsByCreatorResponse.add(new GameAdSearchResponse(user.getUsername(),gameAd.getTitle(), gameAd.getDescription()
+                            , gameAd.getPrice(),gameAd.getShippingCost(), gameAd.getGameCreator(), gameAd.getGamePlayTime()
+                            , gameAd.getGameRecommendedAge(), gameAd.getGamePlayers(), gameAd.getGameGenres()));
                 }
                 return ResponseEntity.ok().body(adsByCreatorResponse);
             }
@@ -232,11 +235,12 @@ public class GameAdsController {
             if (adsByGameTime.isEmpty()) {
                 return ResponseEntity.ok().body("No ads found with the gameTime: " + gameTime);
             } else {
-                List<SearchGameResponse> adsByGameTimeResponse = new ArrayList<>();
+                List<GameAdSearchResponse> adsByGameTimeResponse = new ArrayList<>();
                 for (GameAds gameAd : adsByGameTime) {
                     User user =gameAd.getUser();
-                    adsByGameTimeResponse.add(new SearchGameResponse(user.getUsername(),gameAd.getTitle(), gameAd.getDescription(), gameAd.getPrice(),gameAd.getShippingCost()
-                            ,gameAd.getGameCreator(), gameAd.getGamePlayTime(),gameAd.getGameRecommendedAge(), gameAd.getGamePlayers(), gameAd.getGameGenres()));
+                    adsByGameTimeResponse.add(new GameAdSearchResponse(user.getUsername(),gameAd.getTitle(), gameAd.getDescription()
+                            , gameAd.getPrice(),gameAd.getShippingCost(), gameAd.getGameCreator(), gameAd.getGamePlayTime()
+                            , gameAd.getGameRecommendedAge(), gameAd.getGamePlayers(), gameAd.getGameGenres()));
                 }
                 return ResponseEntity.ok().body(adsByGameTimeResponse);
             }
@@ -254,11 +258,12 @@ public class GameAdsController {
             if (adsByGameRecommendedAge.isEmpty()) {
                 return ResponseEntity.ok().body("No ads found with the recommendedAge: " + recommendedAge);
             } else {
-                List<SearchGameResponse> adsByAgeResponse = new ArrayList<>();
+                List<GameAdSearchResponse> adsByAgeResponse = new ArrayList<>();
                 for (GameAds gameAd : adsByGameRecommendedAge) {
                     User user =gameAd.getUser();
-                    adsByAgeResponse.add(new SearchGameResponse(user.getUsername(),gameAd.getTitle(), gameAd.getDescription(), gameAd.getPrice(),gameAd.getShippingCost()
-                            ,gameAd.getGameCreator(), gameAd.getGamePlayTime(),gameAd.getGameRecommendedAge(), gameAd.getGamePlayers(), gameAd.getGameGenres()));
+                    adsByAgeResponse.add(new GameAdSearchResponse(user.getUsername(),gameAd.getTitle(), gameAd.getDescription()
+                            , gameAd.getPrice(),gameAd.getShippingCost(), gameAd.getGameCreator(), gameAd.getGamePlayTime()
+                            , gameAd.getGameRecommendedAge(), gameAd.getGamePlayers(), gameAd.getGameGenres()));
                 }
                 return ResponseEntity.ok().body(adsByAgeResponse);
             }
@@ -276,11 +281,12 @@ public class GameAdsController {
             if (adsByPlayers.isEmpty()) {
                 return ResponseEntity.ok().body("No ads found with the number of players: " + players);
             } else {
-                List<SearchGameResponse> adsByPlayersResponse = new ArrayList<>();
+                List<GameAdSearchResponse> adsByPlayersResponse = new ArrayList<>();
                 for (GameAds gameAd : adsByPlayers) {
                     User user =gameAd.getUser();
-                    adsByPlayersResponse.add(new SearchGameResponse(user.getUsername(),gameAd.getTitle(), gameAd.getDescription(), gameAd.getPrice(),gameAd.getShippingCost()
-                            ,gameAd.getGameCreator(), gameAd.getGamePlayTime(),gameAd.getGameRecommendedAge(), gameAd.getGamePlayers(), gameAd.getGameGenres()));
+                    adsByPlayersResponse.add(new GameAdSearchResponse(user.getUsername(),gameAd.getTitle(), gameAd.getDescription()
+                            , gameAd.getPrice(),gameAd.getShippingCost(), gameAd.getGameCreator(), gameAd.getGamePlayTime()
+                            , gameAd.getGameRecommendedAge(), gameAd.getGamePlayers(), gameAd.getGameGenres()));
                 }
                 return ResponseEntity.ok().body(adsByPlayersResponse);
             }
