@@ -75,8 +75,8 @@ public class WebSecurityConfig {
                                 .requestMatchers("/api/users/profile/{username}").hasAnyRole("USER", "ADMIN")
 
                                 .requestMatchers("/api/orders").hasRole("USER")
-                                .requestMatchers("/api/orders/buyerhistory/{buyerId}").hasAnyRole("USER", "ADMIN")
-                                .requestMatchers("/api/orders/sellerhistory/{sellerId}").hasAnyRole("USER", "ADMIN")
+                                //.requestMatchers("/api/orders/buyerhistory/{buyerId}").hasAnyRole("USER", "ADMIN")
+                                //.requestMatchers("/api/orders/sellerhistory/{sellerId}").hasAnyRole("USER", "ADMIN")
                                 .anyRequest().authenticated()
                 );
 

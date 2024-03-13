@@ -29,6 +29,7 @@ public class OrderController {
     UserDetailsServiceImpl userDetailsService;
 
     @PostMapping
+    @PreAuthorize("hasRole('USER')")
     //Sending in OrderDTO object as a request
     public ResponseEntity<Order> createOrder(@RequestBody OrderDTO orderDTO) {
         //Getting user id and game ad id and creates the order in database
