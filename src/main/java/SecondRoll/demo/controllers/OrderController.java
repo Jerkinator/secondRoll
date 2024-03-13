@@ -1,12 +1,13 @@
 package SecondRoll.demo.controllers;
 
 import SecondRoll.demo.models.Order;
-import SecondRoll.demo.models.User;
 import SecondRoll.demo.payload.OrderDTO;
 import SecondRoll.demo.payload.response.BuyerHistoryResponse;
 import SecondRoll.demo.payload.response.SellerHistoryResponse;
 import SecondRoll.demo.repository.UserRepository;
+import SecondRoll.demo.security.services.UserDetailsServiceImpl;
 import SecondRoll.demo.services.OrderService;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,7 +25,8 @@ public class OrderController {
     OrderService orderService;
     @Autowired
     UserRepository userRepository;
-
+    @Autowired
+    UserDetailsServiceImpl userDetailsService;
 
     @PostMapping
     //Sending in OrderDTO object as a request
@@ -42,6 +44,7 @@ public class OrderController {
     //GET
     //retrieving all orders from order collection
     @GetMapping("/all")
+    @PreAuthorize("hasRole('ADMIN')")
     public List<Order> getAllOrders() {
         return orderService.getAllOrders();
     }
@@ -49,15 +52,15 @@ public class OrderController {
     //GET
     //retrieve specific order based on id
     @GetMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Order> getOrdersById(@PathVariable String id) {
         Optional<Order> order = orderService.getOrdersById(id);
         return order.map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-
-    // HELENA: nej vi håller på med ordrar här, inte böcker eller?
-    //DELETE borrowedBooks by id
+    //DELETE order by id
+    @PreAuthorize("hasRole('ADMIN')")
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     public String deleteOrderById(@PathVariable String id) {
         return orderService.deleteOrderById(id);
@@ -65,25 +68,24 @@ public class OrderController {
 
     //GET buyer history for bought games
     @GetMapping("/buyerhistory/{buyerId}")
-    public ResponseEntity<List<BuyerHistoryResponse>> buyerOrderHistory(@PathVariable String buyerId) {
-        List<BuyerHistoryResponse> orders = orderService.buyerOrderHistory(buyerId);
-        return ResponseEntity.ok(orders);
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
+    public ResponseEntity<List<BuyerHistoryResponse>> buyerOrderHistory(@PathVariable String buyerId, HttpServletRequest request) {
+        if (userDetailsService.hasPermission(buyerId, request)) {
+            List<BuyerHistoryResponse> orders = orderService.buyerOrderHistory(buyerId);
+            return ResponseEntity.ok(orders);
+        } else {
+            throw new RuntimeException("Not authorized");
+        }
     }
 
     @GetMapping("/sellerhistory/{sellerId}")
-    public ResponseEntity<List<SellerHistoryResponse>> sellerOrderHistory(@PathVariable String sellerId) {
-        List<SellerHistoryResponse> orders = orderService.sellerOrderHistory(sellerId);
-        return ResponseEntity.ok(orders);
-    }
-
-
-    // Lists all orders for a authenticated(/logged in user
-    // Admin role also has access to this endpoint
-    @GetMapping("/all/{username}")
-    @PreAuthorize("hasRole('ADMIN') or #username == principal.username")
-    public ResponseEntity<List<Order>> getAllUserOrders(@PathVariable("username") String username) {
-        User user = userRepository.findUserByUsername(username);
-        List<Order> ordersByUsername = orderService.getAllOrdersByUsername(user.getUsername());
-        return ResponseEntity.ok(ordersByUsername);
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
+    public ResponseEntity<List<SellerHistoryResponse>> sellerOrderHistory(@PathVariable String sellerId, HttpServletRequest request) {
+        if (userDetailsService.hasPermission(sellerId, request)) {
+            List<SellerHistoryResponse> orders = orderService.sellerOrderHistory(sellerId);
+            return ResponseEntity.ok(orders);
+        } else {
+            throw new RuntimeException("Not authorized");
+        }
     }
 }
