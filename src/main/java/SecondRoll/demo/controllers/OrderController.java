@@ -5,6 +5,7 @@ import SecondRoll.demo.models.Order;
 import SecondRoll.demo.models.User;
 import SecondRoll.demo.payload.OrderDTO;
 import SecondRoll.demo.payload.response.BuyerHistoryResponse;
+import SecondRoll.demo.payload.response.SellerHistoryResponse;
 import SecondRoll.demo.repository.UserRepository;
 import SecondRoll.demo.security.jwt.JwtUtils;
 import SecondRoll.demo.services.OrderService;
@@ -62,9 +63,8 @@ public class OrderController {
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-
-    // HELENA: nej vi håller på med ordrar här, inte böcker eller?
-    //DELETE borrowedBooks by id
+    //DELETE order by id
+    @PreAuthorize("hasRole('ADMIN')")
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     public String deleteOrderById(@PathVariable String id) {
         return orderService.deleteOrderById(id);
@@ -74,40 +74,32 @@ public class OrderController {
     @GetMapping("/buyerhistory/{buyerId}")
     @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     public ResponseEntity<List<BuyerHistoryResponse>> buyerOrderHistory(@PathVariable String buyerId, HttpServletRequest request) {
+        if (hasPermission(buyerId, request)) {
+            List<BuyerHistoryResponse> orders = orderService.buyerOrderHistory(buyerId);
+            return ResponseEntity.ok(orders);
+        } else {
+            throw new RuntimeException("Not authorized");
+        }
+    }
+
+    @GetMapping("/sellerhistory/{sellerId}")
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
+    public ResponseEntity<List<SellerHistoryResponse>> sellerOrderHistory(@PathVariable String sellerId, HttpServletRequest request) {
+        if (hasPermission(sellerId, request)) {
+            List<SellerHistoryResponse> orders = orderService.sellerOrderHistory(sellerId);
+            return ResponseEntity.ok(orders);
+        } else {
+            throw new RuntimeException("Not authorized");
+        }
+    }
+
+    // where do we put this?
+    // Method for authenticating access for logged in user by id OR person with admin role
+    private boolean hasPermission(String userId, HttpServletRequest request) {
         String jwt = jwtUtils.getJwtFromCookie(request);
         String username = jwtUtils.getUsernameFromJwtToken(jwt);
         User user = userRepository.findUserByUsername(username);
         List<String> userRoles = user.getRoles().stream().map(r -> r.getName().name()).toList();
-        if(Objects.equals(buyerId, user.getId()) || userRoles.contains(ERole.ROLE_ADMIN.name())){
-        List<BuyerHistoryResponse> orders = orderService.buyerOrderHistory(buyerId);
-        return ResponseEntity.ok(orders);
-        } else {
-            throw new RuntimeException("NOT AUTHORIZED!");
-        }
+        return Objects.equals(userId, user.getId()) || userRoles.contains(ERole.ROLE_ADMIN.name());
     }
-
-
-    /*
-    @GetMapping("/sellerhistory/{sellerId}")
-    public ResponseEntity<List<SellerHistoryResponse>> sellerOrderHistory(@PathVariable String sellerId) {
-        List<SellerHistoryResponse> orders = orderService.sellerOrderHistory(sellerId);
-        return ResponseEntity.ok(orders);
-    }
-*/
-
-
-
-
-
-
-     /*
-    // Lists all orders for a authenticated(/logged in user
-    @GetMapping("/all/{username}")
-    @PreAuthorize("hasRole('ADMIN') or #username == principal.username")
-    public ResponseEntity<List<Order>> getAllUserOrders(@PathVariable("username") String username) {
-        User user = userRepository.findUserByUsername(username);
-        List<Order> ordersByUsername = orderService.getAllOrdersByUsername(user.getUsername());
-        return ResponseEntity.ok(ordersByUsername);
-    }
-      */
 }
