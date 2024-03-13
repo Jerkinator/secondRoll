@@ -46,7 +46,7 @@ public class GameAdsController {
 
     // UPDATED PUT
     @PutMapping("/{gameId}")
-    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasRole('USER')") //admin
     public ResponseEntity<?> updateGameAd(@PathVariable String gameId, @RequestBody GameAds gameDetails) {
         try {
             GameAds updatedGameAd = gameAdsService.updateGameAd(gameId, gameDetails);
@@ -63,7 +63,7 @@ public class GameAdsController {
         }
     }
 
-    // GET a gameAd by ID.
+    // GET a gameAd by ID. // user and admin
     @GetMapping(value = "/{id}")
     public ResponseEntity<?> getGameAdById(@PathVariable String id) {
         try {
@@ -80,7 +80,7 @@ public class GameAdsController {
         }
     }
 
-    // Delete by ID.
+    // Delete by ID. // add user auth
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     @PreAuthorize("hasRole('ADMIN')")
     public String deleteGameAd(@PathVariable String id) {
@@ -94,7 +94,7 @@ public class GameAdsController {
     }*/
 
 
-    // GET all game ads belonging to a user.
+    // GET all game ads belonging to a user. //amin och user
     @GetMapping("/user/{userId}")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<List<GameAdResponse>> getUserGameAds(@PathVariable String userId) {
