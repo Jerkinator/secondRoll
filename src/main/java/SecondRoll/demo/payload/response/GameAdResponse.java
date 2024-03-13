@@ -26,6 +26,8 @@ public class GameAdResponse {
 
     private List<String> gameGenres = new ArrayList<>();
 
+    private String photoURL;
+
     private LocalDate created_at;
 
     private LocalDate updated_at;
@@ -34,7 +36,7 @@ public class GameAdResponse {
 
     public GameAdResponse(String seller, String title, String description, int price, int shippingCost,
         String gameCreator, String gamePlayTime, String gameRecommendedAge, String gamePlayers, List<String> gameGenres,
-        LocalDate created_at, LocalDate updated_at) {
+        String photoURL, LocalDate created_at, LocalDate updated_at) {
         this.seller = seller;
         this.title = title;
         this.description = description;
@@ -45,6 +47,7 @@ public class GameAdResponse {
         this.gameGenres = gameGenres;
         this.price = price;
         this.shippingCost = shippingCost;
+        this.photoURL = photoURL;
 
        // this.gameDetails = gameDetails;
         this.created_at = created_at;
@@ -152,6 +155,14 @@ public class GameAdResponse {
 
     public void setGameGenres(List<String> gameGenres) {
         this.gameGenres = gameGenres;
+    }
+
+    public String getPhotoURL() {
+        return photoURL;
+    }
+
+    public void setPhotoURL(String photoURL) {
+        this.photoURL = photoURL;
     }
 
   /*  public List<EGameCategory> getGameDetails() {
