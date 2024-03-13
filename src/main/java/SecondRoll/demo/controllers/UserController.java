@@ -93,17 +93,32 @@ public class UserController {
     // ADD a gameAd to a user wishlist using a Data Transfer Object-reference.
     @PreAuthorize("hasRole('USER')")
     @PutMapping("/{userId}/wishlist")
-    public ResponseEntity<?> addGameToWishlist (@PathVariable ("userId") String userId, @RequestBody WishlistDTO wishlistDTO){
-        userService.addGameToWishlist(userId, wishlistDTO);
-        return ResponseEntity.ok().body(new MessageResponse("Game added to wishlist."));
+    public ResponseEntity<?> addGameToWishlist (@PathVariable ("userId") String userId,
+                                                @RequestBody WishlistDTO wishlistDTO, HttpServletRequest request){
+        if (userDetailsService.hasPermission(userId, request)) {
+            userService.addGameToWishlist(userId, wishlistDTO);
+            return ResponseEntity.ok().body(new MessageResponse("Game added to wishlist."));
+        } else {
+            return ResponseEntity
+                    .badRequest()
+                    .body(new MessageResponse("You dont have authority to add a game to this wishlist"));
+        }
     }
 
     // REMOVE a gameAd from a user wishlist using a Data Transfer Object-reference.
     @PreAuthorize("hasRole('USER')")
     @DeleteMapping(value = "/{userId}/wishlist")
-    public ResponseEntity<?> removeGameFromWishlist(@PathVariable ("userId") String userId, @RequestBody WishlistDTO wishlistDTO) {
-        userService.removeGameFromWishlist(userId, wishlistDTO);
-        return ResponseEntity.ok().body(new MessageResponse("Game removed from wishlist."));
+    public ResponseEntity<?> removeGameFromWishlist(@PathVariable ("userId") String userId,
+                                                    @RequestBody WishlistDTO wishlistDTO, HttpServletRequest request) {
+        if (userDetailsService.hasPermission(userId, request)) {
+            userService.removeGameFromWishlist(userId, wishlistDTO);
+            return ResponseEntity.ok().body(new MessageResponse("Game removed from wishlist."));
+        } else {
+            return ResponseEntity
+                    .badRequest()
+                    .body(new MessageResponse("You dont have authority to remove a game from this wishlist"));
+        }
+
     }
 
     // ADD rating to a user.
