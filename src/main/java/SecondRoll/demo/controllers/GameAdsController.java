@@ -158,8 +158,9 @@ public class GameAdsController {
     //finds gameAds where the passed title is checked and if present returns a list of all matching ads
     @GetMapping("/findbytitle/{title}")
     public ResponseEntity<?> getGameAdsByTitle(@PathVariable  String title) {
+      //
         try {
-            List<GameAds> adsByTitle = gameAdsRepository.findByTitle(title);
+            List<GameAds> adsByTitle = gameAdsRepository.findByTitleIgnoreCase(title);
             if (adsByTitle.isEmpty()) {
                 return ResponseEntity.ok().body("No ads found for the title: " + title);
             } else {
