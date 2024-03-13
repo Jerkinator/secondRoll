@@ -5,8 +5,7 @@ import java.util.List;
 
 public class BuyerHistoryResponse {
 
-   private String buyerId;
-
+    private String buyerId;
 
     private List<String> orderedGameIds;
 

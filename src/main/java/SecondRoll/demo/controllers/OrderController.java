@@ -3,6 +3,7 @@ package SecondRoll.demo.controllers;
 import SecondRoll.demo.models.Order;
 import SecondRoll.demo.payload.OrderDTO;
 import SecondRoll.demo.payload.response.BuyerHistoryResponse;
+import SecondRoll.demo.payload.response.OrderResponse;
 import SecondRoll.demo.payload.response.SellerHistoryResponse;
 import SecondRoll.demo.repository.UserRepository;
 import SecondRoll.demo.security.services.UserDetailsServiceImpl;
@@ -28,17 +29,30 @@ public class OrderController {
     @Autowired
     UserDetailsServiceImpl userDetailsService;
 
-    @PostMapping
+
     //Sending in OrderDTO object as a request
-    public ResponseEntity<Order> createOrder(@RequestBody OrderDTO orderDTO) {
+    @PostMapping()
+    /*public ResponseEntity<GameAdResponse> createGameAd(@Valid @RequestBody CreateGameDTO createGameDTO) {
+        GameAds gameAd = gameAdsService.createGameAd(createGameDTO);
+        User user = gameAd.getUser();
+        return ResponseEntity.ok().body(new GameAdResponse(user.getUsername(), gameAd.getTitle(),
+                gameAd.getDescription(), gameAd.getPrice(), gameAd.getShippingCost(), gameAd.getGameCreator(),
+                gameAd.getGamePlayTime(), gameAd.getGameRecommendedAge(), gameAd.getGamePlayers(),gameAd.gameGenres,
+                gameAd.getPhotoURL(), gameAd.getCreated_at(), gameAd.getUpdated_at()));
+
+     */
+
+    public ResponseEntity<OrderResponse> createOrder(@RequestBody OrderDTO orderDTO) {
         //Getting user id and game ad id and creates the order in database
-        Order newOrder = orderService.createOrder(orderDTO);
+        OrderResponse newOrder = orderService.createOrder(orderDTO);
         //this is where what shows in postman is set.
         //only responds with the message Order created
         //return new ResponseEntity(new MessageResponse("Order created"), HttpStatus.CREATED);
         //This line returns whole order object
         return new ResponseEntity<>(newOrder, HttpStatus.CREATED);
     }
+
+
 
 
     //GET
