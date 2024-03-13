@@ -15,13 +15,21 @@ public interface GameAdsRepository extends MongoRepository<GameAds, String> {
 
     List<GameAds> findByIsAvailable(boolean isAvailable);
 
-
-
-
-
     List<GameAds> findByUserId(String userId);
 
     List<GameAds> findByPrice(List<GameAds> price);
+
+    List<GameAds> findByTitleIgnoreCase(String title);
+
+    List<GameAds> findByGameGenres(String genre);
+
+    List<GameAds> findByGameCreator(String creator);
+
+    List<GameAds> findByGamePlayTime(String gameTime);
+
+    List<GameAds> findByGameRecommendedAge(String recommendedAge);
+
+    List<GameAds> findByGamePlayers(String players);
 
 }
 
