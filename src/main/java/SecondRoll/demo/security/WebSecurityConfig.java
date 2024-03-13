@@ -53,9 +53,6 @@ public class WebSecurityConfig {
         return new BCryptPasswordEncoder();
     }
 
-    // titta över det här kanske hittar ni fler scenarion ni behöver tänka på? ändra authorization mitt tips är auth på
-    // metodnivå istället. Vissa kan säker ligga kvar kanske men gå igenom varje end point för att se vilken auth som krävs.
-
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.csrf(csrf -> csrf.disable())
@@ -65,18 +62,10 @@ public class WebSecurityConfig {
                         auth.requestMatchers("/api/auth/admin/**").hasRole("ADMIN")
                                 .requestMatchers("/api/auth/signup").permitAll()
                                 .requestMatchers("/api/auth/login").permitAll()
-
                                 .requestMatchers("/api/gameAds/all").permitAll()
+                                .requestMatchers("/api/gameAds/rolldice").permitAll()
                                 .requestMatchers("/api/gameAds/sortbydate/**").permitAll()
                                 .requestMatchers("/api/gameAds/sortbyprice/**").permitAll()
-                                .requestMatchers("/api/gameAds").hasRole("USER")
-
-                                .requestMatchers("/api/users/all").hasRole("ADMIN")
-                                .requestMatchers("/api/users/profile/{username}").hasAnyRole("USER", "ADMIN")
-
-                                .requestMatchers("/api/orders").hasRole("USER")
-                                //.requestMatchers("/api/orders/buyerhistory/{buyerId}").hasAnyRole("USER", "ADMIN")
-                                //.requestMatchers("/api/orders/sellerhistory/{sellerId}").hasAnyRole("USER", "ADMIN")
                                 .anyRequest().authenticated()
                 );
 
