@@ -58,32 +58,30 @@ public class UserService {
     }
 
     // ADD a gameAd to a user wishlist using a Data Transfer Object-reference.
-    public User addGameToWishlist(String username, WishlistDTO wishlistDTO) {
-        User user = userRepository.findUserByUsername(username);
-        GameAds gameAd = gameAdsRepository.findById(wishlistDTO.getGameId()).
-                orElseThrow(() -> new ServiceException("Game not found."));
-        user.getWishlist().add(gameAd);
-        return userRepository.save(user);
-    }
-
-    // REMOVE a gameAd to a user wishlist using a Data Transfer Object-reference.
-    public User removeGameFromWishlist(String userId, WishlistDTO wishlistDTO) {
+    public User addGameToWishlist(String userId, WishlistDTO wishlistDTO) {
         User user = userRepository.findById(userId).orElseThrow();
-        List<GameAds> wishlist = user.getWishlist();
-        wishlist.removeIf(gameAd -> gameAd.getId().equals(wishlistDTO.getGameId()));
-        return userRepository.save(user);
-    }
+        GameAds gameAd = gameAdsRepository.findById(wishlistDTO.getGameId()).orElseThrow();
+            return userRepository.save(user);
+        }
 
-    // ADD rating to a user.
+        // REMOVE a gameAd to a user wishlist using a Data Transfer Object-reference.
+        public User removeGameFromWishlist (String userId, WishlistDTO wishlistDTO){
+            User user = userRepository.findById(userId).orElseThrow();
+            List<GameAds> wishlist = user.getWishlist();
+            wishlist.removeIf(gameAd -> gameAd.getId().equals(wishlistDTO.getGameId()));
+            return userRepository.save(user);
+        }
+
+        // ADD rating to a user.
     /* This method takes an integer value and adds it to the rating object. If the value is between 1-6,
     it then adds the value to the User ratings arraylist. Then it loops through the arraylist and stores all
     combined values into a total sum.
     Then finally it takes the sum and divides it by the total amount of values in the arraylist to get the average
     rating. */
-    public User addRatingToUser(String userId, Rating rating) {
-        User user = userRepository.findById(userId).orElseThrow();
+        public User addRatingToUser (String userId, Rating rating){
+            User user = userRepository.findById(userId).orElseThrow();
 
-        int number = rating.getRating();
+            int number = rating.getRating();
 
             if (number <= 0 || number > 6) {
                 throw new ServiceException("Please select a rating between 1 - 6!");
@@ -91,21 +89,22 @@ public class UserService {
                 rating.setRating(number);
             }
 
-        user.getRatings().add(number);
+            user.getRatings().add(number);
 
-        int sum = 0;
-        int lengthOfRatingsList = user.getRatings().size();
+            int sum = 0;
+            int lengthOfRatingsList = user.getRatings().size();
 
-        for(int i = 0; i < lengthOfRatingsList; i++){
-            sum += user.getRatings().get(i);
+            for (int i = 0; i < lengthOfRatingsList; i++) {
+                sum += user.getRatings().get(i);
+            }
+
+            int averageRating = sum / lengthOfRatingsList;
+            user.setAverageRating(averageRating);
+
+            return userRepository.save(user);
         }
-
-        int averageRating = sum / lengthOfRatingsList;
-        user.setAverageRating(averageRating);
-
-        return userRepository.save(user);
     }
-}
+
 
 
     //OLD CODE FOR ADDING AND DELETING GAMES TO/FROM WISHLIST. STORED FOR NOW.
