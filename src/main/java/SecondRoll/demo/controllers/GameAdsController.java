@@ -172,7 +172,7 @@ public class GameAdsController {
                     User user =gameAd.getUser();
                     adsByTitleResponse.add(new GameAdSearchResponse(user.getUsername(),gameAd.getTitle(), gameAd.getDescription()
                             , gameAd.getPrice(),gameAd.getShippingCost(),gameAd.getGameCreator(), gameAd.getGamePlayTime()
-                            , gameAd.getGameRecommendedAge(), gameAd.getGamePlayers(), gameAd.getGameGenres()));
+                            , gameAd.getGameRecommendedAge(), gameAd.getGamePlayers(), gameAd.getGameGenres(), gameAd.getPhotoURL()));
                 }
                 return ResponseEntity.ok().body(adsByTitleResponse);
             }
@@ -197,7 +197,7 @@ public class GameAdsController {
                     User user =gameAd.getUser();
                     adsByGenreResponse.add(new GameAdSearchResponse(user.getUsername(),gameAd.getTitle(), gameAd.getDescription()
                             , gameAd.getPrice(),gameAd.getShippingCost(), gameAd.getGameCreator(), gameAd.getGamePlayTime()
-                            , gameAd.getGameRecommendedAge(), gameAd.getGamePlayers(), gameAd.getGameGenres()));
+                            , gameAd.getGameRecommendedAge(), gameAd.getGamePlayers(), gameAd.getGameGenres(),gameAd.getPhotoURL()));
                 }
                 return ResponseEntity.ok().body(adsByGenreResponse);
             }
@@ -219,7 +219,7 @@ public class GameAdsController {
                     User user =gameAd.getUser();
                     adsByCreatorResponse.add(new GameAdSearchResponse(user.getUsername(),gameAd.getTitle(), gameAd.getDescription()
                             , gameAd.getPrice(),gameAd.getShippingCost(), gameAd.getGameCreator(), gameAd.getGamePlayTime()
-                            , gameAd.getGameRecommendedAge(), gameAd.getGamePlayers(), gameAd.getGameGenres()));
+                            , gameAd.getGameRecommendedAge(), gameAd.getGamePlayers(), gameAd.getGameGenres(), gameAd.getPhotoURL()));
                 }
                 return ResponseEntity.ok().body(adsByCreatorResponse);
             }
@@ -241,7 +241,7 @@ public class GameAdsController {
                     User user =gameAd.getUser();
                     adsByGameTimeResponse.add(new GameAdSearchResponse(user.getUsername(),gameAd.getTitle(), gameAd.getDescription()
                             , gameAd.getPrice(),gameAd.getShippingCost(), gameAd.getGameCreator(), gameAd.getGamePlayTime()
-                            , gameAd.getGameRecommendedAge(), gameAd.getGamePlayers(), gameAd.getGameGenres()));
+                            , gameAd.getGameRecommendedAge(), gameAd.getGamePlayers(), gameAd.getGameGenres(),gameAd.getPhotoURL()));
                 }
                 return ResponseEntity.ok().body(adsByGameTimeResponse);
             }
@@ -264,7 +264,7 @@ public class GameAdsController {
                     User user =gameAd.getUser();
                     adsByAgeResponse.add(new GameAdSearchResponse(user.getUsername(),gameAd.getTitle(), gameAd.getDescription()
                             , gameAd.getPrice(),gameAd.getShippingCost(), gameAd.getGameCreator(), gameAd.getGamePlayTime()
-                            , gameAd.getGameRecommendedAge(), gameAd.getGamePlayers(), gameAd.getGameGenres()));
+                            , gameAd.getGameRecommendedAge(), gameAd.getGamePlayers(), gameAd.getGameGenres(), gameAd.getPhotoURL()));
                 }
                 return ResponseEntity.ok().body(adsByAgeResponse);
             }
@@ -287,7 +287,7 @@ public class GameAdsController {
                     User user =gameAd.getUser();
                     adsByPlayersResponse.add(new GameAdSearchResponse(user.getUsername(),gameAd.getTitle(), gameAd.getDescription()
                             , gameAd.getPrice(),gameAd.getShippingCost(), gameAd.getGameCreator(), gameAd.getGamePlayTime()
-                            , gameAd.getGameRecommendedAge(), gameAd.getGamePlayers(), gameAd.getGameGenres()));
+                            , gameAd.getGameRecommendedAge(), gameAd.getGamePlayers(), gameAd.getGameGenres(), gameAd.getPhotoURL()));
                 }
                 return ResponseEntity.ok().body(adsByPlayersResponse);
             }
