@@ -1,9 +1,6 @@
 package SecondRoll.demo.payload.response;
 
-import SecondRoll.demo.models.GameAds;
-
 import java.util.ArrayList;
-import java.util.List;
 
 public class UserProfileResponse {
     private String id;
@@ -104,14 +101,6 @@ public class UserProfileResponse {
 
     public void setAdress_city(String adress_city) {
         this.adress_city = adress_city;
-    }
-
-    public List<GameAds> getWishlist() {
-        return wishlist;
-    }
-
-    public void setWishlist(List<GameAds> wishlist) {
-        this.wishlist = wishlist;
     }
 
     public ArrayList<Integer> getRatings() {

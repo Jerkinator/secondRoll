@@ -6,6 +6,7 @@ import SecondRoll.demo.payload.UpdateUserDTO;
 import SecondRoll.demo.payload.WishlistDTO;
 import SecondRoll.demo.payload.response.MessageResponse;
 import SecondRoll.demo.payload.response.UserProfileResponse;
+import SecondRoll.demo.payload.response.UserSearchByIdResponse;
 import SecondRoll.demo.repository.UserRepository;
 import SecondRoll.demo.security.services.UserDetailsServiceImpl;
 import SecondRoll.demo.services.UserService;
@@ -18,7 +19,6 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping(value = "/api/users")
@@ -34,12 +34,20 @@ public class UserController {
 
     // GET a user by ID.
     @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
+    @GetMapping("/{userId}")
+    public ResponseEntity<?> getUserId(@PathVariable String userId) {
+        User user = userRepository.findUserById(userId);
+
+        return ResponseEntity.ok().body(new UserSearchByIdResponse(user.getId(), user.getUsername(), user.getAdress_city()));
+    }
+
+    /* @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
     @GetMapping("/{id}")
     public ResponseEntity<User> getUserById(@PathVariable String id){
         Optional<User> user = userService.getUserById(id);
         return user.map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.notFound().build());
-    }
+    } */
 
     // GET ALL users.
     @PreAuthorize("hasRole('ADMIN')")
