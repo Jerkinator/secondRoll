@@ -11,7 +11,9 @@ public class OrderResponse {
     private String buyerName;
     private String sellerName;
     private List<OrderGameDetailsDTO> orderedGames;
-    private double totalOrderSum;
+    private double shippingTotal;
+    private double gameTotal;
+    private double orderTotal;
 
 
 
@@ -47,11 +49,28 @@ public class OrderResponse {
         this.orderedGames = orderedGames;
     }
 
-    public double getTotalOrderSum() {
-        return totalOrderSum;
+
+    public double getShippingTotal() {
+        return shippingTotal;
     }
 
-    public void setTotalOrderSum(double totalOrderSum) {
-        this.totalOrderSum = totalOrderSum;
+    public void setShippingTotal(double shippingTotal) {
+        this.shippingTotal = shippingTotal;
+    }
+
+    public double getGameTotal() {
+        return gameTotal;
+    }
+
+    public void setGameTotal(double gameTotal) {
+        this.gameTotal = gameTotal;
+    }
+
+    public double getOrderTotal() {
+        return orderTotal;
+    }
+
+    public void setOrderTotal(double orderTotal) {
+        this.orderTotal = orderTotal;
     }
 }

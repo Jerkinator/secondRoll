@@ -60,21 +60,16 @@ public class OrderService {
                 .mapToDouble(GameAds::getPrice)
                 .sum();
 
+        double shippingTotal  = gameAds.stream()
+                .mapToDouble(GameAds::getShippingCost)
+                .sum();
+        double orderTotal = (totalPrice + shippingTotal);
+
         //checking that all passed game ads exists in database
         if (gameAds.size() != orderDTO.getGameAdIds().size()) {
             throw new ServiceException("One or more game ads not found.");
         }
-
-        Order newOrder = new Order();
-        newOrder.setBuyer(buyer.get());
-        newOrder.setGameAds(gameAds);
-        newOrder.setSeller(seller.get());
-        orderRepository.save(newOrder);
-
-        //return orderRepository.save(newOrder);
-
-
-
+        //Creates a new list with just gameTitle and price per game using OrderedgamesdetailDTO
         List<OrderGameDetailsDTO> orderedGames = new ArrayList<>();
         for (GameAds gameAd : gameAds) {
             OrderGameDetailsDTO orderGameDetailsDTO = new OrderGameDetailsDTO();
@@ -83,12 +78,24 @@ public class OrderService {
             orderedGames.add(orderGameDetailsDTO);
         }
 
-            OrderResponse orderResponse = new OrderResponse();
-            orderResponse.setOrderedDate(newOrder.getOrderedAt());
-            orderResponse.setBuyerName(buyer.get().getUsername());
-            orderResponse.setSellerName(seller.get().getUsername());
-            orderResponse.setOrderedGames(orderedGames);
-            orderResponse.setTotalOrderSum(totalPrice);
+        Order newOrder = new Order();
+        newOrder.setBuyer(buyer.get());
+        newOrder.setGameAds(gameAds);
+        newOrder.setSeller(seller.get());
+        orderRepository.save(newOrder);
+
+        //creates the response based on what gets passed in the orderDTO based on the fields in orderResponse
+        OrderResponse orderResponse = new OrderResponse();
+        orderResponse.setOrderedDate(newOrder.getOrderedAt());
+        orderResponse.setBuyerName(buyer.get().getUsername());
+        orderResponse.setSellerName(seller.get().getUsername());
+        orderResponse.setOrderedGames(orderedGames);
+        orderResponse.setShippingTotal(shippingTotal);
+        orderResponse.setGameTotal(totalPrice);
+        orderResponse.setOrderTotal(orderTotal);
+
+
+
 
 
         return orderResponse;
