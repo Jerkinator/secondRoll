@@ -1,10 +1,9 @@
 package SecondRoll.demo.payload.response;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GameAdResponse {
+public class SearchGameResponse {
 
     private String seller;
 
@@ -26,18 +25,7 @@ public class GameAdResponse {
 
     private List<String> gameGenres = new ArrayList<>();
 
-    private LocalDate created_at;
-
-    private LocalDate updated_at;
-
-    //public List<EGameCategory> gameDetails = new ArrayList<>();
-
-
-
-    public GameAdResponse() {
-    }
-
-    public GameAdResponse(String seller, String title, String description, int price, int shippingCost, String gameCreator, String gamePlayTime, String gameRecommendedAge, String gamePlayers, List<String> gameGenres, LocalDate created_at, LocalDate updated_at) {
+    public SearchGameResponse(String seller, String title, String description, int price, int shippingCost, String gameCreator, String gamePlayTime, String gameRecommendedAge, String gamePlayers, List<String> gameGenres) {
         this.seller = seller;
         this.title = title;
         this.description = description;
@@ -48,22 +36,8 @@ public class GameAdResponse {
         this.gameRecommendedAge = gameRecommendedAge;
         this.gamePlayers = gamePlayers;
         this.gameGenres = gameGenres;
-        this.created_at = created_at;
-        this.updated_at = updated_at;
     }
 
-
-    // private boolean isAvailable? Returns twice in postman right now. Looking for a fix.
-
-    // GETTERS & SETTERS.
-
-    public String getSeller() {
-        return seller;
-    }
-
-    public void setSeller(String seller) {
-        this.seller = seller;
-    }
 
     public String getTitle() {
         return title;
@@ -95,22 +69,6 @@ public class GameAdResponse {
 
     public void setShippingCost(int shippingCost) {
         this.shippingCost = shippingCost;
-    }
-
-    public LocalDate getCreated_at() {
-        return created_at;
-    }
-
-    public void setCreated_at(LocalDate created_at) {
-        this.created_at = created_at;
-    }
-
-    public LocalDate getUpdated_at() {
-        return updated_at;
-    }
-
-    public void setUpdated_at(LocalDate updated_at) {
-        this.updated_at = updated_at;
     }
 
     public String getGameCreator() {
@@ -153,11 +111,11 @@ public class GameAdResponse {
         this.gameGenres = gameGenres;
     }
 
-  /*  public List<EGameCategory> getGameDetails() {
-        return gameDetails;
+    public String getSeller() {
+        return seller;
     }
 
-    public void setGameDetails(List<EGameCategory> gameDetails) {
-        this.gameDetails = gameDetails;
-    }*/
+    public void setSeller(String seller) {
+        this.seller = seller;
+    }
 }
