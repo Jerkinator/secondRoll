@@ -36,6 +36,8 @@ public class CreateGameDTO {
 
    // private String gameGenre;
     public List<String> gameGenres;
+    @NotBlank
+    private String photoURL;
     @NotNull
     @Range(min = 1, max = 500)
     private int shippingCost;
@@ -168,6 +170,14 @@ public class CreateGameDTO {
 
     public void setGamePlayers(String gamePlayers) {
         this.gamePlayers = gamePlayers;
+    }
+
+    public String getPhotoURL() {
+        return photoURL;
+    }
+
+    public void setPhotoURL(String photoURL) {
+        this.photoURL = photoURL;
     }
 
    /* public String getGameGenre() {
