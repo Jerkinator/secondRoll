@@ -36,7 +36,7 @@ public class GameAdsController {
         return ResponseEntity.ok().body(new GameAdResponse(user.getUsername(), gameAd.getTitle(),
                 gameAd.getDescription(), gameAd.getPrice(), gameAd.getShippingCost(), gameAd.getGameCreator(),
                gameAd.getGamePlayTime(), gameAd.getGameRecommendedAge(), gameAd.getGamePlayers(),gameAd.gameGenres,
-               /* gameAd.getGameDetails(),*/ gameAd.getCreated_at(), gameAd.getUpdated_at()));
+               gameAd.getPhotoURL(), gameAd.getCreated_at(), gameAd.getUpdated_at()));
     }
 
     // GET ALL gameAds.
@@ -56,7 +56,7 @@ public class GameAdsController {
                     updatedGameAd.getDescription(), updatedGameAd.getPrice(), updatedGameAd.getShippingCost(),
                     updatedGameAd.getGameCreator(), updatedGameAd.getGamePlayTime(),
                     updatedGameAd.getGameRecommendedAge(), updatedGameAd.getGamePlayers(),
-                    updatedGameAd.getGameGenres(),
+                    updatedGameAd.getGameGenres(), updatedGameAd.getPhotoURL(),
                    /* updatedGameAd.getGameDetails(),*/ updatedGameAd.getCreated_at(),
                     updatedGameAd.getUpdated_at()));
         } catch (EntityNotFoundException e) {
@@ -74,8 +74,9 @@ public class GameAdsController {
             return ResponseEntity.ok().body(new GameAdResponse(user.getUsername(), gameAd.get().getTitle(),
                     gameAd.get().getDescription(), gameAd.get().getPrice(), gameAd.get().getShippingCost(),
                     gameAd.get().getGameCreator(), gameAd.get().getGamePlayTime(), gameAd.get().getGameRecommendedAge(),
-                    gameAd.get().getGamePlayers(), gameAd.get().getGameGenres(), gameAd.get().getCreated_at(),
-                    gameAd.get().getUpdated_at()));
+                    gameAd.get().getGamePlayers(), gameAd.get().getGameGenres(),gameAd.get().getPhotoURL(),
+                    gameAd.get().getCreated_at(), gameAd.get().getUpdated_at()));
+
         } catch (EntityNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }
@@ -119,7 +120,7 @@ public class GameAdsController {
         return ResponseEntity.ok().body(new GameAdResponse(user.getUsername(), gameAd.getTitle(),
                 gameAd.getDescription(), gameAd.getPrice(), gameAd.getShippingCost(), gameAd.getGameCreator(),
                 gameAd.getGamePlayTime(), gameAd.getGameRecommendedAge(), gameAd.getGamePlayers(),
-                gameAd.getGameGenres(),/* gameAd.getGameDetails(),*/
+                gameAd.getGameGenres(),/* gameAd.getGameDetails(),*/gameAd.getPhotoURL(),
                 gameAd.getCreated_at(), gameAd.getUpdated_at()));
     }
 

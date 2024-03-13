@@ -26,6 +26,8 @@ public class GameAdResponse {
 
     private List<String> gameGenres = new ArrayList<>();
 
+    private String photoURL;
+
     private LocalDate created_at;
 
     private LocalDate updated_at;
@@ -33,11 +35,19 @@ public class GameAdResponse {
     //public List<EGameCategory> gameDetails = new ArrayList<>();
 
 
+    
+
+
 
     public GameAdResponse() {
     }
 
-    public GameAdResponse(String seller, String title, String description, int price, int shippingCost, String gameCreator, String gamePlayTime, String gameRecommendedAge, String gamePlayers, List<String> gameGenres, LocalDate created_at, LocalDate updated_at) {
+   // public GameAdResponse(String seller, String title, String description, int price, int shippingCost, String gameCreator, String gamePlayTime, String gameRecommendedAge, String gamePlayers, List<String> gameGenres, LocalDate created_at, LocalDate updated_at) {
+    
+      public GameAdResponse(String seller, String title, String description, int price, int shippingCost,
+        String gameCreator, String gamePlayTime, String gameRecommendedAge, String gamePlayers, List<String> gameGenres,
+        String photoURL, LocalDate created_at, LocalDate updated_at) {
+        
         this.seller = seller;
         this.title = title;
         this.description = description;
@@ -48,6 +58,10 @@ public class GameAdResponse {
         this.gameRecommendedAge = gameRecommendedAge;
         this.gamePlayers = gamePlayers;
         this.gameGenres = gameGenres;
+        this.price = price;
+        this.shippingCost = shippingCost;
+        this.photoURL = photoURL;
+
         this.created_at = created_at;
         this.updated_at = updated_at;
     }
@@ -151,6 +165,14 @@ public class GameAdResponse {
 
     public void setGameGenres(List<String> gameGenres) {
         this.gameGenres = gameGenres;
+    }
+
+    public String getPhotoURL() {
+        return photoURL;
+    }
+
+    public void setPhotoURL(String photoURL) {
+        this.photoURL = photoURL;
     }
 
   /*  public List<EGameCategory> getGameDetails() {

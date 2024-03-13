@@ -47,6 +47,9 @@ public class GameAds {
     @NotBlank
     @Size(min = 1, max = 200)
     public List<String> gameGenres = new ArrayList<>();
+    @NotBlank
+    private String photoURL;
+
     @NotNull
     @Range(min = 1, max = 500)
     private int shippingCost;
@@ -141,6 +144,7 @@ public class GameAds {
     }
 
 
+
   /* public List<EGameCategory> getGameDetails() {
         return gameDetails;
     }
@@ -198,6 +202,14 @@ public class GameAds {
 
     public void setGamePlayers(String gamePlayers) {
         this.gamePlayers = gamePlayers;
+    }
+
+    public String getPhotoURL() {
+        return photoURL;
+    }
+
+    public void setPhotoURL(String photoURL) {
+        this.photoURL = photoURL;
     }
 
     /*public String getGameGenre() {
