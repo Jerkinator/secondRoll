@@ -33,7 +33,7 @@ public class UserController {
     UserDetailsServiceImpl userDetailsService;
 
     // GET a user by ID.
-    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
     @GetMapping("/{id}")
     public ResponseEntity<User> getUserById(@PathVariable String id){
         Optional<User> user = userService.getUserById(id);
@@ -47,9 +47,6 @@ public class UserController {
     public List<User> getAllUsers(){
         return userService.getAllUsers();
     }
-    /* if (userDetailsService.hasPermission(buyerId, request)) {
-        List<BuyerHistoryResponse> orders = orderService.buyerOrderHistory(buyerId);
-        return ResponseEntity.ok(orders); */
 
     // NEW AND "IMPROVED" UPDATE USER - goes through DTO to restrain the info that is ok for user to update
     @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
@@ -73,14 +70,6 @@ public class UserController {
                     .badRequest()
                     .body(new MessageResponse("You dont have authority to update this user"));
         }
-    }
-
-    // HELENA: se kommentar i UserService
-    // UPDATE a user. (OLD, REMOVE IF EVERYONE AGREES)
-    @PreAuthorize("hasRole('USER')")
-    @PutMapping()
-    public User updateUser(@RequestBody User user) {
-        return userService.updateUser(user);
     }
 
     // DELETE a user based on ID.
