@@ -14,19 +14,6 @@ import java.util.Date;
 @ControllerAdvice
 public class AppExceptionHandler extends ResponseEntityExceptionHandler {
 
-    /* Handles general exceptions and returns a simple error message and timestamp. Might not need.
-    @ExceptionHandler(value = {Exception.class})
-    public ResponseEntity<Object> handleAnyException(Exception ex, WebRequest request) {
-
-        String errorMessageDetails = ex.getLocalizedMessage();
-
-        if(errorMessageDetails == null) errorMessageDetails = ex.toString();
-
-        ErrorMessage errorMessage = new ErrorMessage(new Date(), errorMessageDetails);
-
-        return new ResponseEntity<>(errorMessage, new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR);
-    } */
-
     //Handles specific exceptions.
     @ExceptionHandler(value = {ServiceException.class})
     public ResponseEntity<Object> handleSpecificException(ServiceException ex, WebRequest request) {

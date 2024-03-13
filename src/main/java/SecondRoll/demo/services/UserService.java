@@ -1,5 +1,6 @@
 package SecondRoll.demo.services;
 
+import SecondRoll.demo.exception.ServiceException;
 import SecondRoll.demo.models.GameAds;
 import SecondRoll.demo.models.Rating;
 import SecondRoll.demo.models.User;
@@ -26,7 +27,8 @@ public class UserService {
 
     // GET a user by ID.
     public Optional<User> getUserById(String id) {
-        return userRepository.findById(id);
+        return Optional.ofNullable(userRepository.findById(id).orElseThrow(() ->
+                new ServiceException("User with id: " + id + " was not found.")));
     }
 
     // GET all users.
@@ -58,7 +60,8 @@ public class UserService {
     // ADD a gameAd to a user wishlist using a Data Transfer Object-reference.
     public User addGameToWishlist(String username, WishlistDTO wishlistDTO) {
         User user = userRepository.findUserByUsername(username);
-        GameAds gameAd = gameAdsRepository.findById(wishlistDTO.getGameId()).orElseThrow();
+        GameAds gameAd = gameAdsRepository.findById(wishlistDTO.getGameId()).
+                orElseThrow(() -> new ServiceException("Game not found."));
         user.getWishlist().add(gameAd);
         return userRepository.save(user);
     }
@@ -83,7 +86,7 @@ public class UserService {
         int number = rating.getRating();
 
             if (number <= 0 || number > 6) {
-                throw new IllegalArgumentException();
+                throw new ServiceException("Please select a rating between 1 - 6!");
             } else {
                 rating.setRating(number);
             }
