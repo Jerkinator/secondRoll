@@ -84,7 +84,7 @@ public class UserController {
 
         return ResponseEntity.ok().body(new UserProfileResponse(user.getId(), user.getUsername(), user.getEmail(),
                 user.getFirstName(), user.getLastName(), user.getPhoneNumber(), user.getAdress_street(),
-                user.getAdress_zip(), user.getAdress_city(), user.getWishlist(), user.getRatings(), user.getAverageRating()));
+                user.getAdress_zip(), user.getAdress_city(), user.getRatings(), user.getAverageRating()));
     }
 
 
