@@ -129,6 +129,7 @@ public class OrderService {
 
     public List<SellerHistoryResponse> sellerOrderHistory(String sellerId) {
         List<Order> orders = orderRepository.findBySellerId(sellerId);
+
         return orders.stream().map(this::convertToSellerHistoryDTO).collect(Collectors.toList());
     }
 
