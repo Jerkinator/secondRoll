@@ -1,5 +1,6 @@
 package SecondRoll.demo.controllers;
 
+import SecondRoll.demo.models.GameAds;
 import SecondRoll.demo.models.Rating;
 import SecondRoll.demo.models.User;
 import SecondRoll.demo.payload.UpdateUserDTO;
@@ -7,6 +8,7 @@ import SecondRoll.demo.payload.WishlistDTO;
 import SecondRoll.demo.payload.response.MessageResponse;
 import SecondRoll.demo.payload.response.UserProfileResponse;
 import SecondRoll.demo.payload.response.UserSearchByIdResponse;
+import SecondRoll.demo.payload.response.WishlistResponse;
 import SecondRoll.demo.repository.UserRepository;
 import SecondRoll.demo.security.services.UserDetailsServiceImpl;
 import SecondRoll.demo.services.UserService;
@@ -94,10 +96,30 @@ public class UserController {
     public String deleteUser(@PathVariable String id) {
         return userService.deleteUser(id);
     }
+    // GET users own wishlist
+    @PreAuthorize("hasRole ('USER')")
+    @GetMapping("/wishlist/{userId}")
+    public ResponseEntity<?> getPersonalWishlist (@PathVariable ("userId") String userId, HttpServletRequest request) {
+        if (userDetailsService.hasPermission(userId, request)) {
+            User user = userRepository.findUserById(userId);
+            List<GameAds> wishlist = user.getWishlist();
+            List<WishlistResponse> foundWishlist = new ArrayList<>();
+            for (GameAds gameAd : wishlist) {
+                WishlistResponse response = new WishlistResponse(gameAd.getId(), gameAd.getTitle(), gameAd.getPrice());
+                foundWishlist.add(response);
+            }
+            return ResponseEntity.ok().body(foundWishlist);
+        } else {
+            return ResponseEntity
+                    .badRequest()
+                    .body(new MessageResponse("You dont have authority to view this wishlist"));
+        }
+
+    }
 
     // ADD a gameAd to a user wishlist using a Data Transfer Object-reference.
     @PreAuthorize("hasRole('USER')")
-    @PutMapping("/{userId}/wishlist")
+    @PutMapping("/wishlist/{userId}")
     public ResponseEntity<?> addGameToWishlist (@PathVariable ("userId") String userId,
                                                 @RequestBody WishlistDTO wishlistDTO, HttpServletRequest request){
         if (userDetailsService.hasPermission(userId, request)) {
@@ -112,7 +134,7 @@ public class UserController {
 
     // REMOVE a gameAd from a user wishlist using a Data Transfer Object-reference.
     @PreAuthorize("hasRole('USER')")
-    @DeleteMapping(value = "/{userId}/wishlist")
+    @DeleteMapping(value = "/wishlist/{userId}")
     public ResponseEntity<?> removeGameFromWishlist(@PathVariable ("userId") String userId,
                                                     @RequestBody WishlistDTO wishlistDTO, HttpServletRequest request) {
         if (userDetailsService.hasPermission(userId, request)) {

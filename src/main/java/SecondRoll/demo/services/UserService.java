@@ -25,7 +25,7 @@ public class UserService {
     GameAdsService gameAdsService;
 
 
-    // GET a user by ID.
+    // GET a user by ID. (NO LONGER IN USE! REMOVE?)
     public Optional<User> getUserById(String id) {
         return Optional.ofNullable(userRepository.findById(id).orElseThrow(() ->
                 new ServiceException("User with id: " + id + " was not found.")));
@@ -36,17 +36,7 @@ public class UserService {
         return userRepository.findAll();
     }
 
-    // HELENA:
-
-    // en user ska kunna uppdatera sin info och ni behöver göra en metod för det här
-    // just nu har ni updateuser men jag tolkar det som en admin funktion eftersom den inte är kopplad
-    // till ett specifikt user id.
-    // gör en update funktion med ett userId som pathVariable så kn den användas när en inloggad user
-    // vill uppdatera sin info. Fundera på vilken info en user ska få uppdatera?
-    // ni behöver även ge olika auth åtkomst här som jag skrev i WebSecurityConfig filen
-
-
-    // UPDATE a user.
+    // UPDATE a user. (NO LONGER IN USE! REMOVE?)
     public User updateUser(User user) {
         return userRepository.save(user);
     }
@@ -61,6 +51,7 @@ public class UserService {
     public User addGameToWishlist(String userId, WishlistDTO wishlistDTO) {
         User user = userRepository.findById(userId).orElseThrow();
         GameAds gameAd = gameAdsRepository.findById(wishlistDTO.getGameId()).orElseThrow();
+        user.getWishlist().add(gameAd);
             return userRepository.save(user);
         }
 

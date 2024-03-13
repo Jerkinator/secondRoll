@@ -69,7 +69,7 @@ public class WebSecurityConfig {
                                 .requestMatchers("/api/auth/login").permitAll()
                                 .requestMatchers("/api/gameAds/all").permitAll()
                                 //.requestMatchers("/api/users/**").hasRole( "ADMIN")
-                                .requestMatchers("api/users/{userId}/wishlist").hasRole("USER")
+                                .requestMatchers("api/users/wishlist/{userId}").hasRole("USER")
                                 .requestMatchers("/api/users/{userId}/update").hasAnyRole("USER", "ADMIN")
                                 .requestMatchers("/api/gameAds/sortbydate/**").permitAll()
                                 .requestMatchers("/api/gameAds/sortbyprice/**").permitAll()
