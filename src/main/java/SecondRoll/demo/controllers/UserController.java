@@ -7,7 +7,9 @@ import SecondRoll.demo.payload.WishlistDTO;
 import SecondRoll.demo.payload.response.MessageResponse;
 import SecondRoll.demo.payload.response.UserProfileResponse;
 import SecondRoll.demo.repository.UserRepository;
+import SecondRoll.demo.security.services.UserDetailsServiceImpl;
 import SecondRoll.demo.services.UserService;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -27,6 +29,8 @@ public class UserController {
     AuthenticationManager authenticationManager;
     @Autowired
     UserRepository userRepository;
+    @Autowired
+    UserDetailsServiceImpl userDetailsService;
 
     // GET a user by ID.
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
@@ -43,11 +47,16 @@ public class UserController {
     public List<User> getAllUsers(){
         return userService.getAllUsers();
     }
+    /* if (userDetailsService.hasPermission(buyerId, request)) {
+        List<BuyerHistoryResponse> orders = orderService.buyerOrderHistory(buyerId);
+        return ResponseEntity.ok(orders); */
+
     // NEW AND "IMPROVED" UPDATE USER - goes through DTO to restrain the info that is ok for user to update
-    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
     @PutMapping("/{userId}/update")
-    public ResponseEntity<?> updateUser(@Valid @RequestBody UpdateUserDTO updateUserDTO, @PathVariable ("userId") String userId) {
-        if (userRepository.existsById((userId))) {
+    public ResponseEntity<?> updateUser(@Valid @RequestBody UpdateUserDTO updateUserDTO,
+                                        @PathVariable ("userId") String userId, HttpServletRequest request) {
+        if (userDetailsService.hasPermission(userId, request)) {
 
             User updatedUser = userRepository.findUserById(userId);
             updatedUser.setFirstName(updateUserDTO.getFirstName());
@@ -62,7 +71,7 @@ public class UserController {
         } else {
             return ResponseEntity
                     .badRequest()
-                    .body(new MessageResponse("userId could not be found"));
+                    .body(new MessageResponse("You dont have authority to update this user"));
         }
     }
 
