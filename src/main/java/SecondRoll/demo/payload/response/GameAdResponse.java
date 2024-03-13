@@ -42,7 +42,7 @@ public class GameAdResponse {
     public GameAdResponse() {
     }
 
-   // public GameAdResponse(String seller, String title, String description, int price, int shippingCost, String gameCreator, String gamePlayTime, String gameRecommendedAge, String gamePlayers, List<String> gameGenres, LocalDate created_at, LocalDate updated_at) {
+
     
       public GameAdResponse(String seller, String title, String description, int price, int shippingCost,
         String gameCreator, String gamePlayTime, String gameRecommendedAge, String gamePlayers, List<String> gameGenres,
@@ -51,8 +51,6 @@ public class GameAdResponse {
         this.seller = seller;
         this.title = title;
         this.description = description;
-        this.price = price;
-        this.shippingCost = shippingCost;
         this.gameCreator = gameCreator;
         this.gamePlayTime = gamePlayTime;
         this.gameRecommendedAge = gameRecommendedAge;
