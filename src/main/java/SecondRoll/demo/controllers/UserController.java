@@ -18,6 +18,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -35,25 +36,32 @@ public class UserController {
     // GET a user by ID.
     @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
     @GetMapping("/{userId}")
-    public ResponseEntity<?> getUserId(@PathVariable String userId) {
+    public ResponseEntity<?> getUserById(@PathVariable String userId) {
         User user = userRepository.findUserById(userId);
 
         return ResponseEntity.ok().body(new UserSearchByIdResponse(user.getId(), user.getUsername(), user.getAdress_city()));
     }
 
-    /* @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
-    @GetMapping("/{id}")
-    public ResponseEntity<User> getUserById(@PathVariable String id){
-        Optional<User> user = userService.getUserById(id);
-        return user.map(ResponseEntity::ok)
-                .orElseGet(() -> ResponseEntity.notFound().build());
-    } */
-
     // GET ALL users.
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
     @GetMapping("/all")
-    public List<User> getAllUsers(){
-        return userService.getAllUsers();
+    public ResponseEntity<?> getAllUsers() {
+        List<User> allUsers = userRepository.findAll();
+        List<UserSearchByIdResponse> foundUsers = new ArrayList<>();
+        for (User user : allUsers) {
+            UserSearchByIdResponse response = new UserSearchByIdResponse(user.getId(), user.getUsername(), user.getAdress_city());
+            foundUsers.add(response);
+        }
+        return ResponseEntity.ok().body(foundUsers);
+    }
+    @PreAuthorize("hasRole('ADMIN')")
+    @GetMapping("/all/{adminId}")
+    public List<User> getAllUsersAdmin(@PathVariable ("adminId") String adminId, HttpServletRequest request) {
+        if (userDetailsService.hasPermission(adminId, request)) {
+            return userService.getAllUsers();
+        } else {
+            return null;
+        }
     }
 
     // NEW AND "IMPROVED" UPDATE USER - goes through DTO to restrain the info that is ok for user to update

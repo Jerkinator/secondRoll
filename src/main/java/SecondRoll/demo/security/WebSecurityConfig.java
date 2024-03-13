@@ -74,6 +74,7 @@ public class WebSecurityConfig {
                                 .requestMatchers("/api/gameAds/sortbydate/**").permitAll()
                                 .requestMatchers("/api/gameAds/sortbyprice/**").permitAll()
                                 .requestMatchers("/api/gameAds").hasRole("USER")
+                                .requestMatchers("/api/users/all").hasAnyRole("USER", "ADMIN")
                                 .requestMatchers("/api/users/all").hasRole("ADMIN")
                                 .requestMatchers("/api/users/profile/{username}").hasAnyRole("USER", "ADMIN")
                                 .requestMatchers("/api/orders").hasRole("USER")
