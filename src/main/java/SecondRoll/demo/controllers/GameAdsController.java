@@ -29,8 +29,9 @@ public class GameAdsController {
     @Autowired
     GameAdsRepository gameAdsRepository;
 
-    // POST.
+    // POST gameAd
     @PostMapping()
+    @PreAuthorize("hasRole('USER')")
     public ResponseEntity<GameAdResponse> createGameAd(@Valid @RequestBody CreateGameDTO createGameDTO) {
         GameAds gameAd = gameAdsService.createGameAd(createGameDTO);
         User user = gameAd.getUser();
@@ -42,16 +43,16 @@ public class GameAdsController {
 
     }
 
-    // GET ALL gameAds.
+    // GET ALL gameAds
     @GetMapping("/all")
     public ResponseEntity<List<GameAdResponse>> getAllGameAds() {
         List<GameAdResponse> orders = gameAdsService.getAllGameAds();
         return ResponseEntity.ok(orders);
     }
 
-    // UPDATED PUT
+    // PUT update gameAd
     @PutMapping("/{gameId}")
-    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasAnyRole('USER','ADMIN')")
     public ResponseEntity<?> updateGameAd(@PathVariable String gameId, @RequestBody GameAds gameDetails) {
         try {
             GameAds updatedGameAd = gameAdsService.updateGameAd(gameId, gameDetails);
@@ -68,8 +69,9 @@ public class GameAdsController {
         }
     }
 
-    // GET a gameAd by ID.
+    // GET gameAd by id
     @GetMapping(value = "/{id}")
+    @PreAuthorize("hasAnyRole('USER','ADMIN')")
     public ResponseEntity<?> getGameAdById(@PathVariable String id) {
         try {
             Optional<GameAds> gameAd = gameAdsService.getGameAdById(id);
@@ -86,40 +88,23 @@ public class GameAdsController {
         }
     }
 
-    // Delete by ID.
+    // DELETE gameAd by id
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAnyRole('USER','ADMIN')")
     public String deleteGameAd(@PathVariable String id) {
         return gameAdsService.deleteGameAd(id);
     }
 
-    // Search by gameDetails
-  /*  @GetMapping(value = "/search")
-    public List<GameAds> findGameAdsByGameDetails(@RequestParam List<EGameCategory> gameDetails) {
-        return gameAdsService.findGameAdsByGameDetails(gameDetails);
-    }*/
 
-
-    // GET all game ads belonging to a user.
+    // GET ALL game ads belonging to a user
     @GetMapping("/user/{userId}")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAnyRole('USER','ADMIN')")
     public ResponseEntity<List<GameAdResponse>> getUserGameAds(@PathVariable String userId) {
         List<GameAdResponse> gameAds = gameAdsService.getUserOrders(userId);
         return ResponseEntity.ok(gameAds);
     }
 
-
-    // Search by latest added gameAd.
-
-    // Search by Price, unfinished method.
-    /* @GetMapping(value = "/price")
-    public ResponseEntity<List<GameAds>> findGameAdsByPrice(@PathVariable List price) {
-
-        List<GameAds> gamePrice = gameAdsService.findGameAdsByPrice(price);
-        return ResponseEntity.ok(gamePrice);
-    } */
-
-    // "Roll the Dice" game ad randomizer
+    // "Roll the Dice" gameAd randomizer
     @GetMapping(value = "/rolldice")
     public ResponseEntity<GameAdResponse> getRandomGameAd() {
         GameAds gameAd = gameAdsService.getRandomGameAd();
@@ -130,25 +115,26 @@ public class GameAdsController {
                 gameAd.getGameGenres(), gameAd.getPhotoURL(), gameAd.getCreated_at(), gameAd.getUpdated_at()));
     }
 
-    // sort available Ads in ascending order by price
+
+    // sort available gameAds in ascending order by price
     @GetMapping("/sortbyprice/asc")
     public List<GameAds> findAvailableGameAdsSortedByPriceAsc() {
         return gameAdsService.findAvailableGameAdsSortedByPriceAsc();
     }
 
-    // sort available Ads in Descending order by price
+    // sort available gameAds in descending order by price
     @GetMapping("/sortbyprice/desc")
     public List<GameAds> findAvailableGameAdsSortedByPriceDesc() {
         return gameAdsService.findAvailableGameAdsSortedByPriceDesc();
     }
 
-    // sort available Ads in Descending order by date created
+    // sort available gameAds in ascending order by date created
     @GetMapping("/sortbydate/asc")
     public List<GameAds> availableGameAdsSortedByDateAsc() {
         return gameAdsService.availableGameAdsSortedByDateAsc();
     }
 
-    // sort available Ads in Descending order by date created
+    // sort available gameAds in descending order by date created
     @GetMapping("/sortbydate/desc")
     public List<GameAds> availableGameAdsSortedByDateDesc() {
         return gameAdsService.availableGameAdsSortedByDateDesc();
@@ -158,7 +144,6 @@ public class GameAdsController {
     //finds gameAds where the passed title is checked and if present returns a list of all matching ads
     @GetMapping("/findbytitle/{title}")
     public ResponseEntity<?> getGameAdsByTitle(@PathVariable  String title) {
-        //
         try {
             List<GameAds> adsByTitle = gameAdsRepository.findByTitleIgnoreCase(title);
 
@@ -182,7 +167,7 @@ public class GameAdsController {
     }
 
 
-    //finds gameAds where the passed genre is checked and if present returns a list of all matching ads
+    // finds gameAds where the passed genre is checked and if present returns a list of all matching ads
     @GetMapping("/findbygenre/{genre}")
     public ResponseEntity<?> getGameAdsByGenre(@PathVariable  String genre) {
         try {
@@ -204,7 +189,8 @@ public class GameAdsController {
         }
 
     }
-    //finds gameAds where the passed game creator is checked and if present returns a list of all matching ads
+
+    // finds gameAds where the passed game creator is checked and if present returns a list of all matching ads
     @GetMapping("/findbycreator/{creator}")
     public ResponseEntity<?> getGameAdsByGameCreator(@PathVariable  String creator) {
         try {
@@ -224,9 +210,9 @@ public class GameAdsController {
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(("An error occurred: " + e.getMessage()));
         }
-
     }
-    //finds gameAds where the passed game play time is checked and if present returns a list of all matching ads
+
+    // finds gameAds where the passed game play time is checked and if present returns a list of all matching ads
     @GetMapping("/findbygametime/{gameTime}")
     public ResponseEntity<?> getGameAdsByGamePlayTime(@PathVariable  String gameTime) {
         try {
@@ -246,10 +232,9 @@ public class GameAdsController {
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(("An error occurred: " + e.getMessage()));
         }
-
     }
 
-    //finds gameAds where the passed recommended age is checked and if present returns a list of all matching ads
+    // finds gameAds where the passed recommended age is checked and if present returns a list of all matching ads
     @GetMapping("/findbyage/{recommendedAge}")
     public ResponseEntity<?> getGameAdsByGameRecommendedAge(@PathVariable  String recommendedAge) {
         try {
@@ -269,10 +254,9 @@ public class GameAdsController {
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(("An error occurred: " + e.getMessage()));
         }
-
     }
 
-    //finds gameAds where the passed number of players is checked and if present returns a list of all matching ads
+    // finds gameAds where the passed number of players is checked and if present returns a list of all matching ads
     @GetMapping("/findbyplayers/{players}")
     public ResponseEntity<?> getGameAdsByGamePlayers(@PathVariable  String players) {
         try {
@@ -292,16 +276,5 @@ public class GameAdsController {
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(("An error occurred: " + e.getMessage()));
         }
-
     }
 }
-
-
-
- /*
-    // OLD PUT Update a game ad, stored for now, just in case.
-    @PutMapping()
-    public GameAds updateGameAd(@RequestBody GameAds gameAds) {
-        return gameAdsService.updateGameAd(gameAds);
-    } */
-

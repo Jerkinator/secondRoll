@@ -30,8 +30,12 @@ public class OrderController {
     UserDetailsServiceImpl userDetailsService;
 
 
+
     //Sending in OrderDTO object as a request
-    @PostMapping()
+
+    // POST create order
+    @PreAuthorize("hasRole('USER')")
+    @PostMapping
 
     public ResponseEntity<OrderResponse> createOrder(@RequestBody OrderDTO orderDTO) {
         //Getting user id and game ad id and creates the order in database
@@ -43,37 +47,32 @@ public class OrderController {
         return new ResponseEntity<>(newOrder, HttpStatus.CREATED);
     }
 
-
-
-
-    //GET
-    //retrieving all orders from order collection
-    @GetMapping("/all")
+    //GET all orders from order collection
     @PreAuthorize("hasRole('ADMIN')")
+    @GetMapping("/all")
     public List<Order> getAllOrders() {
         return orderService.getAllOrders();
     }
 
-    //GET
-    //retrieve specific order based on id
-    @GetMapping("/{id}")
+    //GET specific order by id
     @PreAuthorize("hasRole('ADMIN')")
+    @GetMapping("/{id}")
     public ResponseEntity<Order> getOrdersById(@PathVariable String id) {
         Optional<Order> order = orderService.getOrdersById(id);
         return order.map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    //DELETE order by id
+    // DELETE order by id
     @PreAuthorize("hasRole('ADMIN')")
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     public String deleteOrderById(@PathVariable String id) {
         return orderService.deleteOrderById(id);
     }
 
-    //GET buyer history for bought games
-    @GetMapping("/buyerhistory/{buyerId}")
+    // GET buyer order history by user id
     @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
+    @GetMapping("/buyerhistory/{buyerId}")
     public ResponseEntity<List<BuyerHistoryResponse>> buyerOrderHistory(@PathVariable String buyerId, HttpServletRequest request) {
         if (userDetailsService.hasPermission(buyerId, request)) {
             List<BuyerHistoryResponse> orders = orderService.buyerOrderHistory(buyerId);
@@ -83,8 +82,9 @@ public class OrderController {
         }
     }
 
-    @GetMapping("/sellerhistory/{sellerId}")
+    // GET seller order history by user id
     @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
+    @GetMapping("/sellerhistory/{sellerId}")
     public ResponseEntity<List<SellerHistoryResponse>> sellerOrderHistory(@PathVariable String sellerId, HttpServletRequest request) {
         if (userDetailsService.hasPermission(sellerId, request)) {
             List<SellerHistoryResponse> orders = orderService.sellerOrderHistory(sellerId);
