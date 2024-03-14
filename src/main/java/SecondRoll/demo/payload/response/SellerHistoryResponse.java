@@ -9,7 +9,9 @@ public class SellerHistoryResponse {
     private String seller;
     private String buyer;
     private List<OrderGameDetailsDTO> orderedGames;
-    private double totalPrice;
+    private double shippingTotal;
+    private double gameTotal;
+    private double orderTotal;
     private Date orderedDate;
 
     public String getSeller() {
@@ -36,12 +38,12 @@ public class SellerHistoryResponse {
         this.orderedGames = orderedGames;
     }
 
-    public double getTotalPrice() {
-        return totalPrice;
+    public double getOrderTotal() {
+        return orderTotal;
     }
 
-    public void setTotalPrice(double totalPrice) {
-        this.totalPrice = totalPrice;
+    public void setOrderTotal(double orderTotal) {
+        this.orderTotal = orderTotal;
     }
 
     public Date getOrderedDate() {
@@ -51,4 +53,22 @@ public class SellerHistoryResponse {
     public void setOrderedDate(Date orderedDate) {
         this.orderedDate = orderedDate;
     }
+
+    public double getShippingTotal() {
+        return shippingTotal;
+    }
+
+    public void setShippingTotal(double shippingTotal) {
+        this.shippingTotal = shippingTotal;
+    }
+
+    public double getGameTotal() {
+        return gameTotal;
+    }
+
+    public void setGameTotal(double gameTotal) {
+        this.gameTotal = gameTotal;
+    }
+
+
 }

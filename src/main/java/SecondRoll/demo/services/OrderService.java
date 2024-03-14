@@ -8,6 +8,7 @@ import SecondRoll.demo.payload.OrderDTO;
 import SecondRoll.demo.payload.OrderGameDetailsDTO;
 import SecondRoll.demo.payload.response.BuyerHistoryResponse;
 import SecondRoll.demo.payload.response.OrderResponse;
+import SecondRoll.demo.payload.response.SellerHistoryResponse;
 import SecondRoll.demo.repository.GameAdsRepository;
 import SecondRoll.demo.repository.OrderRepository;
 import SecondRoll.demo.repository.UserRepository;
@@ -153,6 +154,42 @@ public class OrderService {
         return buyerHistoryResponse;
     }
 
+    //Identical as buyer history response but with sold
+    public List<SellerHistoryResponse> sellerOrderHistory(String sellerId) {
+        List<Order> orders = orderRepository.findBySellerId(sellerId);
+        return orders.stream().map(this::convertToSellerHistoryDTO).collect(Collectors.toList());
+    }
+
+    private SellerHistoryResponse convertToSellerHistoryDTO(Order order) {
+        SellerHistoryResponse sellerHistoryResponse = new SellerHistoryResponse();
+
+        List<OrderGameDetailsDTO> gameDetailsList = order.getGameAds().stream()
+                //using the help method to get game details from the gameAd id
+                .map(gameAds -> getGameDetails(gameAds.getId()))
+                .collect(Collectors.toList());
+
+        double totalPrice =order.getGameAds().stream()
+                .mapToDouble(GameAds::getPrice)
+                .sum();
+
+        double shippingTotal  = order.getGameAds().stream()
+                .mapToDouble(GameAds::getShippingCost)
+                .sum();
+
+        double orderTotal = (totalPrice + shippingTotal);
+
+        sellerHistoryResponse.setBuyer(order.getBuyer().getUsername());
+        sellerHistoryResponse.setSeller(order.getSeller().getUsername());
+        sellerHistoryResponse.setOrderedGames(gameDetailsList);
+        sellerHistoryResponse.setOrderedDate(order.getOrderedAt());
+        sellerHistoryResponse.setShippingTotal(shippingTotal);
+        sellerHistoryResponse.setGameTotal(totalPrice);
+        sellerHistoryResponse.setOrderTotal(orderTotal);
+
+
+        return sellerHistoryResponse;
+    }
+
     //Help method to get title and price from gameads
     private OrderGameDetailsDTO getGameDetails(String gameId) {
 
@@ -169,40 +206,7 @@ public class OrderService {
     }
 
 
-   /* public List<BuyerHistoryResponse> buyerOrderHistory(String buyerId) {
 
-        List<Order> orders = orderRepository.findByBuyerId(buyerId);
 
-        return orders.stream().map(this::convertToBuyerHistoryDTO).collect(Collectors.toList());
-    }
 
-    private BuyerHistoryResponse convertToBuyerHistoryDTO(Order order) {
-        BuyerHistoryResponse buyerHistoryResponse = new BuyerHistoryResponse();
-        buyerHistoryResponse.setBuyerId(order.getBuyer().getUsername());
-
-        buyerHistoryResponse.setOrderedGameIds(order.getGameAds().stream().map(GameAds::getTitle).collect(Collectors.toList()));
-        buyerHistoryResponse.setOrderedDate(order.getOrderedAt());
-
-        return buyerHistoryResponse;
-    }
-
-    */
-
-    /*public List<SellerHistoryResponse> sellerOrderHistory(String sellerId) {
-        List<Order> orders = orderRepository.findBySellerId(sellerId);
-
-        return orders.stream().map(this::convertToSellerHistoryDTO).collect(Collectors.toList());
-    }
-
-    private SellerHistoryResponse convertToSellerHistoryDTO(Order order) {
-        SellerHistoryResponse sellerHistoryResponse = new SellerHistoryResponse();
-        sellerHistoryResponse.setSellerId(order.getSeller().getUsername());
-
-        sellerHistoryResponse.setSoldGameIds(order.getGameAds().stream().map(GameAds::getTitle).collect(Collectors.toList()));
-        sellerHistoryResponse.setSaleDate(order.getOrderedAt());
-
-        return sellerHistoryResponse;
-    }
-
-     */
 }

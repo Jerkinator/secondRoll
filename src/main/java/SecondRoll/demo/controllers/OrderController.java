@@ -4,6 +4,7 @@ import SecondRoll.demo.models.Order;
 import SecondRoll.demo.payload.OrderDTO;
 import SecondRoll.demo.payload.response.BuyerHistoryResponse;
 import SecondRoll.demo.payload.response.OrderResponse;
+import SecondRoll.demo.payload.response.SellerHistoryResponse;
 import SecondRoll.demo.repository.UserRepository;
 import SecondRoll.demo.security.services.UserDetailsServiceImpl;
 import SecondRoll.demo.services.OrderService;
@@ -31,15 +32,6 @@ public class OrderController {
 
     //Sending in OrderDTO object as a request
     @PostMapping()
-    /*public ResponseEntity<GameAdResponse> createGameAd(@Valid @RequestBody CreateGameDTO createGameDTO) {
-        GameAds gameAd = gameAdsService.createGameAd(createGameDTO);
-        User user = gameAd.getUser();
-        return ResponseEntity.ok().body(new GameAdResponse(user.getUsername(), gameAd.getTitle(),
-                gameAd.getDescription(), gameAd.getPrice(), gameAd.getShippingCost(), gameAd.getGameCreator(),
-                gameAd.getGamePlayTime(), gameAd.getGameRecommendedAge(), gameAd.getGamePlayers(),gameAd.gameGenres,
-                gameAd.getPhotoURL(), gameAd.getCreated_at(), gameAd.getUpdated_at()));
-
-     */
 
     public ResponseEntity<OrderResponse> createOrder(@RequestBody OrderDTO orderDTO) {
         //Getting user id and game ad id and creates the order in database
@@ -91,7 +83,7 @@ public class OrderController {
         }
     }
 
-   /* @GetMapping("/sellerhistory/{sellerId}")
+    @GetMapping("/sellerhistory/{sellerId}")
     @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     public ResponseEntity<List<SellerHistoryResponse>> sellerOrderHistory(@PathVariable String sellerId, HttpServletRequest request) {
         if (userDetailsService.hasPermission(sellerId, request)) {
@@ -102,5 +94,5 @@ public class OrderController {
         }
     }
 
-    */
+
 }
