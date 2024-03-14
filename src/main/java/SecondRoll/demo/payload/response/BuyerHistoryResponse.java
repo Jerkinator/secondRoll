@@ -1,34 +1,50 @@
 package SecondRoll.demo.payload.response;
 
+import SecondRoll.demo.payload.OrderGameDetailsDTO;
+
 import java.util.Date;
 import java.util.List;
 
 public class BuyerHistoryResponse {
 
-    private String buyerId;
-
-    private List<String> orderedGameIds;
-
+    private String buyer;
+    private String seller;
+    private List<OrderGameDetailsDTO> orderedGames;
+    private double shippingTotal;
+    private double gameTotal;
+    private double orderTotal;
     private Date orderedDate;
 
-    public String getBuyerId() {
-        return buyerId;
+    public String getBuyer() {
+        return buyer;
     }
 
-    public void setBuyerId(String buyerId) {
-        this.buyerId = buyerId;
+    public void setBuyer(String buyer) {
+        this.buyer = buyer;
     }
 
-
-
-
-
-    public List<String> getOrderedGameIds() {
-        return orderedGameIds;
+    public String getSeller() {
+        return seller;
     }
 
-    public void setOrderedGameIds(List<String> orderedGameIds) {
-        this.orderedGameIds = orderedGameIds;
+    public void setSeller(String seller) {
+        this.seller = seller;
+    }
+
+    public List<OrderGameDetailsDTO> getOrderedGames() {
+        return orderedGames;
+    }
+
+    public void setOrderedGames(List<OrderGameDetailsDTO> orderedGames) {
+        this.orderedGames = orderedGames;
+    }
+
+    public double getOrderTotal() {
+        return orderTotal;
+    }
+
+    public void setOrderTotal(double orderTotal) {
+        this.orderTotal = orderTotal;
     }
 
     public Date getOrderedDate() {
@@ -39,7 +55,23 @@ public class BuyerHistoryResponse {
         this.orderedDate = orderedDate;
     }
 
+    public double getShippingTotal() {
+        return shippingTotal;
+    }
 
+    public void setShippingTotal(double shippingTotal) {
+        this.shippingTotal = shippingTotal;
+    }
 
+    public double getGameTotal() {
+        return gameTotal;
+    }
 
+    public void setGameTotal(double gameTotal) {
+        this.gameTotal = gameTotal;
+    }
 }
+
+
+
+

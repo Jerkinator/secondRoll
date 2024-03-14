@@ -1,37 +1,74 @@
 package SecondRoll.demo.payload.response;
 
+import SecondRoll.demo.payload.OrderGameDetailsDTO;
+
 import java.util.Date;
 import java.util.List;
 
 public class SellerHistoryResponse {
-    private String sellerId;
+    private String seller;
+    private String buyer;
+    private List<OrderGameDetailsDTO> orderedGames;
+    private double shippingTotal;
+    private double gameTotal;
+    private double orderTotal;
+    private Date orderedDate;
 
-
-    private List<String> soldGameIds;
-
-    private Date saleDate;
-
-    public String getSellerId() {
-        return sellerId;
+    public String getSeller() {
+        return seller;
     }
 
-    public void setSellerId(String sellerId) {
-        this.sellerId = sellerId;
+    public void setSeller(String seller) {
+        this.seller = seller;
     }
 
-    public List<String> getSoldGameIds() {
-        return soldGameIds;
+    public String getBuyer() {
+        return buyer;
     }
 
-    public void setSoldGameIds(List<String> soldGameIds) {
-        this.soldGameIds = soldGameIds;
+    public void setBuyer(String buyer) {
+        this.buyer = buyer;
     }
 
-    public Date getSaleDate() {
-        return saleDate;
+    public List<OrderGameDetailsDTO> getOrderedGames() {
+        return orderedGames;
     }
 
-    public void setSaleDate(Date saleDate) {
-        this.saleDate = saleDate;
+    public void setOrderedGames(List<OrderGameDetailsDTO> orderedGames) {
+        this.orderedGames = orderedGames;
     }
+
+    public double getOrderTotal() {
+        return orderTotal;
+    }
+
+    public void setOrderTotal(double orderTotal) {
+        this.orderTotal = orderTotal;
+    }
+
+    public Date getOrderedDate() {
+        return orderedDate;
+    }
+
+    public void setOrderedDate(Date orderedDate) {
+        this.orderedDate = orderedDate;
+    }
+
+    public double getShippingTotal() {
+        return shippingTotal;
+    }
+
+    public void setShippingTotal(double shippingTotal) {
+        this.shippingTotal = shippingTotal;
+    }
+
+    public double getGameTotal() {
+        return gameTotal;
+    }
+
+    public void setGameTotal(double gameTotal) {
+        this.gameTotal = gameTotal;
+    }
+
+
 }

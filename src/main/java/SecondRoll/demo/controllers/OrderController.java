@@ -30,9 +30,13 @@ public class OrderController {
     UserDetailsServiceImpl userDetailsService;
 
 
+
+    //Sending in OrderDTO object as a request
+
     // POST create order
     @PreAuthorize("hasRole('USER')")
     @PostMapping
+
     public ResponseEntity<OrderResponse> createOrder(@RequestBody OrderDTO orderDTO) {
         //Getting user id and game ad id and creates the order in database
         OrderResponse newOrder = orderService.createOrder(orderDTO);
@@ -89,4 +93,6 @@ public class OrderController {
             throw new RuntimeException("Not authorized");
         }
     }
+
+
 }

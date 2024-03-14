@@ -119,37 +119,94 @@ public class OrderService {
         orderRepository.deleteById(id);
         return "Order successfully deleted!";
     }
-
     public List<BuyerHistoryResponse> buyerOrderHistory(String buyerId) {
-
         List<Order> orders = orderRepository.findByBuyerId(buyerId);
-
         return orders.stream().map(this::convertToBuyerHistoryDTO).collect(Collectors.toList());
     }
 
     private BuyerHistoryResponse convertToBuyerHistoryDTO(Order order) {
         BuyerHistoryResponse buyerHistoryResponse = new BuyerHistoryResponse();
-        buyerHistoryResponse.setBuyerId(order.getBuyer().getUsername());
 
-        buyerHistoryResponse.setOrderedGameIds(order.getGameAds().stream().map(GameAds::getTitle).collect(Collectors.toList()));
+        List<OrderGameDetailsDTO> gameDetailsList = order.getGameAds().stream()
+                //using the help method to get game details from the gameAd id
+                .map(gameAds -> getGameDetails(gameAds.getId()))
+                .collect(Collectors.toList());
+
+        double totalPrice =order.getGameAds().stream()
+                .mapToDouble(GameAds::getPrice)
+                .sum();
+
+        double shippingTotal  = order.getGameAds().stream()
+                .mapToDouble(GameAds::getShippingCost)
+                .sum();
+
+        double orderTotal = (totalPrice + shippingTotal);
+
+        buyerHistoryResponse.setBuyer(order.getBuyer().getUsername());
+        buyerHistoryResponse.setSeller(order.getSeller().getUsername());
+        buyerHistoryResponse.setOrderedGames(gameDetailsList);
         buyerHistoryResponse.setOrderedDate(order.getOrderedAt());
+        buyerHistoryResponse.setShippingTotal(shippingTotal);
+        buyerHistoryResponse.setGameTotal(totalPrice);
+        buyerHistoryResponse.setOrderTotal(orderTotal);
+
 
         return buyerHistoryResponse;
     }
 
+    //Identical as buyer history response but with sold
     public List<SellerHistoryResponse> sellerOrderHistory(String sellerId) {
         List<Order> orders = orderRepository.findBySellerId(sellerId);
-
         return orders.stream().map(this::convertToSellerHistoryDTO).collect(Collectors.toList());
     }
 
     private SellerHistoryResponse convertToSellerHistoryDTO(Order order) {
         SellerHistoryResponse sellerHistoryResponse = new SellerHistoryResponse();
-        sellerHistoryResponse.setSellerId(order.getSeller().getUsername());
 
-        sellerHistoryResponse.setSoldGameIds(order.getGameAds().stream().map(GameAds::getTitle).collect(Collectors.toList()));
-        sellerHistoryResponse.setSaleDate(order.getOrderedAt());
+        List<OrderGameDetailsDTO> gameDetailsList = order.getGameAds().stream()
+                //using the help method to get game details from the gameAd id
+                .map(gameAds -> getGameDetails(gameAds.getId()))
+                .collect(Collectors.toList());
+
+        double totalPrice =order.getGameAds().stream()
+                .mapToDouble(GameAds::getPrice)
+                .sum();
+
+        double shippingTotal  = order.getGameAds().stream()
+                .mapToDouble(GameAds::getShippingCost)
+                .sum();
+
+        double orderTotal = (totalPrice + shippingTotal);
+
+        sellerHistoryResponse.setBuyer(order.getBuyer().getUsername());
+        sellerHistoryResponse.setSeller(order.getSeller().getUsername());
+        sellerHistoryResponse.setOrderedGames(gameDetailsList);
+        sellerHistoryResponse.setOrderedDate(order.getOrderedAt());
+        sellerHistoryResponse.setShippingTotal(shippingTotal);
+        sellerHistoryResponse.setGameTotal(totalPrice);
+        sellerHistoryResponse.setOrderTotal(orderTotal);
+
 
         return sellerHistoryResponse;
     }
+
+    //Help method to get title and price from gameads
+    private OrderGameDetailsDTO getGameDetails(String gameId) {
+
+        Optional<GameAds> gameAds = gameAdsRepository.findById(gameId);
+        if (gameAds.isPresent()) {
+            OrderGameDetailsDTO gameDetailsDTO = new OrderGameDetailsDTO();
+            gameDetailsDTO.setTitle(gameAds.get().getTitle());
+            gameDetailsDTO.setPrice(gameAds.get().getPrice());
+
+            return gameDetailsDTO;
+        } else {
+            throw new RuntimeException("Game ads not found");
+        }
+    }
+
+
+
+
+
 }
