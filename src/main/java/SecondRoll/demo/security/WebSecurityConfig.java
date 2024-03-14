@@ -66,6 +66,12 @@ public class WebSecurityConfig {
                                 .requestMatchers("/api/gameAds/rolldice").permitAll()
                                 .requestMatchers("/api/gameAds/sortbydate/**").permitAll()
                                 .requestMatchers("/api/gameAds/sortbyprice/**").permitAll()
+                                .requestMatchers("/api/gameAds/findbytitle/{title}").permitAll()
+                                .requestMatchers("/api/gameAds/findbygenre/{genre}").permitAll()
+                                .requestMatchers("/api/gameAds/findbycreator/{creator}").permitAll()
+                                .requestMatchers("/api/gameAds/findbygametime/{gameTime}").permitAll()
+                                .requestMatchers("/api/gameAds/findbyage/{recommendedAge}").permitAll()
+                                .requestMatchers("/api/gameAds/findbyplayers/{players}").permitAll()
                                 .anyRequest().authenticated()
                 );
 
