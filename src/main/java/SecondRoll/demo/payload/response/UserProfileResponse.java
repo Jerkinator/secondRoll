@@ -1,9 +1,6 @@
 package SecondRoll.demo.payload.response;
 
-import SecondRoll.demo.models.GameAds;
-
 import java.util.ArrayList;
-import java.util.List;
 
 public class UserProfileResponse {
     private String id;
@@ -15,13 +12,12 @@ public class UserProfileResponse {
     private String adress_street;
     private String adress_zip;
     private String adress_city;
-    private List<GameAds> wishlist;
     private ArrayList<Integer> ratings;
     private int averageRating;
 
     public UserProfileResponse(String id, String username, String email, String firstName, String lastName,
                                String phoneNumber, String adress_street, String adress_zip, String adress_city,
-                               List<GameAds> wishlist, ArrayList<Integer> ratings, int averageRating) {
+                               ArrayList<Integer> ratings, int averageRating) {
         this.id = id;
         this.username = username;
         this.email = email;
@@ -31,7 +27,6 @@ public class UserProfileResponse {
         this.adress_street = adress_street;
         this.adress_zip = adress_zip;
         this.adress_city = adress_city;
-        this.wishlist = wishlist;
         this.ratings = ratings;
         this.averageRating = averageRating;
     }
@@ -106,14 +101,6 @@ public class UserProfileResponse {
 
     public void setAdress_city(String adress_city) {
         this.adress_city = adress_city;
-    }
-
-    public List<GameAds> getWishlist() {
-        return wishlist;
-    }
-
-    public void setWishlist(List<GameAds> wishlist) {
-        this.wishlist = wishlist;
     }
 
     public ArrayList<Integer> getRatings() {

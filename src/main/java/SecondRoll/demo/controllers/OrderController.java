@@ -3,6 +3,7 @@ package SecondRoll.demo.controllers;
 import SecondRoll.demo.models.Order;
 import SecondRoll.demo.payload.OrderDTO;
 import SecondRoll.demo.payload.response.BuyerHistoryResponse;
+import SecondRoll.demo.payload.response.OrderResponse;
 import SecondRoll.demo.payload.response.SellerHistoryResponse;
 import SecondRoll.demo.repository.UserRepository;
 import SecondRoll.demo.security.services.UserDetailsServiceImpl;
@@ -32,10 +33,9 @@ public class OrderController {
     // POST create order
     @PreAuthorize("hasRole('USER')")
     @PostMapping
-    //Sending in OrderDTO object as a request
-    public ResponseEntity<Order> createOrder(@RequestBody OrderDTO orderDTO) {
+    public ResponseEntity<OrderResponse> createOrder(@RequestBody OrderDTO orderDTO) {
         //Getting user id and game ad id and creates the order in database
-        Order newOrder = orderService.createOrder(orderDTO);
+        OrderResponse newOrder = orderService.createOrder(orderDTO);
         //this is where what shows in postman is set.
         //only responds with the message Order created
         //return new ResponseEntity(new MessageResponse("Order created"), HttpStatus.CREATED);

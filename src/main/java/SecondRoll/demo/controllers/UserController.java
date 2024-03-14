@@ -1,11 +1,14 @@
 package SecondRoll.demo.controllers;
 
+import SecondRoll.demo.models.GameAds;
 import SecondRoll.demo.models.Rating;
 import SecondRoll.demo.models.User;
 import SecondRoll.demo.payload.UpdateUserDTO;
 import SecondRoll.demo.payload.WishlistDTO;
 import SecondRoll.demo.payload.response.MessageResponse;
 import SecondRoll.demo.payload.response.UserProfileResponse;
+import SecondRoll.demo.payload.response.UserSearchByIdResponse;
+import SecondRoll.demo.payload.response.WishlistResponse;
 import SecondRoll.demo.repository.UserRepository;
 import SecondRoll.demo.security.services.UserDetailsServiceImpl;
 import SecondRoll.demo.services.UserService;
@@ -17,8 +20,8 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping(value = "/api/users")
@@ -34,18 +37,33 @@ public class UserController {
 
     // GET a user by ID.
     @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
-    @GetMapping("/{id}")
-    public ResponseEntity<User> getUserById(@PathVariable String id){
-        Optional<User> user = userService.getUserById(id);
-        return user.map(ResponseEntity::ok)
-                .orElseGet(() -> ResponseEntity.notFound().build());
+    @GetMapping("/{userId}")
+    public ResponseEntity<?> getUserById(@PathVariable String userId) {
+        User user = userRepository.findUserById(userId);
+
+        return ResponseEntity.ok().body(new UserSearchByIdResponse(user.getId(), user.getUsername(), user.getAdress_city()));
     }
 
-    // GET ALL users
-    @PreAuthorize("hasRole('ADMIN')")
+    // GET ALL users.
+    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
     @GetMapping("/all")
-    public List<User> getAllUsers(){
-        return userService.getAllUsers();
+    public ResponseEntity<?> getAllUsers() {
+        List<User> allUsers = userRepository.findAll();
+        List<UserSearchByIdResponse> foundUsers = new ArrayList<>();
+        for (User user : allUsers) {
+            UserSearchByIdResponse response = new UserSearchByIdResponse(user.getId(), user.getUsername(), user.getAdress_city());
+            foundUsers.add(response);
+        }
+        return ResponseEntity.ok().body(foundUsers);
+    }
+    @PreAuthorize("hasRole('ADMIN')")
+    @GetMapping("/all/{adminId}")
+    public List<User> getAllUsersAdmin(@PathVariable ("adminId") String adminId, HttpServletRequest request) {
+        if (userDetailsService.hasPermission(adminId, request)) {
+            return userService.getAllUsers();
+        } else {
+            return null;
+        }
     }
 
     // NEW AND "IMPROVED" UPDATE USER - goes through DTO to restrain the info that is ok for user to update
@@ -78,10 +96,30 @@ public class UserController {
     public String deleteUser(@PathVariable String id) {
         return userService.deleteUser(id);
     }
+    // GET users own wishlist
+    @PreAuthorize("hasRole ('USER')")
+    @GetMapping("/wishlist/{userId}")
+    public ResponseEntity<?> getPersonalWishlist (@PathVariable ("userId") String userId, HttpServletRequest request) {
+        if (userDetailsService.hasPermission(userId, request)) {
+            User user = userRepository.findUserById(userId);
+            List<GameAds> wishlist = user.getWishlist();
+            List<WishlistResponse> foundWishlist = new ArrayList<>();
+            for (GameAds gameAd : wishlist) {
+                WishlistResponse response = new WishlistResponse(gameAd.getId(), gameAd.getTitle(), gameAd.getPrice());
+                foundWishlist.add(response);
+            }
+            return ResponseEntity.ok().body(foundWishlist);
+        } else {
+            return ResponseEntity
+                    .badRequest()
+                    .body(new MessageResponse("You dont have authority to view this wishlist"));
+        }
+
+    }
 
     // ADD gameAd to a user wishlist using a Data Transfer Object-reference.
     @PreAuthorize("hasRole('USER')")
-    @PutMapping("/{userId}/wishlist")
+    @PutMapping("/wishlist/{userId}")
     public ResponseEntity<?> addGameToWishlist (@PathVariable ("userId") String userId,
                                                 @RequestBody WishlistDTO wishlistDTO, HttpServletRequest request){
         if (userDetailsService.hasPermission(userId, request)) {
@@ -96,7 +134,7 @@ public class UserController {
 
     // REMOVE gameAd from a user wishlist using a Data Transfer Object-reference.
     @PreAuthorize("hasRole('USER')")
-    @DeleteMapping(value = "/{userId}/wishlist")
+    @DeleteMapping(value = "/wishlist/{userId}")
     public ResponseEntity<?> removeGameFromWishlist(@PathVariable ("userId") String userId,
                                                     @RequestBody WishlistDTO wishlistDTO, HttpServletRequest request) {
         if (userDetailsService.hasPermission(userId, request)) {
@@ -125,6 +163,6 @@ public class UserController {
 
         return ResponseEntity.ok().body(new UserProfileResponse(user.getId(), user.getUsername(), user.getEmail(),
                 user.getFirstName(), user.getLastName(), user.getPhoneNumber(), user.getAdress_street(),
-                user.getAdress_zip(), user.getAdress_city(), user.getWishlist(), user.getRatings(), user.getAverageRating()));
+                user.getAdress_zip(), user.getAdress_city(), user.getRatings(), user.getAverageRating()));
     }
 }

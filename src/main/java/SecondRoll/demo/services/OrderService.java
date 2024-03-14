@@ -5,7 +5,9 @@ import SecondRoll.demo.models.GameAds;
 import SecondRoll.demo.models.Order;
 import SecondRoll.demo.models.User;
 import SecondRoll.demo.payload.OrderDTO;
+import SecondRoll.demo.payload.OrderGameDetailsDTO;
 import SecondRoll.demo.payload.response.BuyerHistoryResponse;
+import SecondRoll.demo.payload.response.OrderResponse;
 import SecondRoll.demo.payload.response.SellerHistoryResponse;
 import SecondRoll.demo.repository.GameAdsRepository;
 import SecondRoll.demo.repository.OrderRepository;
@@ -15,7 +17,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -30,7 +31,7 @@ public class OrderService {
     private UserRepository userRepository;
 
     //create order preparing to use payload object in controller
-    public Order createOrder(OrderDTO orderDTO) {
+    public OrderResponse createOrder(OrderDTO orderDTO) {
         Optional<User> buyer = userRepository.findById(orderDTO.getBuyerId());
         if (!buyer.isPresent()) {
             throw new ServiceException("User not found.");
@@ -55,10 +56,26 @@ public class OrderService {
                 throw new ServiceException("Seller not found.");
             }
         }
+        double totalPrice = gameAds.stream()
+                .mapToDouble(GameAds::getPrice)
+                .sum();
+
+        double shippingTotal  = gameAds.stream()
+                .mapToDouble(GameAds::getShippingCost)
+                .sum();
+        double orderTotal = (totalPrice + shippingTotal);
 
         //checking that all passed game ads exists in database
         if (gameAds.size() != orderDTO.getGameAdIds().size()) {
             throw new ServiceException("One or more game ads not found.");
+        }
+        //Creates a new list with just gameTitle and price per game using OrderedgamesdetailDTO
+        List<OrderGameDetailsDTO> orderedGames = new ArrayList<>();
+        for (GameAds gameAd : gameAds) {
+            OrderGameDetailsDTO orderGameDetailsDTO = new OrderGameDetailsDTO();
+            orderGameDetailsDTO.setTitle(gameAd.getTitle());
+            orderGameDetailsDTO.setPrice(gameAd.getPrice());
+            orderedGames.add(orderGameDetailsDTO);
         }
 
         Order newOrder = new Order();
@@ -67,31 +84,24 @@ public class OrderService {
         newOrder.setSeller(seller.get());
         orderRepository.save(newOrder);
 
-        return orderRepository.save(newOrder);
+        //creates the response based on what gets passed in the orderDTO based on the fields in orderResponse
+        OrderResponse orderResponse = new OrderResponse();
+        orderResponse.setOrderedDate(newOrder.getOrderedAt());
+        orderResponse.setBuyerName(buyer.get().getUsername());
+        orderResponse.setSellerName(seller.get().getUsername());
+        orderResponse.setOrderedGames(orderedGames);
+        orderResponse.setShippingTotal(shippingTotal);
+        orderResponse.setGameTotal(totalPrice);
+        orderResponse.setOrderTotal(orderTotal);
+
+
+
+
+
+        return orderResponse;
+
     }
 
-
-    // get orders for specific user WIP
-    public List<Order> getAllOrdersByUsername(String username) {
-        List<Order> userOrders = new ArrayList<>();
-
-        List<Order> sellerList = orderRepository
-                .findAll()
-                .stream()
-                .filter(order -> Objects.equals(order.getSeller().getUsername(), username))
-                .toList();
-
-        List<Order> buyerList = orderRepository
-                .findAll()
-                .stream()
-                .filter(order -> Objects.equals(order.getBuyer().getUsername(), username))
-                .toList();
-
-        userOrders.addAll(sellerList);
-        userOrders.addAll(buyerList);
-
-        return userOrders;
-    }
 
     //get all orders from order collection
     public List<Order> getAllOrders() {
