@@ -4,11 +4,14 @@ import java.util.Date;
 import java.util.List;
 
 public class OrderDTO {
+
+
+
     private String buyerId;
 
     private List<String> gameAdIds;
 
-    private Date OrderedDate;
+    private Date orderedDate;
 
 
     public String getBuyerId() {
@@ -19,6 +22,7 @@ public class OrderDTO {
         this.buyerId = buyerId;
     }
 
+
     public List<String> getGameAdIds() {
         return gameAdIds;
     }
@@ -27,11 +31,12 @@ public class OrderDTO {
         this.gameAdIds = gameAdIds;
     }
 
+
     public Date getOrderedDate() {
-        return OrderedDate;
+        return orderedDate;
     }
 
     public void setOrderedDate(Date orderedDate) {
-        OrderedDate = orderedDate;
+        this.orderedDate = orderedDate;
     }
 }
