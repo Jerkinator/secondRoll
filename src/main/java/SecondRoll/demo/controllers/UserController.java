@@ -86,11 +86,11 @@ public class UserController {
         } else {
             return ResponseEntity
                     .badRequest()
-                    .body(new MessageResponse("You dont have authority to update this user"));
+                    .body(new MessageResponse("You don't have authority to update this user"));
         }
     }
 
-    // DELETE a user based on ID.
+    // DELETE a user based on id
     @PreAuthorize("hasRole('ADMIN')")
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     public String deleteUser(@PathVariable String id) {
@@ -117,7 +117,7 @@ public class UserController {
 
     }
 
-    // ADD a gameAd to a user wishlist using a Data Transfer Object-reference.
+    // ADD gameAd to a user wishlist using a Data Transfer Object-reference.
     @PreAuthorize("hasRole('USER')")
     @PutMapping("/wishlist/{userId}")
     public ResponseEntity<?> addGameToWishlist (@PathVariable ("userId") String userId,
@@ -128,11 +128,11 @@ public class UserController {
         } else {
             return ResponseEntity
                     .badRequest()
-                    .body(new MessageResponse("You dont have authority to add a game to this wishlist"));
+                    .body(new MessageResponse("You don't have authority to add a game to this wishlist"));
         }
     }
 
-    // REMOVE a gameAd from a user wishlist using a Data Transfer Object-reference.
+    // REMOVE gameAd from a user wishlist using a Data Transfer Object-reference.
     @PreAuthorize("hasRole('USER')")
     @DeleteMapping(value = "/wishlist/{userId}")
     public ResponseEntity<?> removeGameFromWishlist(@PathVariable ("userId") String userId,
@@ -143,12 +143,12 @@ public class UserController {
         } else {
             return ResponseEntity
                     .badRequest()
-                    .body(new MessageResponse("You dont have authority to remove a game from this wishlist"));
+                    .body(new MessageResponse("You don't have authority to remove a game from this wishlist"));
         }
 
     }
 
-    // ADD rating to a user.
+    // ADD rating to a user
     @PreAuthorize("hasRole('USER')")
     @PutMapping("/{userId}/rating")
     public ResponseEntity<?> addRatingToUser (@PathVariable ("userId") String userId, @RequestBody Rating rating) {
@@ -156,8 +156,8 @@ public class UserController {
         return ResponseEntity.ok().body(new MessageResponse("Rating added."));
     }
 
+    @PreAuthorize("hasRole('ADMIN') or #username == principal.username")
     @GetMapping("/profile/{username}")
-    @PreAuthorize("#username == principal.username")
     public ResponseEntity<?> getUserProfile(@PathVariable("username") String username) {
         User user = userRepository.findUserByUsername(username);
 
@@ -165,5 +165,4 @@ public class UserController {
                 user.getFirstName(), user.getLastName(), user.getPhoneNumber(), user.getAdress_street(),
                 user.getAdress_zip(), user.getAdress_city(), user.getRatings(), user.getAverageRating()));
     }
-
 }

@@ -53,11 +53,6 @@ public class WebSecurityConfig {
         return new BCryptPasswordEncoder();
     }
 
-    // titta över det här kanske hittar ni fler scenarion ni behöver tänka på? ändra authorization mitt tips är auth på
-    // metodnivå istället. Vissa kan säker ligga kvar kanske men gå igenom varje end point för att se vilken auth som krävs.
-
-    // obs obs, ändra framöver så att inte admin kan lägga in orders
-
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.csrf(csrf -> csrf.disable())
@@ -68,18 +63,15 @@ public class WebSecurityConfig {
                                 .requestMatchers("/api/auth/signup").permitAll()
                                 .requestMatchers("/api/auth/login").permitAll()
                                 .requestMatchers("/api/gameAds/all").permitAll()
-                                //.requestMatchers("/api/users/**").hasRole( "ADMIN")
-                                .requestMatchers("api/users/wishlist/{userId}").hasRole("USER")
-                                .requestMatchers("/api/users/{userId}/update").hasAnyRole("USER", "ADMIN")
+                                .requestMatchers("/api/gameAds/rolldice").permitAll()
                                 .requestMatchers("/api/gameAds/sortbydate/**").permitAll()
                                 .requestMatchers("/api/gameAds/sortbyprice/**").permitAll()
-                                .requestMatchers("/api/gameAds").hasRole("USER")
-                                .requestMatchers("/api/users/all").hasAnyRole("USER", "ADMIN")
-                                .requestMatchers("/api/users/all").hasRole("ADMIN")
-                                .requestMatchers("/api/users/profile/{username}").hasAnyRole("USER", "ADMIN")
-                                .requestMatchers("/api/orders").hasRole("USER")
-                                .requestMatchers("/api/orders/buyerhistory/{buyerId}").hasAnyRole("USER", "ADMIN")
-                                .requestMatchers("/api/orders/sellerhistory/{sellerId}").hasAnyRole("USER", "ADMIN")
+                                .requestMatchers("/api/gameAds/findbytitle/{title}").permitAll()
+                                .requestMatchers("/api/gameAds/findbygenre/{genre}").permitAll()
+                                .requestMatchers("/api/gameAds/findbycreator/{creator}").permitAll()
+                                .requestMatchers("/api/gameAds/findbygametime/{gameTime}").permitAll()
+                                .requestMatchers("/api/gameAds/findbyage/{recommendedAge}").permitAll()
+                                .requestMatchers("/api/gameAds/findbyplayers/{players}").permitAll()
                                 .anyRequest().authenticated()
                 );
 
