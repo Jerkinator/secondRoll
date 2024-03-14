@@ -4,7 +4,6 @@ import SecondRoll.demo.models.Order;
 import SecondRoll.demo.payload.OrderDTO;
 import SecondRoll.demo.payload.response.BuyerHistoryResponse;
 import SecondRoll.demo.payload.response.OrderResponse;
-import SecondRoll.demo.payload.response.SellerHistoryResponse;
 import SecondRoll.demo.repository.UserRepository;
 import SecondRoll.demo.security.services.UserDetailsServiceImpl;
 import SecondRoll.demo.services.OrderService;
@@ -92,7 +91,7 @@ public class OrderController {
         }
     }
 
-    @GetMapping("/sellerhistory/{sellerId}")
+   /* @GetMapping("/sellerhistory/{sellerId}")
     @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     public ResponseEntity<List<SellerHistoryResponse>> sellerOrderHistory(@PathVariable String sellerId, HttpServletRequest request) {
         if (userDetailsService.hasPermission(sellerId, request)) {
@@ -102,4 +101,6 @@ public class OrderController {
             throw new RuntimeException("Not authorized");
         }
     }
+
+    */
 }
