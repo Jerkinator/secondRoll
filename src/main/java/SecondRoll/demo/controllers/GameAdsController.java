@@ -115,32 +115,36 @@ public class GameAdsController {
     }
 
 
-    // sort available gameAds in ascending order by price
+    // Sort available gameAds in ascending order by price
+    // Request response has not yet been implemented
     @GetMapping("/sortbyprice/asc")
     public List<GameAds> findAvailableGameAdsSortedByPriceAsc() {
         return gameAdsService.findAvailableGameAdsSortedByPriceAsc();
     }
 
-    // sort available gameAds in descending order by price
+    // Sort available gameAds in descending order by price
+    // Request response has not yet been implemented
     @GetMapping("/sortbyprice/desc")
     public List<GameAds> findAvailableGameAdsSortedByPriceDesc() {
         return gameAdsService.findAvailableGameAdsSortedByPriceDesc();
     }
 
-    // sort available gameAds in ascending order by date created
+    // Sort available gameAds in ascending order by date created
+    // Request response has not yet been implemented
     @GetMapping("/sortbydate/asc")
     public List<GameAds> availableGameAdsSortedByDateAsc() {
         return gameAdsService.availableGameAdsSortedByDateAsc();
     }
 
-    // sort available gameAds in descending order by date created
+    // Sort available gameAds in descending order by date created
+    // Request response has not yet been implemented
     @GetMapping("/sortbydate/desc")
     public List<GameAds> availableGameAdsSortedByDateDesc() {
         return gameAdsService.availableGameAdsSortedByDateDesc();
     }
 
 
-    //finds gameAds where the passed title is checked and if present returns a list of all matching ads
+    // Finds gameAds where the passed title is checked and if present returns a list of all matching ads
     @GetMapping("/findbytitle/{title}")
     public ResponseEntity<?> getGameAdsByTitle(@PathVariable  String title) {
         try {
@@ -166,7 +170,7 @@ public class GameAdsController {
     }
 
 
-    // finds gameAds where the passed genre is checked and if present returns a list of all matching ads
+    // Finds gameAds where the passed genre is checked and if present returns a list of all matching ads
     @GetMapping("/findbygenre/{genre}")
     public ResponseEntity<?> getGameAdsByGenre(@PathVariable  String genre) {
         try {
@@ -189,7 +193,7 @@ public class GameAdsController {
 
     }
 
-    // finds gameAds where the passed game creator is checked and if present returns a list of all matching ads
+    // Finds gameAds where the passed game creator is checked and if present returns a list of all matching ads
     @GetMapping("/findbycreator/{creator}")
     public ResponseEntity<?> getGameAdsByGameCreator(@PathVariable  String creator) {
         try {
@@ -211,7 +215,7 @@ public class GameAdsController {
         }
     }
 
-    // finds gameAds where the passed game play time is checked and if present returns a list of all matching ads
+    // Finds gameAds where the passed game play time is checked and if present returns a list of all matching ads
     @GetMapping("/findbygametime/{gameTime}")
     public ResponseEntity<?> getGameAdsByGamePlayTime(@PathVariable  String gameTime) {
         try {
@@ -233,7 +237,7 @@ public class GameAdsController {
         }
     }
 
-    // finds gameAds where the passed recommended age is checked and if present returns a list of all matching ads
+    // Finds gameAds where the passed recommended age is checked and if present returns a list of all matching ads
     @GetMapping("/findbyage/{recommendedAge}")
     public ResponseEntity<?> getGameAdsByGameRecommendedAge(@PathVariable  String recommendedAge) {
         try {
@@ -255,7 +259,7 @@ public class GameAdsController {
         }
     }
 
-    // finds gameAds where the passed number of players is checked and if present returns a list of all matching ads
+    // Finds gameAds where the passed number of players is checked and if present returns a list of all matching ads
     @GetMapping("/findbyplayers/{players}")
     public ResponseEntity<?> getGameAdsByGamePlayers(@PathVariable  String players) {
         try {

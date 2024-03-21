@@ -29,10 +29,7 @@ public class OrderController {
     @Autowired
     UserDetailsServiceImpl userDetailsService;
 
-
-
-    //Sending in OrderDTO object as a request
-
+    // Sending in OrderDTO object as a request
     // POST create order
     @PreAuthorize("hasRole('USER')")
     @PostMapping
@@ -93,6 +90,4 @@ public class OrderController {
             throw new RuntimeException("Not authorized");
         }
     }
-
-
 }

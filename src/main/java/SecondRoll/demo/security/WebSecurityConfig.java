@@ -59,8 +59,7 @@ public class WebSecurityConfig {
                 .exceptionHandling(exception -> exception.authenticationEntryPoint(unauthorizedHandler))
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth ->
-                        auth.requestMatchers("/api/auth/admin/**").hasRole("ADMIN")
-                                .requestMatchers("/api/auth/signup").permitAll()
+                        auth.requestMatchers("/api/auth/signup").permitAll()
                                 .requestMatchers("/api/auth/login").permitAll()
                                 .requestMatchers("/api/gameAds/all").permitAll()
                                 .requestMatchers("/api/gameAds/{id}").permitAll()
