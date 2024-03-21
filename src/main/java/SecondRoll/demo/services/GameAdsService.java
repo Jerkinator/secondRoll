@@ -43,7 +43,6 @@ public class GameAdsService {
         gameAd.setGamePlayers(createGameDTO.getGamePlayers());
         gameAd.setGameGenres(createGameDTO.getGameGenres());
         gameAd.setPhotoURL(createGameDTO.getPhotoURL());
-        // gameAd.setAvailable(createGameDTO.isAvailable);
 
         return gameAdsRepository.save(gameAd);
     }
@@ -73,11 +72,9 @@ public class GameAdsService {
                     existingGameAd.setPrice(updatedGameAd.getPrice());
                     existingGameAd.setShippingCost(updatedGameAd.getShippingCost());
 
-
             return gameAdsRepository.save(existingGameAd);
         })
                 .orElseThrow(() -> new ServiceException("Game with id " + id + " was not found."));
-
     }
 
     // GET a gameAd by id
@@ -92,39 +89,12 @@ public class GameAdsService {
         return "Game Ad deleted";
     }
 
-
-    // FILTER by enum
-
-    //HELENA:
-    // jag tror ni vet att Enum behöver konverteras till String :)
-    // och ni skulle också kunna förbättra er findGameAdsByUserId
-    // efter det vi gick igenom på lektionen
-    // ni får själva avgöra hur ni väljer att prioritera för metoden fungerar ju som den är
-    // tycker ni det är viktigt att ändra den eller inte?
-
-    // :OBS: METODEN FINDGAMEADSBYUSERID ÄR FIXAD NU.
-
-    // BÅDE GAMEADS OCH ORDER SERVICE:
-    // bör ni se över hur tex user lägger sig i responses, för jag antar att det är hela usern som syns där?
-    // om det är så bör ni nog prioritera att fixa detta dels för att det gör att era response objekt är
-    // otroligt stora om alla info om varje objectid referens ska finnas med och dels för att det här
-    // kan exposa känslig data och det är inte bra. Se över era responses när det gäller referenser med ObjectId
-    // vilken data räcker att ha med i ett respons objekt för respektive metod?
-
-    // :OBS: USERINFON I GAMEADS ÄR FIXAD NU MED GAMEADRESPONSEDTO.
-
-    // Filter by tags
-    /*public List<GameAds> findGameAdsByGameDetails(List<EGameCategory> gameDetails) {
-        return gameAdsRepository.findByGameDetailsIn(gameDetails);
-    }*/
-
     // UPDATED Find all GameAds by user ID.
     public List<GameAdResponse> getUserOrders(String userId) {
         Optional<User> user = userRepository.findById(userId);
         if (!user.isPresent()) {
             throw new ServiceException("User not found.");
         }
-
         List<GameAds> userGames = gameAdsRepository.findByUserId(userId);
         return userGames.stream().map(this::convertToDTO).collect(Collectors.toList());
     }
@@ -147,8 +117,6 @@ public class GameAdsService {
         gameAdResponse.setGamePlayers(gameAd.getGamePlayers());
         gameAdResponse.setGameGenres(gameAd.getGameGenres());
         gameAdResponse.setPhotoURL(gameAd.getPhotoURL());
-     //   gameAdResponse.setGameDetails(gameAd.gameDetails);
-
 
         return gameAdResponse;
     }
@@ -162,7 +130,7 @@ public class GameAdsService {
         return gameAds;
     }
 
-    ////method to get available gameAds in ascending price order
+    // Method to get available gameAds in ascending price order.
     public List<GameAds> findAvailableGameAdsSortedByPriceAsc() {
 
         List<GameAds> availableAdsPriceAsc = new ArrayList<>();
@@ -175,7 +143,7 @@ public class GameAdsService {
         return availableAdsPriceAsc;
     }
 
-    //method to get available gameAds in descending price order
+    // Method to get available gameAds in descending price order.
     public List<GameAds> findAvailableGameAdsSortedByPriceDesc() {
 
         List<GameAds> availableAdsPriceDesc = new ArrayList<>();
@@ -188,7 +156,7 @@ public class GameAdsService {
         return availableAdsPriceDesc;
     }
 
-    //sorting available ads based on date created ascending order
+    // Sorting available ads based on date created ascending order.
     public List<GameAds> availableGameAdsSortedByDateAsc() {
 
         List<GameAds> availableAdsDateAsc = new ArrayList<>();
@@ -201,7 +169,7 @@ public class GameAdsService {
         return availableAdsDateAsc;
     }
 
-    //sorting available ads based on date created descending order
+    // Sorting available ads based on date created descending order.
     public List<GameAds> availableGameAdsSortedByDateDesc() {
 
         List<GameAds> availableAdsDateDesc = new ArrayList<>();
@@ -214,67 +182,8 @@ public class GameAdsService {
         return availableAdsDateDesc;
     }
 
-
-
-
     public List<GameAds> getGameAdsByGenre(String genre) {
         List<GameAds> AdsByGenre = gameAdsRepository.findByGameGenres(genre);
         return AdsByGenre;
     }
-
-
-
 }
-
-
-
-
-
-   /* // OLD GET ALL gameAds, stored for now, just in case.
-    public List<GameAds> getAllGameAds() {
-        return gameAdsRepository.findAll();
-    } */
-
-
-   /* // OLD GET all GameAds by user ID, stored for now, just in case.
-    public List<GameAds> findGameAdsByUserId(String userId) {
-        User user = userRepository.findById(userId).orElseThrow();
-
-        List<GameAds> gameAds = gameAdsRepository.findAll();
-        List<GameAds> foundGames = new ArrayList<>();
-        for(GameAds gameAd : gameAds) {
-            if(Objects.equals(gameAd.getUser().getId(), user.getId())) {
-                foundGames.add(gameAd);
-            }
-        }
-        return foundGames;
-    } */
-
-
-  /*
-    // OLD UPDATE a gameAd, stored for now, just in case.
-    public GameAds updateGameAd(GameAds gameAds) {
-        return gameAdsRepository.save(gameAds);
-    } */
-
-   /* //Unfinished method for finding all games by price.
-    public List<GameAds> findGameAdsByPrice(List price) {
-        List<GameAds> gamePrice = gameAdsRepository.findByPrice(price);
-        return gamePrice;
-    } */
-
-        // Converter method
-   /* private GameAds convertToDTO(GameAds gameAds) {
-        GameAds gameAd = new GameAds();
-        gameAd.set;
-
-
-
-
-}
-
-        return gameAd;
-    } */
-
-
-

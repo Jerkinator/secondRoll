@@ -5,8 +5,6 @@ import java.util.List;
 
 public class OrderDTO {
 
-
-
     private String buyerId;
 
     private List<String> gameAdIds;

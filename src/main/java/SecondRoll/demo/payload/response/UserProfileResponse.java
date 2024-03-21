@@ -15,8 +15,9 @@ public class UserProfileResponse {
     private ArrayList<Integer> ratings;
     private int averageRating;
 
-    public UserProfileResponse(String id, String username, String email, String firstName, String lastName,
-                               String phoneNumber, String adress_street, String adress_zip, String adress_city,
+    public UserProfileResponse(String id, String username, String email, String firstName,
+                               String lastName, String phoneNumber,
+                               String adress_street, String adress_zip, String adress_city,
                                ArrayList<Integer> ratings, int averageRating) {
         this.id = id;
         this.username = username;

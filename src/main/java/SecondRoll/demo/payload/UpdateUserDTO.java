@@ -7,17 +7,22 @@ public class UpdateUserDTO {
     @NotBlank
     @Size(min = 2, max = 30)
     private String firstName;
+
     @NotBlank
     @Size(min = 2, max = 40)
     private String lastName;
+
     @NotBlank
     @Size(min = 6, max = 12)
     private String phoneNumber;
+
     @NotBlank
     private String adress_street;
+
     @NotBlank
     @Size(min = 5, max = 6)
     private String adress_zip;
+
     @NotBlank
     private String adress_city;
 

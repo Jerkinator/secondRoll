@@ -69,6 +69,4 @@ public class SellerHistoryResponse {
     public void setGameTotal(double gameTotal) {
         this.gameTotal = gameTotal;
     }
-
-
 }

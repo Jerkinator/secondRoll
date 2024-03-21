@@ -19,7 +19,7 @@ public class GameAds {
     @Id
     private String id;
 
-    // HELENA: kanske att det här skulle heta seller istället för att vara extra tydligt
+
     @NotBlank
     @DBRef
     private User user;
@@ -75,7 +75,7 @@ public class GameAds {
 
 
 
-   // public List<GameAds> gameCreators = new ArrayList<>();
+
 
 
     public boolean isAvailable() {
@@ -88,7 +88,7 @@ public class GameAds {
 
     public boolean isAvailable = true;
 
-   // public List<EGameCategory> tags = new ArrayList<>();
+
 
 
     public void setId(String id) {
@@ -143,17 +143,6 @@ public class GameAds {
         return updated_at;
     }
 
-
-
-  /* public List<EGameCategory> getGameDetails() {
-        return gameDetails;
-    }
-
-    public void setGameDetails(List<EGameCategory> gameDetails) {
-        this.gameDetails = gameDetails;
-    }*/
-
-
     public int getShippingCost() {
         return shippingCost;
     }
@@ -170,11 +159,6 @@ public class GameAds {
     public String getGameCreator() {
         return gameCreator;
     }
-
-   /* public List<EGameCategory> getTags() {
-        return tags;
-
-    }*/
 
     public void setGameCreator(String gameCreator) {
         this.gameCreator = gameCreator;
@@ -211,18 +195,5 @@ public class GameAds {
     public void setPhotoURL(String photoURL) {
         this.photoURL = photoURL;
     }
-
-    /*public String getGameGenre() {
-        return gameGenre;
-    }
-
-    public void setGameGenre(String gameGenre) {
-        this.gameGenre = gameGenre;
-    }*/
-
-
-
-
-
 }
 

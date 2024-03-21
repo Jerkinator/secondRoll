@@ -12,32 +12,40 @@ import java.util.List;
 public class CreateGameDTO {
     @NotBlank
     private String userId;
+
     @NotBlank
     @Size(min = 1, max = 30)
     private String title;
+
     @NotBlank
     @Size(min = 1, max = 999)
     private String description;
+
     @NotNull
     @Range(min = 1, max = 50000)
     private int price;
+
     @NotBlank
     @Size(min = 1, max = 200)
     private String gameCreator;
+
     @NotBlank
     @Size(min = 1, max = 200)
     private String gamePlayTime;
+
     @NotBlank
     @Size(min = 1, max = 200)
     private String gameRecommendedAge;
+
     @NotBlank
     @Size(min = 1, max = 200)
     private String gamePlayers;
 
-   // private String gameGenre;
     public List<String> gameGenres;
+
     @NotBlank
     private String photoURL;
+
     @NotNull
     @Range(min = 1, max = 500)
     private int shippingCost;
@@ -57,12 +65,6 @@ public class CreateGameDTO {
     public void setGameGenres(List<String> gameGenres) {
         this.gameGenres = gameGenres;
     }
-
-
-
-    //public List<EGameCategory> gameDetails;
-
-    // private boolean isAvailable? Returns twice in postman right now. Looking for a fix.
 
     // GETTERS & SETTERS.
 
@@ -122,15 +124,6 @@ public class CreateGameDTO {
         this.updated_at = updated_at;
     }
 
-   /* public List<EGameCategory> getGameDetails() {
-        return gameDetails;
-    }
-
-    public void setGameDetails(List<EGameCategory> gameDetails) {
-        this.gameDetails = gameDetails;
-
-    }*/
-
     public boolean isAvailable() {
         return isAvailable;
     }
@@ -179,15 +172,4 @@ public class CreateGameDTO {
     public void setPhotoURL(String photoURL) {
         this.photoURL = photoURL;
     }
-
-   /* public String getGameGenre() {
-        return gameGenre;
-    }
-
-    public void setGameGenre(String gameGenre) {
-        this.gameGenre = gameGenre;
-    }*/
-
-
-
 }
