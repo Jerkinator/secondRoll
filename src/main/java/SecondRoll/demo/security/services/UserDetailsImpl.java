@@ -53,7 +53,6 @@ public class UserDetailsImpl implements UserDetails {
         return authorities;
     }
 
-
     public String getId() {
         return id;
     }

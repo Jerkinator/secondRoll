@@ -32,18 +32,10 @@ public class GameAdResponse {
 
     private LocalDate updated_at;
 
-    //public List<EGameCategory> gameDetails = new ArrayList<>();
-
-
-    
-
-
 
     public GameAdResponse() {
     }
 
-
-    
       public GameAdResponse(String seller, String title, String description, int price, int shippingCost,
         String gameCreator, String gamePlayTime, String gameRecommendedAge, String gamePlayers, List<String> gameGenres,
         String photoURL, LocalDate created_at, LocalDate updated_at) {
@@ -63,9 +55,6 @@ public class GameAdResponse {
         this.created_at = created_at;
         this.updated_at = updated_at;
     }
-
-
-    // private boolean isAvailable? Returns twice in postman right now. Looking for a fix.
 
     // GETTERS & SETTERS.
 
@@ -172,12 +161,4 @@ public class GameAdResponse {
     public void setPhotoURL(String photoURL) {
         this.photoURL = photoURL;
     }
-
-  /*  public List<EGameCategory> getGameDetails() {
-        return gameDetails;
-    }
-
-    public void setGameDetails(List<EGameCategory> gameDetails) {
-        this.gameDetails = gameDetails;
-    }*/
 }

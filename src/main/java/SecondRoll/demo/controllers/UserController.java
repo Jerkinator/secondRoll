@@ -35,7 +35,7 @@ public class UserController {
     @Autowired
     UserDetailsServiceImpl userDetailsService;
 
-    // GET a user by ID.
+    // GET a user by ID
     @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
     @GetMapping("/{userId}")
     public ResponseEntity<?> getUserById(@PathVariable String userId) {
@@ -44,7 +44,7 @@ public class UserController {
         return ResponseEntity.ok().body(new UserSearchByIdResponse(user.getId(), user.getUsername(), user.getAdress_city()));
     }
 
-    // GET ALL users.
+    // GET ALL users
     @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
     @GetMapping("/all")
     public ResponseEntity<?> getAllUsers() {
@@ -66,7 +66,7 @@ public class UserController {
         }
     }
 
-    // NEW AND "IMPROVED" UPDATE USER - goes through DTO to restrain the info that is ok for user to update
+    // PUT - update user
     @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
     @PutMapping("/{userId}/update")
     public ResponseEntity<?> updateUser(@Valid @RequestBody UpdateUserDTO updateUserDTO,
@@ -96,6 +96,7 @@ public class UserController {
     public String deleteUser(@PathVariable String id) {
         return userService.deleteUser(id);
     }
+
     // GET users own wishlist
     @PreAuthorize("hasRole ('USER')")
     @GetMapping("/wishlist/{userId}")
@@ -117,7 +118,7 @@ public class UserController {
 
     }
 
-    // ADD gameAd to a user wishlist using a Data Transfer Object-reference.
+    // ADD gameAd to a user wishlist using a Data Transfer Object-reference
     @PreAuthorize("hasRole('USER')")
     @PutMapping("/wishlist/{userId}")
     public ResponseEntity<?> addGameToWishlist (@PathVariable ("userId") String userId,
@@ -132,7 +133,7 @@ public class UserController {
         }
     }
 
-    // REMOVE gameAd from a user wishlist using a Data Transfer Object-reference.
+    // REMOVE gameAd from a user wishlist using a Data Transfer Object-reference
     @PreAuthorize("hasRole('USER')")
     @DeleteMapping(value = "/wishlist/{userId}")
     public ResponseEntity<?> removeGameFromWishlist(@PathVariable ("userId") String userId,

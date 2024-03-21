@@ -11,5 +11,4 @@ public interface OrderRepository extends MongoRepository<Order, String> {
 
     List<Order> findByBuyerId(String buyerId);
     List<Order> findBySellerId(String sellerId);
-
 }

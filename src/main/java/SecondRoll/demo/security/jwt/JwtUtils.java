@@ -1,13 +1,13 @@
 package SecondRoll.demo.security.jwt;
+
+import SecondRoll.demo.security.services.UserDetailsImpl;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import jakarta.servlet.http.Cookie;
-
-import SecondRoll.demo.security.services.UserDetailsImpl;
 import jakarta.servlet.http.HttpServletRequest;
-import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseCookie;
 import org.springframework.stereotype.Component;
@@ -27,7 +27,7 @@ public class JwtUtils {
     @Value("${secondroll.app.jwtCookieName}")
     private String jwtCookie;
 
-    // Sätta token i cookien och skicka cookien i headern med request
+    // Put token in cookie and send cookie to header with a request
     public ResponseCookie generateJwtCookie(UserDetailsImpl userPrincipal) {
         String jwt = generateTokenFromUsername(userPrincipal.getUsername());
         ResponseCookie cookie = ResponseCookie.from(jwtCookie, jwt).path("/api").maxAge(24 * 60 * 60).httpOnly(true).build();
@@ -43,12 +43,13 @@ public class JwtUtils {
                 .compact();
     }
 
-    // Rensa gammal cookie
+    // Clean old cookie
     public ResponseCookie getCleanJwtCookie() {
         ResponseCookie cookie = ResponseCookie.from(jwtCookie, null).path("/api").build();
         return cookie;
     }
 
+    // Get JWT token from cookie
     public String getJwtFromCookie(HttpServletRequest request) {
         Cookie cookie = WebUtils.getCookie(request, jwtCookie);
         if (cookie != null) {
@@ -67,6 +68,7 @@ public class JwtUtils {
                 .parseClaimsJws(token).getBody().getSubject();
 
     }
+
     public boolean validateJwtToken(String authToken) {
         try {
             Jwts.parserBuilder().setSigningKey(key()).build().parse(authToken);

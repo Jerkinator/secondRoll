@@ -71,7 +71,3 @@ public class BuyerHistoryResponse {
         this.gameTotal = gameTotal;
     }
 }
-
-
-
-

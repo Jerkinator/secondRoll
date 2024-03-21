@@ -30,8 +30,6 @@ public class User {
     @Size(min = 3, max = 20)
     private String username;
 
-    //Updated at?
-
     @NotBlank
     @Email
     @Indexed(unique = true)

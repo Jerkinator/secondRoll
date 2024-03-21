@@ -11,10 +11,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class UserService {
+
     @Autowired
     UserRepository userRepository;
 
@@ -24,21 +24,9 @@ public class UserService {
     @Autowired
     GameAdsService gameAdsService;
 
-
-    // GET a user by ID. (NO LONGER IN USE! REMOVE?)
-    public Optional<User> getUserById(String id) {
-        return Optional.ofNullable(userRepository.findById(id).orElseThrow(() ->
-                new ServiceException("User with id: " + id + " was not found.")));
-    }
-
     // GET all users.
     public List<User> getAllUsers() {
         return userRepository.findAll();
-    }
-
-    // UPDATE a user. (NO LONGER IN USE! REMOVE?)
-    public User updateUser(User user) {
-        return userRepository.save(user);
     }
 
     // DELETE a user.
@@ -64,11 +52,11 @@ public class UserService {
         }
 
         // ADD rating to a user.
-    /* This method takes an integer value and adds it to the rating object. If the value is between 1-6,
-    it then adds the value to the User ratings arraylist. Then it loops through the arraylist and stores all
-    combined values into a total sum.
-    Then finally it takes the sum and divides it by the total amount of values in the arraylist to get the average
-    rating. */
+        /* This method takes an integer value and adds it to the rating object. If the value is between 1-6,
+        it then adds the value to the User ratings arraylist. Then it loops through the arraylist and stores all
+        combined values into a total sum.
+        Then finally it takes the sum and divides it by the total amount of values in the arraylist to get the average
+        rating. */
         public User addRatingToUser (String userId, Rating rating){
             User user = userRepository.findById(userId).orElseThrow();
 
@@ -95,21 +83,3 @@ public class UserService {
             return userRepository.save(user);
         }
     }
-
-
-
-    //OLD CODE FOR ADDING AND DELETING GAMES TO/FROM WISHLIST. STORED FOR NOW.
-
-    /* public User addGameToWishlist(String userId, String gameId) {
-        User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found."));
-        GameAds game = gameAdsRepository.findById(gameId).orElseThrow(() -> new RuntimeException("Game not found."));
-        user.getWishlist().add(game);
-        return userRepository.save(user);
-    }
-
-    public User removeGameFromWishlist(String userId, String gameId) {
-        User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found."));
-        List<GameAds> wishlist = user.getWishlist();
-        wishlist.removeIf(gameAd -> gameAd.getId().equals(gameId));
-        return userRepository.save(user);
-    } */

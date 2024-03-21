@@ -30,27 +30,27 @@ public class OrderService {
     @Autowired
     private UserRepository userRepository;
 
-    //create order preparing to use payload object in controller
+    // Create order preparing to use payload object in controller.
     public OrderResponse createOrder(OrderDTO orderDTO) {
         Optional<User> buyer = userRepository.findById(orderDTO.getBuyerId());
         if (!buyer.isPresent()) {
             throw new ServiceException("User not found.");
         }
 
-        //checks if all gameAds in DTO is present in database otherwise throws error
+        // Checks if all gameAds in DTO is present in database otherwise throws error.
         List<GameAds> gameAds = new ArrayList<>();
         for (String gameAdId : orderDTO.getGameAdIds()) {
             gameAds.add(gameAdsRepository.findById(String.valueOf(gameAdId))
                     .orElseThrow(() -> new ServiceException("Game ad with id: " + gameAdId + " was not found.")));
         }
 
-        //Loops through list of game ads to set them to not available
+        // Loops through list of game ads to set them to not available.
         Optional<User> seller = Optional.of(new User());
         for (GameAds gameAd : gameAds) {
             gameAd.setAvailable(false);
             gameAdsRepository.save(gameAd);
 
-            //Gets seller from game ad to make sure it is set to correct seller
+            // Gets seller from game ad to make sure it is set to correct seller.
             seller = userRepository.findById(gameAd.getUser().getId());
             if (!seller.isPresent()) {
                 throw new ServiceException("Seller not found.");
@@ -65,11 +65,11 @@ public class OrderService {
                 .sum();
         double orderTotal = (totalPrice + shippingTotal);
 
-        //checking that all passed game ads exists in database
+        // Checking that all passed game ads exists in database.
         if (gameAds.size() != orderDTO.getGameAdIds().size()) {
             throw new ServiceException("One or more game ads not found.");
         }
-        //Creates a new list with just gameTitle and price per game using OrderedgamesdetailDTO
+        // Creates a new list with just gameTitle and price per game using OrderedgamesdetailDTO.
         List<OrderGameDetailsDTO> orderedGames = new ArrayList<>();
         for (GameAds gameAd : gameAds) {
             OrderGameDetailsDTO orderGameDetailsDTO = new OrderGameDetailsDTO();
@@ -84,7 +84,7 @@ public class OrderService {
         newOrder.setSeller(seller.get());
         orderRepository.save(newOrder);
 
-        //creates the response based on what gets passed in the orderDTO based on the fields in orderResponse
+        // Creates the response based on what gets passed in the orderDTO based on the fields in orderResponse.
         OrderResponse orderResponse = new OrderResponse();
         orderResponse.setOrderedDate(newOrder.getOrderedAt());
         orderResponse.setBuyerName(buyer.get().getUsername());
@@ -94,31 +94,27 @@ public class OrderService {
         orderResponse.setGameTotal(totalPrice);
         orderResponse.setOrderTotal(orderTotal);
 
-
-
-
-
         return orderResponse;
-
     }
 
 
-    //get all orders from order collection
+    // Get all orders from order collection.
     public List<Order> getAllOrders() {
         return orderRepository.findAll();
     }
 
-    //find order by specific id
+    // Find order by specific id.
     public Optional<Order> getOrdersById(String id) {
         return Optional.ofNullable(orderRepository.findById(id).orElseThrow(() ->
                 new ServiceException("Order with id: " + id + " was not found.")));
     }
 
-    //delete specific order by id
+    // Delete specific order by id.
     public String deleteOrderById(String id) {
         orderRepository.deleteById(id);
         return "Order successfully deleted!";
     }
+
     public List<BuyerHistoryResponse> buyerOrderHistory(String buyerId) {
         List<Order> orders = orderRepository.findByBuyerId(buyerId);
         return orders.stream().map(this::convertToBuyerHistoryDTO).collect(Collectors.toList());
@@ -128,7 +124,7 @@ public class OrderService {
         BuyerHistoryResponse buyerHistoryResponse = new BuyerHistoryResponse();
 
         List<OrderGameDetailsDTO> gameDetailsList = order.getGameAds().stream()
-                //using the help method to get game details from the gameAd id
+                // Using the help method to get game details from the gameAd id.
                 .map(gameAds -> getGameDetails(gameAds.getId()))
                 .collect(Collectors.toList());
 
@@ -150,11 +146,10 @@ public class OrderService {
         buyerHistoryResponse.setGameTotal(totalPrice);
         buyerHistoryResponse.setOrderTotal(orderTotal);
 
-
         return buyerHistoryResponse;
     }
 
-    //Identical as buyer history response but with sold
+    // Identical as buyer history response but with sold.
     public List<SellerHistoryResponse> sellerOrderHistory(String sellerId) {
         List<Order> orders = orderRepository.findBySellerId(sellerId);
         return orders.stream().map(this::convertToSellerHistoryDTO).collect(Collectors.toList());
@@ -186,11 +181,10 @@ public class OrderService {
         sellerHistoryResponse.setGameTotal(totalPrice);
         sellerHistoryResponse.setOrderTotal(orderTotal);
 
-
         return sellerHistoryResponse;
     }
 
-    //Help method to get title and price from gameads
+    // Help method to get title and price from game ads.
     private OrderGameDetailsDTO getGameDetails(String gameId) {
 
         Optional<GameAds> gameAds = gameAdsRepository.findById(gameId);
@@ -204,9 +198,4 @@ public class OrderService {
             throw new RuntimeException("Game ads not found");
         }
     }
-
-
-
-
-
 }

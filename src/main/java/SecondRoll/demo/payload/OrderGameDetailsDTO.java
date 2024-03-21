@@ -4,7 +4,6 @@ public class OrderGameDetailsDTO {
     private String title;
     private double price;
 
-
     public String getTitle() {
         return title;
     }
