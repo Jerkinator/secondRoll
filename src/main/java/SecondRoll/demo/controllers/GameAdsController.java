@@ -71,7 +71,6 @@ public class GameAdsController {
 
     // GET gameAd by id
     @GetMapping(value = "/{id}")
-    @PreAuthorize("hasAnyRole('USER','ADMIN')")
     public ResponseEntity<?> getGameAdById(@PathVariable String id) {
         try {
             Optional<GameAds> gameAd = gameAdsService.getGameAdById(id);

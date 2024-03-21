@@ -63,6 +63,7 @@ public class WebSecurityConfig {
                                 .requestMatchers("/api/auth/signup").permitAll()
                                 .requestMatchers("/api/auth/login").permitAll()
                                 .requestMatchers("/api/gameAds/all").permitAll()
+                                .requestMatchers("/api/gameAds/{id}").permitAll()
                                 .requestMatchers("/api/gameAds/rolldice").permitAll()
                                 .requestMatchers("/api/gameAds/sortbydate/**").permitAll()
                                 .requestMatchers("/api/gameAds/sortbyprice/**").permitAll()
