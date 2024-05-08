@@ -1,16 +1,17 @@
 package SecondRoll.demo.controllers;
 
-import SecondRoll.demo.security.jwt.JwtUtils;
-import SecondRoll.demo.security.services.UserDetailsImpl;
+import SecondRoll.demo.models.ERole;
+import SecondRoll.demo.models.Role;
+import SecondRoll.demo.models.User;
 import SecondRoll.demo.payload.request.LoginRequest;
 import SecondRoll.demo.payload.request.SignupRequest;
 import SecondRoll.demo.payload.response.MessageResponse;
 import SecondRoll.demo.payload.response.UserInfoResponse;
-import SecondRoll.demo.models.ERole;
-import SecondRoll.demo.models.Role;
-import SecondRoll.demo.models.User;
 import SecondRoll.demo.repository.RoleRepository;
 import SecondRoll.demo.repository.UserRepository;
+import SecondRoll.demo.security.jwt.JwtUtils;
+import SecondRoll.demo.security.services.UserDetailsImpl;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -28,7 +29,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-@CrossOrigin(origins = "*", maxAge = 3600)
+// @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {
@@ -46,7 +47,7 @@ public class AuthController {
 
     // Log in
     @PostMapping("/login")
-    public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
+    public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest, HttpServletResponse response) {
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
 
@@ -55,6 +56,9 @@ public class AuthController {
 
         // Jwt i cookie
         ResponseCookie jwtCookie = jwtUtils.generateJwtCookie(userDetails);
+
+        response.setHeader(HttpHeaders.ACCESS_CONTROL_ALLOW_CREDENTIALS, "true");
+        response.setHeader(HttpHeaders.ACCESS_CONTROL_EXPOSE_HEADERS, HttpHeaders.SET_COOKIE);
 
         List<String> roles = userDetails.getAuthorities().stream()
                 .map(item -> item.getAuthority())
