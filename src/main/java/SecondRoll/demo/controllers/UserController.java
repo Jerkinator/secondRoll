@@ -152,9 +152,9 @@ public class UserController {
 
     // ADD rating to a user
     @PreAuthorize("hasRole('USER')")
-    @PutMapping("/{userId}/rating")
-    public ResponseEntity<?> addRatingToUser (@PathVariable ("userId") String userId, @RequestBody Rating rating) {
-        userService.addRatingToUser(userId, rating);
+    @PutMapping("/{username}/rating")
+    public ResponseEntity<?> addRatingToUser (@PathVariable ("username") String username, @RequestBody Rating rating) {
+        userService.addRatingToUser(username, rating);
         return ResponseEntity.ok().body(new MessageResponse("Rating added."));
     }
 
