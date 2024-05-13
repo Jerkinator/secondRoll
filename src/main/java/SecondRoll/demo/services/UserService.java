@@ -57,8 +57,8 @@ public class UserService {
         combined values into a total sum.
         Then finally it takes the sum and divides it by the total amount of values in the arraylist to get the average
         rating. */
-        public User addRatingToUser (String userId, Rating rating){
-            User user = userRepository.findById(userId).orElseThrow();
+        public User addRatingToUser (String username, Rating rating){
+            User user = userRepository.findUserByUsername(username);
 
             int number = rating.getRating();
 
