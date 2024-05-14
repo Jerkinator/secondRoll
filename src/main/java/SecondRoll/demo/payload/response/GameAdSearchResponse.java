@@ -5,6 +5,7 @@ import java.util.List;
 
 public class GameAdSearchResponse {
 
+    private String id;
     private String seller;
 
     private String title;
@@ -27,7 +28,8 @@ public class GameAdSearchResponse {
 
     private String photoURL;
 
-    public GameAdSearchResponse(String seller, String title, String description, int price, int shippingCost, String gameCreator, String gamePlayTime, String gameRecommendedAge, String gamePlayers, List<String> gameGenres, String photoURL) {
+    public GameAdSearchResponse(String id, String seller, String title, String description, int price, int shippingCost, String gameCreator, String gamePlayTime, String gameRecommendedAge, String gamePlayers, List<String> gameGenres, String photoURL) {
+        this.id = id;
         this.seller = seller;
         this.title = title;
         this.description = description;
@@ -41,6 +43,21 @@ public class GameAdSearchResponse {
         this.photoURL = photoURL;
     }
 
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getSeller() {
+        return seller;
+    }
+
+    public void setSeller(String seller) {
+        this.seller = seller;
+    }
 
     public String getTitle() {
         return title;
@@ -114,14 +131,6 @@ public class GameAdSearchResponse {
         this.gameGenres = gameGenres;
     }
 
-    public String getSeller() {
-        return seller;
-    }
-
-    public void setSeller(String seller) {
-        this.seller = seller;
-    }
-
     public String getPhotoURL() {
         return photoURL;
     }
@@ -129,4 +138,6 @@ public class GameAdSearchResponse {
     public void setPhotoURL(String photoURL) {
         this.photoURL = photoURL;
     }
+
 }
+

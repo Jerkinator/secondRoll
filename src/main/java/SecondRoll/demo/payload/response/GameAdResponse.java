@@ -6,6 +6,8 @@ import java.util.List;
 
 public class GameAdResponse {
 
+    private String id;
+
     private String seller;
 
     private String title;
@@ -36,27 +38,30 @@ public class GameAdResponse {
     public GameAdResponse() {
     }
 
-      public GameAdResponse(String seller, String title, String description, int price, int shippingCost,
-        String gameCreator, String gamePlayTime, String gameRecommendedAge, String gamePlayers, List<String> gameGenres,
-        String photoURL, LocalDate created_at, LocalDate updated_at) {
-        
+    public GameAdResponse(String id, String seller, String title, String description, int price, int shippingCost, String gameCreator, String gamePlayTime, String gameRecommendedAge, String gamePlayers, List<String> gameGenres, String photoURL, LocalDate created_at, LocalDate updated_at) {
+        this.id = id;
         this.seller = seller;
         this.title = title;
         this.description = description;
+        this.price = price;
+        this.shippingCost = shippingCost;
         this.gameCreator = gameCreator;
         this.gamePlayTime = gamePlayTime;
         this.gameRecommendedAge = gameRecommendedAge;
         this.gamePlayers = gamePlayers;
         this.gameGenres = gameGenres;
-        this.price = price;
-        this.shippingCost = shippingCost;
         this.photoURL = photoURL;
-
         this.created_at = created_at;
         this.updated_at = updated_at;
     }
 
-    // GETTERS & SETTERS.
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public String getSeller() {
         return seller;
@@ -96,22 +101,6 @@ public class GameAdResponse {
 
     public void setShippingCost(int shippingCost) {
         this.shippingCost = shippingCost;
-    }
-
-    public LocalDate getCreated_at() {
-        return created_at;
-    }
-
-    public void setCreated_at(LocalDate created_at) {
-        this.created_at = created_at;
-    }
-
-    public LocalDate getUpdated_at() {
-        return updated_at;
-    }
-
-    public void setUpdated_at(LocalDate updated_at) {
-        this.updated_at = updated_at;
     }
 
     public String getGameCreator() {
@@ -161,4 +150,21 @@ public class GameAdResponse {
     public void setPhotoURL(String photoURL) {
         this.photoURL = photoURL;
     }
+
+    public LocalDate getCreated_at() {
+        return created_at;
+    }
+
+    public void setCreated_at(LocalDate created_at) {
+        this.created_at = created_at;
+    }
+
+    public LocalDate getUpdated_at() {
+        return updated_at;
+    }
+
+    public void setUpdated_at(LocalDate updated_at) {
+        this.updated_at = updated_at;
+    }
 }
+
