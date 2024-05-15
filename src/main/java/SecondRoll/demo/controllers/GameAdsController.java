@@ -5,6 +5,7 @@ import SecondRoll.demo.exception.EntityNotFoundException;
 import SecondRoll.demo.models.GameAds;
 import SecondRoll.demo.models.User;
 import SecondRoll.demo.payload.CreateGameDTO;
+import SecondRoll.demo.payload.response.AllGameAds;
 import SecondRoll.demo.payload.response.GameAdResponse;
 import SecondRoll.demo.payload.response.GameAdSearchResponse;
 import SecondRoll.demo.repository.GameAdsRepository;
@@ -31,6 +32,7 @@ public class GameAdsController {
     @Autowired
     GameAdsRepository gameAdsRepository;
 
+
     // POST gameAd
     @PostMapping()
     @PreAuthorize("hasRole('USER')")
@@ -45,12 +47,25 @@ public class GameAdsController {
 
     }
 
-    // GET ALL gameAds
     @GetMapping("/all")
+    public ResponseEntity<?> getAllGames() {
+        List<GameAds> allGames = gameAdsRepository.findAll();
+        List<AllGameAds> foundGames = new ArrayList<>();
+        for (GameAds gameAd : allGames) {
+            AllGameAds response = new AllGameAds(gameAd.getId(), gameAd.getTitle(), gameAd.getDescription(), gameAd.getPrice(),
+                    gameAd.getShippingCost(), gameAd.getGameCreator(), gameAd.getGamePlayTime(), gameAd.getGameRecommendedAge(),
+                    gameAd.getGamePlayers());
+            foundGames.add(response);
+        }
+        return ResponseEntity.ok().body(foundGames);
+    }
+
+    // GET ALL gameAds
+   /* @GetMapping("/all")
     public ResponseEntity<List<GameAdResponse>> getAllGameAds() {
         List<GameAdResponse> orders = gameAdsService.getAllGameAds();
         return ResponseEntity.ok(orders);
-    }
+    } */
 
     // PUT update gameAd
     @PutMapping("/{gameId}")
@@ -59,7 +74,7 @@ public class GameAdsController {
         try {
             GameAds updatedGameAd = gameAdsService.updateGameAd(gameId, gameDetails);
             User user = updatedGameAd.getUser();
-            return ResponseEntity.ok().body(new GameAdResponse (updatedGameAd.getId(),user.getUsername(), updatedGameAd.getTitle(),
+            return ResponseEntity.ok().body(new GameAdResponse(updatedGameAd.getId(),user.getUsername(), updatedGameAd.getTitle(),
                     updatedGameAd.getDescription(), updatedGameAd.getPrice(), updatedGameAd.getShippingCost(),
                     updatedGameAd.getGameCreator(), updatedGameAd.getGamePlayTime(),
                     updatedGameAd.getGameRecommendedAge(), updatedGameAd.getGamePlayers(),

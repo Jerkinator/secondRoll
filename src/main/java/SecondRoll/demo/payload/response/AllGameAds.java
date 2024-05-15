@@ -1,14 +1,8 @@
 package SecondRoll.demo.payload.response;
 
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-
-public class GameAdResponse {
+public class AllGameAds {
 
     private String id;
-
-    private String seller;
 
     private String title;
 
@@ -26,21 +20,9 @@ public class GameAdResponse {
 
     private String gamePlayers;
 
-    private List<String> gameGenres = new ArrayList<>();
 
-    private String photoURL;
-
-    private LocalDate created_at;
-
-    private LocalDate updated_at;
-
-
-    public GameAdResponse() {
-    }
-
-    public GameAdResponse(String id, String seller, String title, String description, int price, int shippingCost, String gameCreator, String gamePlayTime, String gameRecommendedAge, String gamePlayers, List<String> gameGenres, String photoURL, LocalDate created_at, LocalDate updated_at) {
+    public AllGameAds(String id, String title, String description, int price, int shippingCost, String gameCreator, String gamePlayTime, String gameRecommendedAge, String gamePlayers) {
         this.id = id;
-        this.seller = seller;
         this.title = title;
         this.description = description;
         this.price = price;
@@ -49,12 +31,7 @@ public class GameAdResponse {
         this.gamePlayTime = gamePlayTime;
         this.gameRecommendedAge = gameRecommendedAge;
         this.gamePlayers = gamePlayers;
-        this.gameGenres = gameGenres;
-        this.photoURL = photoURL;
-        this.created_at = created_at;
-        this.updated_at = updated_at;
     }
-
 
     public String getId() {
         return id;
@@ -62,14 +39,6 @@ public class GameAdResponse {
 
     public void setId(String id) {
         this.id = id;
-    }
-
-    public String getSeller() {
-        return seller;
-    }
-
-    public void setSeller(String seller) {
-        this.seller = seller;
     }
 
     public String getTitle() {
@@ -135,37 +104,4 @@ public class GameAdResponse {
     public void setGamePlayers(String gamePlayers) {
         this.gamePlayers = gamePlayers;
     }
-
-    public List<String> getGameGenres() {
-        return gameGenres;
-    }
-
-    public void setGameGenres(List<String> gameGenres) {
-        this.gameGenres = gameGenres;
-    }
-
-    public String getPhotoURL() {
-        return photoURL;
-    }
-
-    public void setPhotoURL(String photoURL) {
-        this.photoURL = photoURL;
-    }
-
-    public LocalDate getCreated_at() {
-        return created_at;
-    }
-
-    public void setCreated_at(LocalDate created_at) {
-        this.created_at = created_at;
-    }
-
-    public LocalDate getUpdated_at() {
-        return updated_at;
-    }
-
-    public void setUpdated_at(LocalDate updated_at) {
-        this.updated_at = updated_at;
-    }
 }
-
