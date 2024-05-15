@@ -45,7 +45,7 @@ public class GameAdsController {
 
     }
 
-    // GET ALL gameAds
+    // GET ALL game ads belonging to a user
     @GetMapping("/all")
     public ResponseEntity<List<GameAdResponse>> getAllGameAds() {
         List<GameAdResponse> orders = gameAdsService.getAllGameAds();

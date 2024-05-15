@@ -54,6 +54,8 @@ public class GameAdsService {
         return gameAds.stream().map(this::convertToDTO).collect(Collectors.toList());
     }
 
+
+
     // UPDATE a gameAD
     public GameAds updateGameAd(String id, GameAds updatedGameAd) {
         return gameAdsRepository.findById(id).map(existingGameAd -> {
@@ -103,6 +105,7 @@ public class GameAdsService {
     private GameAdResponse convertToDTO(GameAds gameAd) {
         GameAdResponse gameAdResponse = new GameAdResponse();
 
+        gameAdResponse.setId(gameAd.getId());
         gameAdResponse.setSeller(gameAd.getUser().getUsername());
         gameAdResponse.setTitle(gameAd.getTitle());
         gameAdResponse.setDescription(gameAd.getDescription());
