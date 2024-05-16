@@ -37,7 +37,7 @@ public class GameAdsController {
     public ResponseEntity<GameAdResponse> createGameAd(@Valid @RequestBody CreateGameDTO createGameDTO) {
         GameAds gameAd = gameAdsService.createGameAd(createGameDTO);
         User user = gameAd.getUser();
-        return ResponseEntity.ok().body(new GameAdResponse(gameAd.getId(),user.getUsername(), gameAd.getTitle(),
+        return ResponseEntity.ok().body(new GameAdResponse(gameAd.getId(),user.getId(),user.getUsername(), gameAd.getTitle(),
                 gameAd.getDescription(), gameAd.getPrice(), gameAd.getShippingCost(), gameAd.getGameCreator(),
                 gameAd.getGamePlayTime(), gameAd.getGameRecommendedAge(), gameAd.getGamePlayers(),gameAd.gameGenres,
                 gameAd.getPhotoURL(), gameAd.getCreated_at(), gameAd.getUpdated_at()));
@@ -59,7 +59,7 @@ public class GameAdsController {
         try {
             GameAds updatedGameAd = gameAdsService.updateGameAd(gameId, gameDetails);
             User user = updatedGameAd.getUser();
-            return ResponseEntity.ok().body(new GameAdResponse (updatedGameAd.getId(),user.getUsername(), updatedGameAd.getTitle(),
+            return ResponseEntity.ok().body(new GameAdResponse (updatedGameAd.getId(),user.getId(),user.getUsername(), updatedGameAd.getTitle(),
                     updatedGameAd.getDescription(), updatedGameAd.getPrice(), updatedGameAd.getShippingCost(),
                     updatedGameAd.getGameCreator(), updatedGameAd.getGamePlayTime(),
                     updatedGameAd.getGameRecommendedAge(), updatedGameAd.getGamePlayers(),
@@ -78,7 +78,7 @@ public class GameAdsController {
             Optional<GameAds> gameAd = gameAdsService.getGameAdById(id);
             User user = gameAd.get().getUser();
 
-            return ResponseEntity.ok().body(new GameAdResponse(gameAd.get().getId(),user.getUsername(), gameAd.get().getTitle(),
+            return ResponseEntity.ok().body(new GameAdResponse(gameAd.get().getId(),user.getId(),user.getUsername(), gameAd.get().getTitle(),
                     gameAd.get().getDescription(), gameAd.get().getPrice(), gameAd.get().getShippingCost(),
                     gameAd.get().getGameCreator(), gameAd.get().getGamePlayTime(), gameAd.get().getGameRecommendedAge(),
                     gameAd.get().getGamePlayers(), gameAd.get().getGameGenres(),gameAd.get().getPhotoURL(),
@@ -110,7 +110,7 @@ public class GameAdsController {
     public ResponseEntity<GameAdResponse> getRandomGameAd() {
         GameAds gameAd = gameAdsService.getRandomGameAd();
         User user = gameAd.getUser();
-        return ResponseEntity.ok().body(new GameAdResponse( gameAd.getId(),user.getUsername(),gameAd.getTitle(),
+        return ResponseEntity.ok().body(new GameAdResponse( gameAd.getId(),user.getId(),user.getUsername(),gameAd.getTitle(),
                 gameAd.getDescription(), gameAd.getPrice(), gameAd.getShippingCost(), gameAd.getGameCreator(),
                 gameAd.getGamePlayTime(), gameAd.getGameRecommendedAge(), gameAd.getGamePlayers(),
                 gameAd.getGameGenres(), gameAd.getPhotoURL(), gameAd.getCreated_at(), gameAd.getUpdated_at()));

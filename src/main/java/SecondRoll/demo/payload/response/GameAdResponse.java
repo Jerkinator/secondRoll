@@ -8,6 +8,8 @@ public class GameAdResponse {
 
     private String id;
 
+    private String sellerId;
+
     private String seller;
 
     private String title;
@@ -38,8 +40,9 @@ public class GameAdResponse {
     public GameAdResponse() {
     }
 
-    public GameAdResponse(String id, String seller, String title, String description, int price, int shippingCost, String gameCreator, String gamePlayTime, String gameRecommendedAge, String gamePlayers, List<String> gameGenres, String photoURL, LocalDate created_at, LocalDate updated_at) {
+    public GameAdResponse(String id, String sellerId, String seller, String title, String description, int price, int shippingCost, String gameCreator, String gamePlayTime, String gameRecommendedAge, String gamePlayers, List<String> gameGenres, String photoURL, LocalDate created_at, LocalDate updated_at) {
         this.id = id;
+        this.sellerId = sellerId;
         this.seller = seller;
         this.title = title;
         this.description = description;
@@ -61,6 +64,14 @@ public class GameAdResponse {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getSellerId() {
+        return sellerId;
+    }
+
+    public void setSellerId(String sellerId) {
+        this.sellerId = sellerId;
     }
 
     public String getSeller() {
