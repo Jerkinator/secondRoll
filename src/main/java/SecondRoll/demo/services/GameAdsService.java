@@ -42,7 +42,7 @@ public class GameAdsService {
         gameAd.setGameRecommendedAge(createGameDTO.getGameRecommendedAge());
         gameAd.setGamePlayers(createGameDTO.getGamePlayers());
         gameAd.setGameGenres(createGameDTO.getGameGenres());
-        gameAd.setPhotoURL(createGameDTO.getPhotoURL());
+       // gameAd.setPhotoURL(createGameDTO.getPhotoURL());
 
         return gameAdsRepository.save(gameAd);
     }
@@ -119,7 +119,7 @@ public class GameAdsService {
         gameAdResponse.setGameRecommendedAge(gameAd.getGameRecommendedAge());
         gameAdResponse.setGamePlayers(gameAd.getGamePlayers());
         gameAdResponse.setGameGenres(gameAd.getGameGenres());
-        gameAdResponse.setPhotoURL(gameAd.getPhotoURL());
+      //  gameAdResponse.setPhotoURL(gameAd.getPhotoURL());
 
         return gameAdResponse;
     }

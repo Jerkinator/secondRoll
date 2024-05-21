@@ -30,7 +30,7 @@ public class GameAdResponse {
 
     private List<String> gameGenres = new ArrayList<>();
 
-    private String photoURL;
+    //private String photoURL;
 
     private LocalDate created_at;
 
@@ -40,7 +40,7 @@ public class GameAdResponse {
     public GameAdResponse() {
     }
 
-    public GameAdResponse(String id, String sellerId, String seller, String title, String description, int price, int shippingCost, String gameCreator, String gamePlayTime, String gameRecommendedAge, String gamePlayers, List<String> gameGenres, String photoURL, LocalDate created_at, LocalDate updated_at) {
+    public GameAdResponse(String id, String sellerId, String seller, String title, String description, int price, int shippingCost, String gameCreator, String gamePlayTime, String gameRecommendedAge, String gamePlayers, List<String> gameGenres, LocalDate created_at, LocalDate updated_at) {
         this.id = id;
         this.sellerId = sellerId;
         this.seller = seller;
@@ -53,7 +53,7 @@ public class GameAdResponse {
         this.gameRecommendedAge = gameRecommendedAge;
         this.gamePlayers = gamePlayers;
         this.gameGenres = gameGenres;
-        this.photoURL = photoURL;
+       // this.photoURL = photoURL;
         this.created_at = created_at;
         this.updated_at = updated_at;
     }
@@ -154,13 +154,13 @@ public class GameAdResponse {
         this.gameGenres = gameGenres;
     }
 
-    public String getPhotoURL() {
+   /* public String getPhotoURL() {
         return photoURL;
     }
 
     public void setPhotoURL(String photoURL) {
         this.photoURL = photoURL;
-    }
+    }*/
 
     public LocalDate getCreated_at() {
         return created_at;

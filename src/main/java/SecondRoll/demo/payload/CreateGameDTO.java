@@ -43,8 +43,8 @@ public class CreateGameDTO {
 
     public List<String> gameGenres;
 
-    @NotBlank
-    private String photoURL;
+ //   @NotBlank
+   // private String photoURL;
 
     @NotNull
     @Range(min = 1, max = 500)
@@ -165,11 +165,11 @@ public class CreateGameDTO {
         this.gamePlayers = gamePlayers;
     }
 
-    public String getPhotoURL() {
+    /*public String getPhotoURL() {
         return photoURL;
     }
 
     public void setPhotoURL(String photoURL) {
         this.photoURL = photoURL;
-    }
+    }*/
 }

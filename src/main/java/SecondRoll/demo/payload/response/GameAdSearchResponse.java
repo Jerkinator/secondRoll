@@ -26,9 +26,9 @@ public class GameAdSearchResponse {
 
     private List<String> gameGenres = new ArrayList<>();
 
-    private String photoURL;
+    //private String photoURL;
 
-    public GameAdSearchResponse(String id, String seller, String title, String description, int price, int shippingCost, String gameCreator, String gamePlayTime, String gameRecommendedAge, String gamePlayers, List<String> gameGenres, String photoURL) {
+    public GameAdSearchResponse(String id, String seller, String title, String description, int price, int shippingCost, String gameCreator, String gamePlayTime, String gameRecommendedAge, String gamePlayers, List<String> gameGenres) {
         this.id = id;
         this.seller = seller;
         this.title = title;
@@ -40,7 +40,7 @@ public class GameAdSearchResponse {
         this.gameRecommendedAge = gameRecommendedAge;
         this.gamePlayers = gamePlayers;
         this.gameGenres = gameGenres;
-        this.photoURL = photoURL;
+      //  this.photoURL = photoURL;
     }
 
     public String getId() {
@@ -131,13 +131,13 @@ public class GameAdSearchResponse {
         this.gameGenres = gameGenres;
     }
 
-    public String getPhotoURL() {
+    /*public String getPhotoURL() {
         return photoURL;
     }
 
     public void setPhotoURL(String photoURL) {
         this.photoURL = photoURL;
-    }
+    }*/
 
 }
 
