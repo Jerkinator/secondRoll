@@ -5,17 +5,20 @@ import SecondRoll.demo.exception.ServiceException;
 import SecondRoll.demo.models.GameAds;
 import SecondRoll.demo.models.User;
 import SecondRoll.demo.payload.CreateGameDTO;
+import SecondRoll.demo.payload.GameAdDTOConverter;
 import SecondRoll.demo.payload.response.GameAdResponse;
 import SecondRoll.demo.repository.GameAdsRepository;
 import SecondRoll.demo.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.List;
+import java.util.Optional;
+import java.util.Random;
 import java.util.stream.Collectors;
 
 @Service
-public class GameAdsService {
+public class GameAdsService extends GameAdDTOConverter {
 
     @Autowired
     GameAdsRepository gameAdsRepository;
@@ -96,28 +99,6 @@ public class GameAdsService {
         return userGames.stream().map(this::convertToDTO).collect(Collectors.toList());
     }
 
-    // This utility-method converts the content of a GameAd-object into a GameAdResponse-object.
-    private GameAdResponse convertToDTO(GameAds gameAd) {
-        GameAdResponse gameAdResponse = new GameAdResponse();
-
-        gameAdResponse.setId(gameAd.getId());
-        gameAdResponse.setSeller(gameAd.getUser().getUsername());
-        gameAdResponse.setSellerId(gameAd.getUser().getId());
-        gameAdResponse.setTitle(gameAd.getTitle());
-        gameAdResponse.setDescription(gameAd.getDescription());
-        gameAdResponse.setPrice(gameAd.getPrice());
-        gameAdResponse.setShippingCost(gameAd.getShippingCost());
-        gameAdResponse.setCreated_at(gameAd.getCreated_at());
-        gameAdResponse.setUpdated_at(gameAd.getUpdated_at());
-        gameAdResponse.setGameCreator(gameAd.getGameCreator());
-        gameAdResponse.setGamePlayTime(gameAd.getGamePlayTime());
-        gameAdResponse.setGameRecommendedAge(gameAd.getGameRecommendedAge());
-        gameAdResponse.setGamePlayers(gameAd.getGamePlayers());
-        gameAdResponse.setGameGenres(gameAd.getGameGenres());
-
-        return gameAdResponse;
-    }
-
     // "Roll the Dice" game ad randomizer
     public GameAds getRandomGameAd() {
         Random randomGameAd = new Random();
@@ -125,31 +106,5 @@ public class GameAdsService {
         int maxInt = allGameAds.size();
         GameAds gameAds = allGameAds.get(randomGameAd.nextInt(maxInt));
         return gameAds;
-    }
-
-    // Service for sorting games by price and date in ascending/descending order.
-    public List<GameAdResponse> findGames(String key) {
-        if (key.equals("priceasc")) {
-            List<GameAds> availableAds = gameAdsRepository.findByIsAvailable(true);
-            Collections.sort(availableAds, Comparator.comparing(GameAds::getPrice));
-            return availableAds.stream().map(this::convertToDTO).collect(Collectors.toList());
-
-        } else if (key.equals("pricedesc")) {
-            List<GameAds> availableAds = gameAdsRepository.findByIsAvailable(true);
-            Collections.sort(availableAds, Comparator.comparing(GameAds::getPrice).reversed());
-            return availableAds.stream().map(this::convertToDTO).collect(Collectors.toList());
-
-        } else if (key.equals("dateasc")) {
-            List<GameAds> availableAds = gameAdsRepository.findByIsAvailable(true);
-            Collections.sort(availableAds, Comparator.comparing(GameAds::getCreated_at));
-            return availableAds.stream().map(this::convertToDTO).collect(Collectors.toList());
-
-        } else if (key.equals("datedesc")) {
-            List<GameAds> availableAdsDateDesc = gameAdsRepository.findByIsAvailable(true);
-            Collections.sort(availableAdsDateDesc, Comparator.comparing(GameAds::getCreated_at).reversed());
-            return availableAdsDateDesc.stream().map(this::convertToDTO).collect(Collectors.toList());
-        } else {
-            return null;
-        }
     }
 }
