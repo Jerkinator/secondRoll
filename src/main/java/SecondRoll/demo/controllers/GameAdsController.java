@@ -41,15 +41,6 @@ public class GameAdsController {
                 gameAd.getDescription(), gameAd.getPrice(), gameAd.getShippingCost(), gameAd.getGameCreator(),
                 gameAd.getGamePlayTime(), gameAd.getGameRecommendedAge(), gameAd.getGamePlayers(),gameAd.getGameGenres()
                 /*gameAd.getPhotoURL()*/, gameAd.getCreated_at(), gameAd.getUpdated_at()));
-
-
-    }
-
-    // GET ALL game ads belonging to a user
-    @GetMapping("/all")
-    public ResponseEntity<List<GameAdResponse>> getAllGameAds() {
-        List<GameAdResponse> orders = gameAdsService.getAllGameAds();
-        return ResponseEntity.ok(orders);
     }
 
     // PUT update gameAd
@@ -96,7 +87,6 @@ public class GameAdsController {
         return gameAdsService.deleteGameAd(id);
     }
 
-
     // GET ALL game ads belonging to a user
     @GetMapping("/user/{userId}")
     @PreAuthorize("hasAnyRole('USER','ADMIN')")
@@ -115,36 +105,6 @@ public class GameAdsController {
                 gameAd.getGamePlayTime(), gameAd.getGameRecommendedAge(), gameAd.getGamePlayers(),
                 gameAd.getGameGenres(), gameAd.getCreated_at(), gameAd.getUpdated_at()));
     }
-
-
-    // Sort available gameAds in ascending order by price
-    // Request response has not yet been implemented
-    @GetMapping("/sortbyprice/asc")
-    public List<GameAds> findAvailableGameAdsSortedByPriceAsc() {
-        return gameAdsService.findAvailableGameAdsSortedByPriceAsc();
-    }
-
-    // Sort available gameAds in descending order by price
-    // Request response has not yet been implemented
-    @GetMapping("/sortbyprice/desc")
-    public List<GameAds> findAvailableGameAdsSortedByPriceDesc() {
-        return gameAdsService.findAvailableGameAdsSortedByPriceDesc();
-    }
-
-    // Sort available gameAds in ascending order by date created
-    // Request response has not yet been implemented
-    @GetMapping("/sortbydate/asc")
-    public List<GameAds> availableGameAdsSortedByDateAsc() {
-        return gameAdsService.availableGameAdsSortedByDateAsc();
-    }
-
-    // Sort available gameAds in descending order by date created
-    // Request response has not yet been implemented
-    @GetMapping("/sortbydate/desc")
-    public List<GameAds> availableGameAdsSortedByDateDesc() {
-        return gameAdsService.availableGameAdsSortedByDateDesc();
-    }
-
 
     // Finds gameAds where the passed title is checked and if present returns a list of all matching ads
     @GetMapping("/findbytitle/{title}")
@@ -168,9 +128,7 @@ public class GameAdsController {
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(("An error occurred: " + e.getMessage()));
         }
-
     }
-
 
     // Finds gameAds where the passed genre is checked and if present returns a list of all matching ads
     @GetMapping("/findbygenre/{genre}")
@@ -192,7 +150,6 @@ public class GameAdsController {
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(("An error occurred: " + e.getMessage()));
         }
-
     }
 
     // Finds gameAds where the passed game creator is checked and if present returns a list of all matching ads
