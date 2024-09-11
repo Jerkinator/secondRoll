@@ -1,6 +1,7 @@
 package SecondRoll.demo.repository;
 
 import SecondRoll.demo.models.GameAds;
+import SecondRoll.demo.payload.response.GameAdSearchResponse;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
 import java.util.List;
@@ -15,15 +16,14 @@ public interface GameAdsRepository extends MongoRepository<GameAds, String> {
 
     List<GameAds> findByTitleIgnoreCase(String title);
 
-    List<GameAds> findByGameGenres(String genre);
+    List<GameAdSearchResponse> findByGameGenres(String genre);
 
-    List<GameAds> findByGameCreator(String creator);
+    List<GameAdSearchResponse> findByGameCreator(String creator);
 
-    List<GameAds> findByGamePlayTime(String gameTime);
+    List<GameAdSearchResponse> findByGamePlayTime(String gameTime);
 
-    List<GameAds> findByGameRecommendedAge(String recommendedAge);
+    List<GameAdSearchResponse> findByGameRecommendedAge(String recommendedAge);
 
-    List<GameAds> findByGamePlayers(String players);
-
+    List<GameAdSearchResponse> findByGamePlayers(String players);
 }
 

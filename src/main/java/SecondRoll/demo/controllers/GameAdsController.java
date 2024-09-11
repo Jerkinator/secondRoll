@@ -62,6 +62,7 @@ public class GameAdsController {
         }
     }
 
+        // Move to a GET class?
     // GET gameAd by id
     @GetMapping(value = "/{id}")
     public ResponseEntity<?> getGameAdById(@PathVariable String id) {
@@ -87,6 +88,7 @@ public class GameAdsController {
         return gameAdsService.deleteGameAd(id);
     }
 
+        // Move to a GET-class?
     // GET ALL game ads belonging to a user
     @GetMapping("/user/{userId}")
     @PreAuthorize("hasAnyRole('USER','ADMIN')")
@@ -95,6 +97,7 @@ public class GameAdsController {
         return ResponseEntity.ok(gameAds);
     }
 
+    // Move to a separate class.
     // "Roll the Dice" gameAd randomizer
     @GetMapping(value = "/rolldice")
     public ResponseEntity<GameAdResponse> getRandomGameAd() {
@@ -125,116 +128,6 @@ public class GameAdsController {
                 return ResponseEntity.ok().body(adsByTitleResponse);
             }
 
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(("An error occurred: " + e.getMessage()));
-        }
-    }
-
-    // Finds gameAds where the passed genre is checked and if present returns a list of all matching ads
-    @GetMapping("/findbygenre/{genre}")
-    public ResponseEntity<?> getGameAdsByGenre(@PathVariable  String genre) {
-        try {
-            List<GameAds> adsByGenre = gameAdsRepository.findByGameGenres(genre);
-            if (adsByGenre.isEmpty()) {
-                return ResponseEntity.ok().body("No ads found for the genre: " + genre);
-            } else {
-                List<GameAdSearchResponse> adsByGenreResponse = new ArrayList<>();
-                for (GameAds gameAd : adsByGenre) {
-                    User user =gameAd.getUser();
-                    adsByGenreResponse.add(new GameAdSearchResponse(gameAd.getId(),user.getUsername(),gameAd.getTitle(), gameAd.getDescription()
-                            , gameAd.getPrice(),gameAd.getShippingCost(), gameAd.getGameCreator(), gameAd.getGamePlayTime()
-                            , gameAd.getGameRecommendedAge(), gameAd.getGamePlayers(), gameAd.getGameGenres()));
-                }
-                return ResponseEntity.ok().body(adsByGenreResponse);
-            }
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(("An error occurred: " + e.getMessage()));
-        }
-    }
-
-    // Finds gameAds where the passed game creator is checked and if present returns a list of all matching ads
-    @GetMapping("/findbycreator/{creator}")
-    public ResponseEntity<?> getGameAdsByGameCreator(@PathVariable  String creator) {
-        try {
-            List<GameAds> adsByCreator = gameAdsRepository.findByGameCreator(creator);
-            if (adsByCreator.isEmpty()) {
-                return ResponseEntity.ok().body("No ads found with the game creator: " + creator);
-            } else {
-                List<GameAdSearchResponse> adsByCreatorResponse = new ArrayList<>();
-                for (GameAds gameAd : adsByCreator) {
-                    User user =gameAd.getUser();
-                    adsByCreatorResponse.add(new GameAdSearchResponse(gameAd.getId(),user.getUsername(),gameAd.getTitle(), gameAd.getDescription()
-                            , gameAd.getPrice(),gameAd.getShippingCost(), gameAd.getGameCreator(), gameAd.getGamePlayTime()
-                            , gameAd.getGameRecommendedAge(), gameAd.getGamePlayers(), gameAd.getGameGenres()));
-                }
-                return ResponseEntity.ok().body(adsByCreatorResponse);
-            }
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(("An error occurred: " + e.getMessage()));
-        }
-    }
-
-    // Finds gameAds where the passed game play time is checked and if present returns a list of all matching ads
-    @GetMapping("/findbygametime/{gameTime}")
-    public ResponseEntity<?> getGameAdsByGamePlayTime(@PathVariable  String gameTime) {
-        try {
-            List<GameAds> adsByGameTime = gameAdsRepository.findByGamePlayTime(gameTime);
-            if (adsByGameTime.isEmpty()) {
-                return ResponseEntity.ok().body("No ads found with the gameTime: " + gameTime);
-            } else {
-                List<GameAdSearchResponse> adsByGameTimeResponse = new ArrayList<>();
-                for (GameAds gameAd : adsByGameTime) {
-                    User user =gameAd.getUser();
-                    adsByGameTimeResponse.add(new GameAdSearchResponse(gameAd.getId(),user.getUsername(),gameAd.getTitle(), gameAd.getDescription()
-                            , gameAd.getPrice(),gameAd.getShippingCost(), gameAd.getGameCreator(), gameAd.getGamePlayTime()
-                            , gameAd.getGameRecommendedAge(), gameAd.getGamePlayers(), gameAd.getGameGenres()));
-                }
-                return ResponseEntity.ok().body(adsByGameTimeResponse);
-            }
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(("An error occurred: " + e.getMessage()));
-        }
-    }
-
-    // Finds gameAds where the passed recommended age is checked and if present returns a list of all matching ads
-    @GetMapping("/findbyage/{recommendedAge}")
-    public ResponseEntity<?> getGameAdsByGameRecommendedAge(@PathVariable  String recommendedAge) {
-        try {
-            List<GameAds> adsByGameRecommendedAge = gameAdsRepository.findByGameRecommendedAge(recommendedAge);
-            if (adsByGameRecommendedAge.isEmpty()) {
-                return ResponseEntity.ok().body("No ads found with the recommendedAge: " + recommendedAge);
-            } else {
-                List<GameAdSearchResponse> adsByAgeResponse = new ArrayList<>();
-                for (GameAds gameAd : adsByGameRecommendedAge) {
-                    User user =gameAd.getUser();
-                    adsByAgeResponse.add(new GameAdSearchResponse(gameAd.getId(),user.getUsername(),gameAd.getTitle(), gameAd.getDescription()
-                            , gameAd.getPrice(),gameAd.getShippingCost(), gameAd.getGameCreator(), gameAd.getGamePlayTime()
-                            , gameAd.getGameRecommendedAge(), gameAd.getGamePlayers(), gameAd.getGameGenres()));
-                }
-                return ResponseEntity.ok().body(adsByAgeResponse);
-            }
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(("An error occurred: " + e.getMessage()));
-        }
-    }
-
-    // Finds gameAds where the passed number of players is checked and if present returns a list of all matching ads
-    @GetMapping("/findbyplayers/{players}")
-    public ResponseEntity<?> getGameAdsByGamePlayers(@PathVariable  String players) {
-        try {
-            List<GameAds> adsByPlayers = gameAdsRepository.findByGamePlayers(players);
-            if (adsByPlayers.isEmpty()) {
-                return ResponseEntity.ok().body("No ads found with the number of players: " + players);
-            } else {
-                List<GameAdSearchResponse> adsByPlayersResponse = new ArrayList<>();
-                for (GameAds gameAd : adsByPlayers) {
-                    User user =gameAd.getUser();
-                    adsByPlayersResponse.add(new GameAdSearchResponse(gameAd.getId(),user.getUsername(),gameAd.getTitle(), gameAd.getDescription()
-                            , gameAd.getPrice(),gameAd.getShippingCost(), gameAd.getGameCreator(), gameAd.getGamePlayTime()
-                            , gameAd.getGameRecommendedAge(), gameAd.getGamePlayers(), gameAd.getGameGenres()));
-                }
-                return ResponseEntity.ok().body(adsByPlayersResponse);
-            }
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(("An error occurred: " + e.getMessage()));
         }
