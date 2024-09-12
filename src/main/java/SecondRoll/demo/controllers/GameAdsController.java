@@ -6,7 +6,6 @@ import SecondRoll.demo.models.GameAds;
 import SecondRoll.demo.models.User;
 import SecondRoll.demo.payload.CreateGameDTO;
 import SecondRoll.demo.payload.response.GameAdResponse;
-import SecondRoll.demo.payload.response.GameAdSearchResponse;
 import SecondRoll.demo.repository.GameAdsRepository;
 import SecondRoll.demo.services.GameAdsService;
 import jakarta.validation.Valid;
@@ -16,7 +15,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -107,20 +105,8 @@ public class GameAdsController {
         return ResponseEntity.ok(gameAds);
     }
 
-    // Move to a separate class.
-    // "Roll the Dice" gameAd randomizer
-    /* @GetMapping(value = "/rolldice")
-    public ResponseEntity<GameAdResponse> getRandomGameAd() {
-        GameAds gameAd = gameAdsService.getRandomGameAd();
-        User user = gameAd.getUser();
-        return ResponseEntity.ok().body(new GameAdResponse( gameAd.getId(),user.getId(),user.getUsername(),gameAd.getTitle(),
-                gameAd.getDescription(), gameAd.getPrice(), gameAd.getShippingCost(), gameAd.getGameCreator(),
-                gameAd.getGamePlayTime(), gameAd.getGameRecommendedAge(), gameAd.getGamePlayers(),
-                gameAd.getGameGenres(), gameAd.getCreated_at(), gameAd.getUpdated_at()));
-    } */
-
     // Finds gameAds where the passed title is checked and if present returns a list of all matching ads
-    @GetMapping("/findbytitle/{title}")
+    /* @GetMapping("/findbytitle/{title}")
     public ResponseEntity<?> getGameAdsByTitle(@PathVariable  String title) {
         try {
             List<GameAds> adsByTitle = gameAdsRepository.findByTitleIgnoreCase(title);
@@ -141,5 +127,5 @@ public class GameAdsController {
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(("An error occurred: " + e.getMessage()));
         }
-    }
+    } */
 }
