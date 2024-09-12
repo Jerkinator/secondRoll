@@ -20,7 +20,7 @@ import java.util.List;
 
 // @CrossOrigin(origins = "5173", maxAge = 3600)
 @RestController
-@RequestMapping(value="/api/gameAds")
+@RequestMapping(value="/api/gameads")
 public class GameAdsController {
 
     @Autowired
@@ -104,28 +104,4 @@ public class GameAdsController {
         List<GameAdResponse> gameAds = gameAdsService.getUserOrders(userId);
         return ResponseEntity.ok(gameAds);
     }
-
-    // Finds gameAds where the passed title is checked and if present returns a list of all matching ads
-    /* @GetMapping("/findbytitle/{title}")
-    public ResponseEntity<?> getGameAdsByTitle(@PathVariable  String title) {
-        try {
-            List<GameAds> adsByTitle = gameAdsRepository.findByTitleIgnoreCase(title);
-
-            if (adsByTitle.isEmpty()) {
-                return ResponseEntity.ok().body("No ads found for the title: " + title);
-            } else {
-                List<GameAdSearchResponse> adsByTitleResponse = new ArrayList<>();
-                for (GameAds gameAd : adsByTitle) {
-                    User user =gameAd.getUser();
-                    adsByTitleResponse.add(new GameAdSearchResponse(gameAd.getId(),user.getUsername(),gameAd.getTitle(), gameAd.getDescription()
-                            , gameAd.getPrice(),gameAd.getShippingCost(),gameAd.getGameCreator(), gameAd.getGamePlayTime()
-                            , gameAd.getGameRecommendedAge(), gameAd.getGamePlayers(), gameAd.getGameGenres()));
-                }
-                return ResponseEntity.ok().body(adsByTitleResponse);
-            }
-
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(("An error occurred: " + e.getMessage()));
-        }
-    } */
 }
