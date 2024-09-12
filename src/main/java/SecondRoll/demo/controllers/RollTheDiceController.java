@@ -27,11 +27,11 @@ public class RollTheDiceController extends GameAdDTOConverter {
 
     @GetMapping(value = "/rolldice")
     public GameAdResponse getRandomGameAd() {
-        Random randomGameAd = new Random();
+        Random random = new Random();
         List<GameAds> allGameAds = gameAdsRepository.findAll();
-        int maxInt = allGameAds.size();
-        GameAds gameAd = allGameAds.get(randomGameAd.nextInt(maxInt));
+        int maxInt = random.nextInt(allGameAds.size());
+        GameAds randomGameAd = allGameAds.get(maxInt);
 
-        return convertToDTO(gameAd);
+        return convertToDTO(randomGameAd);
     }
 }

@@ -49,7 +49,6 @@ public class GameAdsService extends GameAdDTOConverter {
     // GET all gameAds.
     public List<GameAdResponse> getAllGameAds() {
         List<GameAds> gameAds = gameAdsRepository.findAll();
-
         return gameAds.stream().map(this::convertToDTO).collect(Collectors.toList());
     }
 
@@ -76,11 +75,17 @@ public class GameAdsService extends GameAdDTOConverter {
                 .orElseThrow(() -> new ServiceException("Game with id " + id + " was not found."));
     }
 
-    // GET a gameAd by id
+    /* // GET a gameAd by id
     public Optional<GameAds> getGameAdById(String id) {
         return Optional.ofNullable(gameAdsRepository.findById(id)
                 .orElseThrow(() -> new ServiceException("Game not found.")));
     }
+     */
+
+    public GameAds getGameAdById(String id) {
+        return gameAdsRepository.findById(id).orElseThrow(() -> new ServiceException("Game not found."));
+    }
+
 
     // DELETE a gameAd
     public String deleteGameAd(String id) {

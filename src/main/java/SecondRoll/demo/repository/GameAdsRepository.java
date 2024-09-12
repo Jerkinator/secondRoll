@@ -8,6 +8,7 @@ import java.util.List;
 
 public interface GameAdsRepository extends MongoRepository<GameAds, String> {
 
+
     List<GameAds> findByIsAvailable(boolean isAvailable);
 
     List<GameAds> findByUserId(String userId);
@@ -25,5 +26,6 @@ public interface GameAdsRepository extends MongoRepository<GameAds, String> {
     List<GameAdSearchResponse> findByGameRecommendedAge(String recommendedAge);
 
     List<GameAdSearchResponse> findByGamePlayers(String players);
+
 }
 

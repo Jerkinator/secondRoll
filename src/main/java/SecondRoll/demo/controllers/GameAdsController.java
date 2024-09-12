@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 
 // @CrossOrigin(origins = "5173", maxAge = 3600)
@@ -64,7 +63,7 @@ public class GameAdsController {
 
         // Move to a GET class?
     // GET gameAd by id
-    @GetMapping(value = "/{id}")
+  /*  @GetMapping(value = "/{id}")
     public ResponseEntity<?> getGameAdById(@PathVariable String id) {
         try {
             Optional<GameAds> gameAd = gameAdsService.getGameAdById(id);
@@ -79,6 +78,17 @@ public class GameAdsController {
         } catch (EntityNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }
+    } */
+
+    @GetMapping("/{id}")
+    public GameAds getGameAdById(@PathVariable String id) {
+        GameAds gameAd = gameAdsService.getGameAdById(id);
+        return gameAd;
+    }
+
+    @GetMapping("/all")
+    List<GameAdResponse> findAllGameAds() {
+        return gameAdsService.getAllGameAds();
     }
 
     // DELETE gameAd by id
