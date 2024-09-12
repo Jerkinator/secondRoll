@@ -13,7 +13,7 @@ public interface GameAdsRepository extends MongoRepository<GameAds, String> {
 
     List<GameAds> findByUserId(String userId);
 
-    List<GameAds> searchGameAdsByTitleContainingIgnoreCase(String search);
+    List<GameAdSearchResponse> searchGameAdsByTitleContainingIgnoreCase(String search);
 
     List<GameAdSearchResponse> findByGameGenres(String genre);
 

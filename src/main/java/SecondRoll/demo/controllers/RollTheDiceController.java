@@ -5,7 +5,6 @@ import SecondRoll.demo.models.GameAds;
 import SecondRoll.demo.payload.GameAdDTOConverter;
 import SecondRoll.demo.payload.response.GameAdResponse;
 import SecondRoll.demo.repository.GameAdsRepository;
-import SecondRoll.demo.services.GameAdsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,8 +19,6 @@ import java.util.Random;
 @RequestMapping(value="/api/gameads")
 public class RollTheDiceController extends GameAdDTOConverter {
 
-    @Autowired
-    GameAdsService gameAdsService;
     @Autowired
     GameAdsRepository gameAdsRepository;
 
