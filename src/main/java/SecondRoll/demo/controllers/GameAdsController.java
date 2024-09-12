@@ -99,7 +99,7 @@ public class GameAdsController {
 
     // Move to a separate class.
     // "Roll the Dice" gameAd randomizer
-    @GetMapping(value = "/rolldice")
+    /* @GetMapping(value = "/rolldice")
     public ResponseEntity<GameAdResponse> getRandomGameAd() {
         GameAds gameAd = gameAdsService.getRandomGameAd();
         User user = gameAd.getUser();
@@ -107,7 +107,7 @@ public class GameAdsController {
                 gameAd.getDescription(), gameAd.getPrice(), gameAd.getShippingCost(), gameAd.getGameCreator(),
                 gameAd.getGamePlayTime(), gameAd.getGameRecommendedAge(), gameAd.getGamePlayers(),
                 gameAd.getGameGenres(), gameAd.getCreated_at(), gameAd.getUpdated_at()));
-    }
+    } */
 
     // Finds gameAds where the passed title is checked and if present returns a list of all matching ads
     @GetMapping("/findbytitle/{title}")

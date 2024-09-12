@@ -14,7 +14,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.Random;
 import java.util.stream.Collectors;
 
 @Service
@@ -99,12 +98,12 @@ public class GameAdsService extends GameAdDTOConverter {
         return userGames.stream().map(this::convertToDTO).collect(Collectors.toList());
     }
 
-    // "Roll the Dice" game ad randomizer
+   /*  // "Roll the Dice" game ad randomizer
     public GameAds getRandomGameAd() {
         Random randomGameAd = new Random();
         List<GameAds> allGameAds = gameAdsRepository.findAll();
         int maxInt = allGameAds.size();
         GameAds gameAds = allGameAds.get(randomGameAd.nextInt(maxInt));
         return gameAds;
-    }
+    } */
 }
