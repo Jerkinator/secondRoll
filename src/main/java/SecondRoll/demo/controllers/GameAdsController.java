@@ -7,6 +7,7 @@ import SecondRoll.demo.models.User;
 import SecondRoll.demo.payload.CreateGameDTO;
 import SecondRoll.demo.payload.response.GameAdResponse;
 import SecondRoll.demo.payload.response.GameAdSearchResponse;
+import SecondRoll.demo.payload.response.LombokResponse;
 import SecondRoll.demo.repository.GameAdsRepository;
 import SecondRoll.demo.services.GameAdsService;
 import jakarta.validation.Valid;
@@ -40,10 +41,34 @@ public class GameAdsController {
         return ResponseEntity.ok().body(new GameAdResponse(gameAd.getId(),user.getId(),user.getUsername(), gameAd.getTitle(),
                 gameAd.getDescription(), gameAd.getPrice(), gameAd.getShippingCost(), gameAd.getGameCreator(),
                 gameAd.getGamePlayTime(), gameAd.getGameRecommendedAge(), gameAd.getGamePlayers(),gameAd.getGameGenres()
-                /*gameAd.getPhotoURL()*/, gameAd.getCreated_at(), gameAd.getUpdated_at()));
+                /*gameAd.getPhotoURL()*/, gameAd.getCreatedAt(), gameAd.getUpdatedAt()));
 
 
     }
+
+    @PostMapping()
+    @PreAuthorize("hasRole('USER')")
+    public ResponseEntity<LombokResponse> createGameAd(@Valid @RequestBody CreateGameDTO createGameDTO) {
+        GameAds gameAd = gameAdsService.createGameAd(createGameDTO);
+        User user = gameAd.getUser();
+        return ResponseEntity.ok().body(LombokResponse.builder(gameAd.getTitle(), gameAd.getDescription(), gameAd.getPrice(), gameAd.getShippingCost())
+                        .gameCreator(gameAd.getGameCreator())
+
+                        .build()
+
+
+                );
+
+
+// old version
+        return ResponseEntity.ok().body(new GameAdResponse(gameAd.getId(),user.getId(),user.getUsername(), gameAd.getTitle(),
+                gameAd.getDescription(), gameAd.getPrice(), gameAd.getShippingCost(), gameAd.getGameCreator(),
+                gameAd.getGamePlayTime(), gameAd.getGameRecommendedAge(), gameAd.getGamePlayers(),gameAd.getGameGenres()
+                /*gameAd.getPhotoURL()*/, gameAd.getCreatedAt(), gameAd.getUpdatedAt()));
+
+
+    }
+
 
     // GET ALL game ads belonging to a user
     @GetMapping("/all")
@@ -82,7 +107,7 @@ public class GameAdsController {
                     gameAd.get().getDescription(), gameAd.get().getPrice(), gameAd.get().getShippingCost(),
                     gameAd.get().getGameCreator(), gameAd.get().getGamePlayTime(), gameAd.get().getGameRecommendedAge(),
                     gameAd.get().getGamePlayers(), gameAd.get().getGameGenres(),
-                    gameAd.get().getCreated_at(), gameAd.get().getUpdated_at()));
+                    gameAd.get().getCreatedAt(), gameAd.get().getUpdatedAt()));
 
         } catch (EntityNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
@@ -113,7 +138,7 @@ public class GameAdsController {
         return ResponseEntity.ok().body(new GameAdResponse( gameAd.getId(),user.getId(),user.getUsername(),gameAd.getTitle(),
                 gameAd.getDescription(), gameAd.getPrice(), gameAd.getShippingCost(), gameAd.getGameCreator(),
                 gameAd.getGamePlayTime(), gameAd.getGameRecommendedAge(), gameAd.getGamePlayers(),
-                gameAd.getGameGenres(), gameAd.getCreated_at(), gameAd.getUpdated_at()));
+                gameAd.getGameGenres(), gameAd.getCreatedAt(), gameAd.getUpdatedAt()));
     }
 
 

@@ -28,23 +28,6 @@ public class GameAdsService {
 
                 .orElseThrow(() -> new ServiceException("User not found."));
 
-
-
-        // implementing av GameAdBuilder
-        GameAds gameAd = new GameAds.GameAdBuilder()
-                .withUser(user)
-                .withTitle(createGameDTO.getTitle())
-                .withDescription(createGameDTO.getDescription())
-                .withPrice(createGameDTO.getPrice())
-                .withShippingCost(createGameDTO.getShippingCost())
-                .withCreatedAt(createGameDTO.getCreated_at())
-                .withUpdatedAt(createGameDTO.getUpdated_at())
-                .withGameCreator(createGameDTO.getGameCreator())
-                .withGamePlayTime(createGameDTO.getGamePlayTime())
-                .withGameRecommendedAge(createGameDTO.getGameRecommendedAge())
-                .withGamePlayers(createGameDTO.getGamePlayers())
-                .withGameGenres(createGameDTO.getGameGenres())
-                .build();
         System.out.println(gameAd);
 
         return gameAdsRepository.save(gameAd);
@@ -177,7 +160,7 @@ public class GameAdsService {
         availableAdsDateAsc = gameAdsRepository.findByIsAvailable(true);
 
         // sorting the ads in available ads array based on Created_at
-        Collections.sort(availableAdsDateAsc, Comparator.comparing(GameAds::getCreated_at));
+        Collections.sort(availableAdsDateAsc, Comparator.comparing(GameAds::getCreatedAt));
 
         return availableAdsDateAsc;
     }
@@ -190,7 +173,7 @@ public class GameAdsService {
         availableAdsDateDesc = gameAdsRepository.findByIsAvailable(true);
 
         // sorting the ads in available ads array based on Created_at
-        Collections.sort(availableAdsDateDesc, Comparator.comparing(GameAds::getCreated_at).reversed());
+        Collections.sort(availableAdsDateDesc, Comparator.comparing(GameAds::getCreatedAt).reversed());
 
         return availableAdsDateDesc;
     }
