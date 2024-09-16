@@ -29,23 +29,33 @@ public class GameAdsService {
                 .orElseThrow(() -> new ServiceException("User not found."));
 
 
-        GameAds gameAd = new GameAds();
-        gameAd.setUser(user);
-        gameAd.setTitle(createGameDTO.getTitle());
-        gameAd.setDescription(createGameDTO.getDescription());
-        gameAd.setPrice(createGameDTO.getPrice());
-        gameAd.setShippingCost(createGameDTO.getShippingCost());
-        gameAd.setCreated_at(createGameDTO.getCreated_at());
-        gameAd.setUpdated_at(createGameDTO.getUpdated_at());
-        gameAd.setGameCreator(createGameDTO.getGameCreator());
-        gameAd.setGamePlayTime(createGameDTO.getGamePlayTime());
-        gameAd.setGameRecommendedAge(createGameDTO.getGameRecommendedAge());
-        gameAd.setGamePlayers(createGameDTO.getGamePlayers());
-        gameAd.setGameGenres(createGameDTO.getGameGenres());
-       // gameAd.setPhotoURL(createGameDTO.getPhotoURL());
+
+        // implementing av GameAdBuilder
+        GameAds gameAd = new GameAds.GameAdBuilder()
+                .withUser(user)
+                .withTitle(createGameDTO.getTitle())
+                .withDescription(createGameDTO.getDescription())
+                .withPrice(createGameDTO.getPrice())
+                .withShippingCost(createGameDTO.getShippingCost())
+                .withCreatedAt(createGameDTO.getCreated_at())
+                .withUpdatedAt(createGameDTO.getUpdated_at())
+                .withGameCreator(createGameDTO.getGameCreator())
+                .withGamePlayTime(createGameDTO.getGamePlayTime())
+                .withGameRecommendedAge(createGameDTO.getGameRecommendedAge())
+                .withGamePlayers(createGameDTO.getGamePlayers())
+                .withGameGenres(createGameDTO.getGameGenres())
+                .build();
+        System.out.println(gameAd);
 
         return gameAdsRepository.save(gameAd);
     }
+
+
+
+
+
+
+
 
     // GET all gameAds.
     public List<GameAdResponse> getAllGameAds() {
@@ -57,7 +67,7 @@ public class GameAdsService {
 
 
     // UPDATE a gameAD
-    public GameAds updateGameAd(String id, GameAds updatedGameAd) {
+    /*public GameAds updateGameAd(String id, GameAds updatedGameAd) {
         return gameAdsRepository.findById(id).map(existingGameAd -> {
                     if (updatedGameAd.getTitle() != null) {
                         existingGameAd.setTitle(updatedGameAd.getTitle());
@@ -78,7 +88,7 @@ public class GameAdsService {
         })
                 .orElseThrow(() -> new ServiceException("Game with id " + id + " was not found."));
     }
-
+*/
     // GET a gameAd by id
     public Optional<GameAds> getGameAdById(String id) {
         return Optional.ofNullable(gameAdsRepository.findById(id)

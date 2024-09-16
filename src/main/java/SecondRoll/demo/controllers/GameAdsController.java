@@ -53,7 +53,7 @@ public class GameAdsController {
     }
 
     // PUT update gameAd
-    @PutMapping("/{gameId}")
+/*    @PutMapping("/{gameId}")
     @PreAuthorize("hasAnyRole('USER','ADMIN')")
     public ResponseEntity<?> updateGameAd(@PathVariable String gameId, @RequestBody GameAds gameDetails) {
         try {
@@ -69,7 +69,7 @@ public class GameAdsController {
         } catch (EntityNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }
-    }
+    }*/
 
     // GET gameAd by id
     @GetMapping(value = "/{id}")
