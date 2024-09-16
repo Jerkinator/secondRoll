@@ -14,7 +14,7 @@ public class LombokGameAd {
     private final String name;
     @NonNull
     private final String password;
-    @NonNull .
+    @NonNull
     private final int id;
 
     private final String description;
