@@ -14,11 +14,12 @@ public class LombokGameAd {
     private final String name;
     @NonNull
     private final String password;
-    @NonNull
+    @NonNull .
     private final int id;
 
     private final String description;
 
+// mandatory parameters require a builder class with required fields as constructor parameters
     public static LombokGameAdBuilder builder (final String name, final String password, final int id) {
         return new LombokGameAdBuilder()
                 .name(name)
@@ -26,10 +27,10 @@ public class LombokGameAd {
                 .id(id);
     }
 
-    LombokGameAd lombokGameAd = LombokGameAd.builder(name, password, id)
-            .name("Mia")
-            .password("tjoho")
-            .id(1)
+    // output in main would look like this
+/*    LombokGameAd lombokGameAd = LombokGameAd.builder("Mia", "tjoho", 1)
             .description("bla bla bla")
             .build();
+        System.out.println(lombokGameAd);*/
+
 }
