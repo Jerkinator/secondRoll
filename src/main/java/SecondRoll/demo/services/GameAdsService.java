@@ -134,6 +134,16 @@ public class GameAdsService {
     }
 
     // Method to get available gameAds in ascending price order.
+    /*
+    Kolla på comparator som används nu i ascending descending metoderna.
+    kommer troligtvis vara bra att även använda stream (gå tillbaks och titta i andra uppgiften i javakursen.)
+    Detta kommer isf kunna undvika att använda statiska innerklasser för varje sökparameter.
+
+    Klassiskt strategy pattern skall ha context(klassen som innehåller referensen till Intefacet)
+    ett Strategy interface som definierar metoderna som kapslar in dem olika algoritmerna,
+    Strategi klasser som måste implementera Strategy interfacet. Dessa klasser innehåller ett specifikt beteende
+    eller algoritm.
+     */
     public List<GameAds> findAvailableGameAdsSortedByPriceAsc() {
 
         List<GameAds> availableAdsPriceAsc = new ArrayList<>();
@@ -144,6 +154,7 @@ public class GameAdsService {
         Collections.sort(availableAdsPriceAsc, Comparator.comparing(GameAds::getPrice));
 
         return availableAdsPriceAsc;
+        System.out.println("Skrev in kommentarer");
     }
 
     // Method to get available gameAds in descending price order.

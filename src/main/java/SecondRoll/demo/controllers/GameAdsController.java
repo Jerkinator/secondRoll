@@ -119,6 +119,17 @@ public class GameAdsController {
 
     // Sort available gameAds in ascending order by price
     // Request response has not yet been implemented
+
+    /*sökfunktionerna är utspridda både här och i service, troligtvis vore en god ide att skapa en egen
+    service för sökning. Just nu används väldigt många metoder kopplade till sökning, det gör dem svåra att
+    använda på ett smidigt sätt som är enkelt att underhålla eller utöka.
+    samt att logiken inte bör ligga inne i controllern.
+
+    ##Lösning## Ge search en egen service, implementera ett search interface, Försöka använda lambda
+    för att slippa att ha egna klasser för varje sökparameter.
+    flytta ut logiken ifrån controllern.
+
+    */
     @GetMapping("/sortbyprice/asc")
     public List<GameAds> findAvailableGameAdsSortedByPriceAsc() {
         return gameAdsService.findAvailableGameAdsSortedByPriceAsc();
