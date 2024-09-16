@@ -5,8 +5,6 @@ import SecondRoll.demo.exception.ServiceException;
 import SecondRoll.demo.models.GameAds;
 import SecondRoll.demo.models.User;
 import SecondRoll.demo.payload.CreateGameDTO;
-import SecondRoll.demo.payload.GameAdDTOConverter;
-import SecondRoll.demo.payload.response.GameAdResponse;
 import SecondRoll.demo.repository.GameAdsRepository;
 import SecondRoll.demo.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,10 +12,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
-public class GameAdsService extends GameAdDTOConverter {
+public class GameAdsService  {
 
     @Autowired
     GameAdsRepository gameAdsRepository;
@@ -47,9 +44,9 @@ public class GameAdsService extends GameAdDTOConverter {
     }
 
     // GET all gameAds.
-    public List<GameAdResponse> getAllGameAds() {
+    public List<GameAds> getAllGameAds() {
         List<GameAds> gameAds = gameAdsRepository.findAll();
-        return gameAds.stream().map(this::convertToDTO).collect(Collectors.toList());
+        return gameAds;
     }
 
     // UPDATE a gameAD
@@ -75,16 +72,16 @@ public class GameAdsService extends GameAdDTOConverter {
                 .orElseThrow(() -> new ServiceException("Game with id " + id + " was not found."));
     }
 
-    /* // GET a gameAd by id
+    // GET a gameAd by id
     public Optional<GameAds> getGameAdById(String id) {
         return Optional.ofNullable(gameAdsRepository.findById(id)
                 .orElseThrow(() -> new ServiceException("Game not found.")));
     }
-     */
 
+    /* // TEST get gameAd by ID, can be scrapped.
     public GameAds getGameAdById(String id) {
         return gameAdsRepository.findById(id).orElseThrow(() -> new ServiceException("Game not found."));
-    }
+    } */
 
 
     // DELETE a gameAd
@@ -94,21 +91,12 @@ public class GameAdsService extends GameAdDTOConverter {
     }
 
     // UPDATED Find all GameAds by user ID.
-    public List<GameAdResponse> getUserOrders(String userId) {
+    public List<GameAds> getUserGames(String userId) {
         Optional<User> user = userRepository.findById(userId);
         if (!user.isPresent()) {
             throw new ServiceException("User not found.");
         }
         List<GameAds> userGames = gameAdsRepository.findByUserId(userId);
-        return userGames.stream().map(this::convertToDTO).collect(Collectors.toList());
+        return userGames;
     }
-
-   /*  // "Roll the Dice" game ad randomizer
-    public GameAds getRandomGameAd() {
-        Random randomGameAd = new Random();
-        List<GameAds> allGameAds = gameAdsRepository.findAll();
-        int maxInt = allGameAds.size();
-        GameAds gameAds = allGameAds.get(randomGameAd.nextInt(maxInt));
-        return gameAds;
-    } */
 }

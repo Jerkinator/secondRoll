@@ -1,5 +1,6 @@
 package SecondRoll.demo.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -19,10 +20,13 @@ public class GameAds {
     @Id
     private String id;
 
+    // @OneToMany(mappedBy = "wishlist", fetch = FetchType.LAZY)
 
+    @JsonIgnore
     @NotBlank
     @DBRef
     private User user;
+
     @NotBlank
     @Size(min = 1, max = 30)
     private String title;

@@ -16,7 +16,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-
+import java.util.Optional;
 
 // @CrossOrigin(origins = "5173", maxAge = 3600)
 @RestController
@@ -59,9 +59,9 @@ public class GameAdsController {
         }
     }
 
-        // Move to a GET class?
+    // Move to a GET class?
     // GET gameAd by id
-  /*  @GetMapping(value = "/{id}")
+   @GetMapping(value = "/{id}")
     public ResponseEntity<?> getGameAdById(@PathVariable String id) {
         try {
             Optional<GameAds> gameAd = gameAdsService.getGameAdById(id);
@@ -76,16 +76,16 @@ public class GameAdsController {
         } catch (EntityNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }
-    } */
+    }
 
-    @GetMapping("/{id}")
+   /*  @GetMapping("/{id}") // TEST Get by ID, can be scrapped.
     public GameAds getGameAdById(@PathVariable String id) {
         GameAds gameAd = gameAdsService.getGameAdById(id);
         return gameAd;
-    }
+    } */
 
     @GetMapping("/all")
-    List<GameAdResponse> findAllGameAds() {
+    List<GameAds> findAllGameAds() {
         return gameAdsService.getAllGameAds();
     }
 
@@ -96,12 +96,12 @@ public class GameAdsController {
         return gameAdsService.deleteGameAd(id);
     }
 
-        // Move to a GET-class?
+    // Move to a GET-class?
     // GET ALL game ads belonging to a user
     @GetMapping("/user/{userId}")
     @PreAuthorize("hasAnyRole('USER','ADMIN')")
-    public ResponseEntity<List<GameAdResponse>> getUserGameAds(@PathVariable String userId) {
-        List<GameAdResponse> gameAds = gameAdsService.getUserOrders(userId);
+    public ResponseEntity<List<GameAds>> getUserGameAds(@PathVariable String userId) {
+        List<GameAds> gameAds = gameAdsService.getUserGames(userId);
         return ResponseEntity.ok(gameAds);
     }
 }
