@@ -66,6 +66,8 @@ public class CreateGameDTO {
         this.gameGenres = gameGenres;
     }
 
+
+
     // GETTERS & SETTERS.
 
     public String getUserId() {

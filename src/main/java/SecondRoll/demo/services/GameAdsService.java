@@ -25,15 +25,14 @@ public class GameAdsService {
     // POST a gameAd with user reference, using a DTO.
     public GameAds createGameAd(CreateGameDTO createGameDTO) {
         User user = userRepository.findById(createGameDTO.getUserId())
-
                 .orElseThrow(() -> new ServiceException("User not found."));
 
         System.out.println(gameAd);
-
         return gameAdsRepository.save(gameAd);
     }
 
 
+// builder??
 
 
 

@@ -6,6 +6,7 @@ import SecondRoll.demo.models.GameAds;
 import SecondRoll.demo.models.User;
 import SecondRoll.demo.payload.CreateGameDTO;
 import SecondRoll.demo.payload.response.GameAdResponse;
+import SecondRoll.demo.payload.response.GameAdResponseLombok;
 import SecondRoll.demo.payload.response.GameAdSearchResponse;
 import SecondRoll.demo.payload.response.LombokResponse;
 import SecondRoll.demo.repository.GameAdsRepository;
@@ -48,10 +49,10 @@ public class GameAdsController {
 
     @PostMapping()
     @PreAuthorize("hasRole('USER')")
-    public ResponseEntity<LombokResponse> createGameAd(@Valid @RequestBody CreateGameDTO createGameDTO) {
+    public ResponseEntity<GameAdResponseLombok> createGameAd(@Valid @RequestBody CreateGameDTO createGameDTO) {
         GameAds gameAd = gameAdsService.createGameAd(createGameDTO);
         User user = gameAd.getUser();
-        return ResponseEntity.ok().body(LombokResponse.builder(gameAd.getTitle(), gameAd.getDescription(), gameAd.getPrice(), gameAd.getShippingCost())
+        return ResponseEntity.ok().body(GameAdResponseLombok.builder(gameAd.getTitle(), gameAd.getDescription(), gameAd.getPrice(), gameAd.getShippingCost())
                         .gameCreator(gameAd.getGameCreator())
 
                         .build()
