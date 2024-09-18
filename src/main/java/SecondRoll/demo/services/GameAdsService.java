@@ -7,6 +7,7 @@ import SecondRoll.demo.models.GameAdsLombok;
 import SecondRoll.demo.models.User;
 import SecondRoll.demo.payload.CreateGameDTO;
 import SecondRoll.demo.payload.response.GameAdResponse;
+import SecondRoll.demo.payload.response.GameAdResponseLombok;
 import SecondRoll.demo.repository.GameAdsRepository;
 import SecondRoll.demo.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,13 +45,13 @@ public class GameAdsService {
 
 
 
-
+/*
     // GET all gameAds.
     public List<GameAdResponse> getAllGameAds() {
         List<GameAds> gameAds = gameAdsRepository.findAll();
 
         return gameAds.stream().map(this::convertToDTO).collect(Collectors.toList());
-    }
+    }*/
 
 
 
@@ -100,6 +101,13 @@ public class GameAdsService {
     }
 
     // This utility-method converts the content of a GameAd-object into a GameAdResponse-object.
+
+    private GameAdResponseLombok convertToLombokDTO (GameAdsLombok gameAd) {
+        GameAdResponseLombok gameAdResponseLombok = new GameAdResponseLombok();
+
+        gameAdResponseLombok.setId
+    }
+
     private GameAdResponse convertToDTO(GameAds gameAd) {
         GameAdResponse gameAdResponse = new GameAdResponse();
 

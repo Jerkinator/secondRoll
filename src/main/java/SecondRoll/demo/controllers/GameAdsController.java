@@ -45,18 +45,24 @@ public class GameAdsController {
                 *//*gameAd.getPhotoURL()*//*, gameAd.getCreatedAt(), gameAd.getUpdatedAt()));
     }*/
 
+
+    // Post game ad with builder
     @PostMapping()
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity<GameAdResponseLombok> createAd(@Valid @RequestBody CreateGameDTO createGameDTO) {
         GameAdsLombok gameAdsLombok = gameAdsService.createAd(createGameDTO);
         User user = gameAdsLombok.getUser();
-        return ResponseEntity.ok().body(GameAdResponseLombok.builder(
-                        gameAdsLombok.getTitle(),
-                        gameAdsLombok.getDescription(),
-                        gameAdsLombok.getPrice(),
-                        gameAdsLombok.getShippingCost())
+        return ResponseEntity.ok().body(GameAdResponseLombok.builder("Wingspan", "It's a game!", 599, 40)
+                        .gameCreator("Bla bla")
+                        .gamePlayers("6-8")
+                        .gameRecommendedAge("8+")
                 .build());
     }
+
+
+
+
+
 
 
     // GET ALL game ads belonging to a user
