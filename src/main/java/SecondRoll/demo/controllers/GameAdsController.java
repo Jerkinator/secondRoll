@@ -34,7 +34,7 @@ public class GameAdsController {
     GameAdsRepository gameAdsRepository;
 
     // POST gameAd
-    @PostMapping()
+ /*   @PostMapping()
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity<GameAdResponse> createGameAd(@Valid @RequestBody CreateGameDTO createGameDTO) {
         GameAds gameAd = gameAdsService.createGameAd(createGameDTO);
@@ -42,10 +42,8 @@ public class GameAdsController {
         return ResponseEntity.ok().body(new GameAdResponse(gameAd.getId(),user.getId(),user.getUsername(), gameAd.getTitle(),
                 gameAd.getDescription(), gameAd.getPrice(), gameAd.getShippingCost(), gameAd.getGameCreator(),
                 gameAd.getGamePlayTime(), gameAd.getGameRecommendedAge(), gameAd.getGamePlayers(),gameAd.getGameGenres()
-                /*gameAd.getPhotoURL()*/, gameAd.getCreatedAt(), gameAd.getUpdatedAt()));
-
-
-    }
+                *//*gameAd.getPhotoURL()*//*, gameAd.getCreatedAt(), gameAd.getUpdatedAt()));
+    }*/
 
     @PostMapping()
     @PreAuthorize("hasRole('USER')")
@@ -57,7 +55,7 @@ public class GameAdsController {
                         gameAdsLombok.getDescription(),
                         gameAdsLombok.getPrice(),
                         gameAdsLombok.getShippingCost())
-                .build();
+                .build());
     }
 
 

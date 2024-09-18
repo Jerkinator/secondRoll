@@ -74,4 +74,6 @@ public class GameAdsLombok {
     private String photoURL;
 
 
+    public GameAdsLombok() {
+    }
 }
