@@ -6,10 +6,8 @@ import SecondRoll.demo.models.GameAds;
 import SecondRoll.demo.models.User;
 import SecondRoll.demo.payload.CreateGameDTO;
 import SecondRoll.demo.payload.response.GameAdResponse;
-import SecondRoll.demo.repository.GameAdsRepository;
 import SecondRoll.demo.services.GameAdsService;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -22,11 +20,10 @@ import java.util.List;
 @RestController
 @RequestMapping(value="/api/gameads")
 public class GameAdsController {
-
-    @Autowired
-    GameAdsService gameAdsService;
-    @Autowired
-    GameAdsRepository gameAdsRepository;
+    private final GameAdsService gameAdsService;
+    public GameAdsController(GameAdsService gameAdsService) {
+        this.gameAdsService = gameAdsService;
+    }
 
     // POST gameAd
     @PostMapping()
