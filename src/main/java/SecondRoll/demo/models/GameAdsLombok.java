@@ -1,13 +1,11 @@
-package SecondRoll.demo.payload.response;
+package SecondRoll.demo.models;
 
-import SecondRoll.demo.models.User;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NonNull;
-import lombok.ToString;
 import org.hibernate.validator.constraints.Range;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
@@ -19,8 +17,7 @@ import java.util.List;
 
 @Getter
 @Builder
-@ToString
-public class LombokResponse {
+public class GameAdsLombok {
 
     // these parameters will generate their own references through the @id, @DBRef and @CreatedDate annotations
     @Id
@@ -43,7 +40,7 @@ public class LombokResponse {
     // mandatory parameters when creating a game ad
     @NonNull
     @Size(min = 1, max = 30)
-    private String title;
+    public String title;
 
     @NonNull
     @Size(min = 1, max = 999)
@@ -77,13 +74,4 @@ public class LombokResponse {
     private String photoURL;
 
 
-    // mandatory parameters require a builder class with required fields as constructor parameters
-    public static LombokResponseBuilder builder (final String title, final String description, final int price, final int shippingCost) {
-        return new LombokResponseBuilder()
-                .title(title)
-                .description(description)
-                .price(price)
-                .shippingCost(shippingCost);
-    }
 }
-

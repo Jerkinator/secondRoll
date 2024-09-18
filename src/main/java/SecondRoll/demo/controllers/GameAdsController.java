@@ -3,12 +3,12 @@ package SecondRoll.demo.controllers;
 
 import SecondRoll.demo.exception.EntityNotFoundException;
 import SecondRoll.demo.models.GameAds;
+import SecondRoll.demo.models.GameAdsLombok;
 import SecondRoll.demo.models.User;
 import SecondRoll.demo.payload.CreateGameDTO;
 import SecondRoll.demo.payload.response.GameAdResponse;
 import SecondRoll.demo.payload.response.GameAdResponseLombok;
 import SecondRoll.demo.payload.response.GameAdSearchResponse;
-import SecondRoll.demo.payload.response.LombokResponse;
 import SecondRoll.demo.repository.GameAdsRepository;
 import SecondRoll.demo.services.GameAdsService;
 import jakarta.validation.Valid;
@@ -49,25 +49,15 @@ public class GameAdsController {
 
     @PostMapping()
     @PreAuthorize("hasRole('USER')")
-    public ResponseEntity<GameAdResponseLombok> createGameAd(@Valid @RequestBody CreateGameDTO createGameDTO) {
-        GameAds gameAd = gameAdsService.createGameAd(createGameDTO);
-        User user = gameAd.getUser();
-        return ResponseEntity.ok().body(GameAdResponseLombok.builder(gameAd.getTitle(), gameAd.getDescription(), gameAd.getPrice(), gameAd.getShippingCost())
-                        .gameCreator(gameAd.getGameCreator())
-
-                        .build()
-
-
-                );
-
-
-// old version
-        return ResponseEntity.ok().body(new GameAdResponse(gameAd.getId(),user.getId(),user.getUsername(), gameAd.getTitle(),
-                gameAd.getDescription(), gameAd.getPrice(), gameAd.getShippingCost(), gameAd.getGameCreator(),
-                gameAd.getGamePlayTime(), gameAd.getGameRecommendedAge(), gameAd.getGamePlayers(),gameAd.getGameGenres()
-                /*gameAd.getPhotoURL()*/, gameAd.getCreatedAt(), gameAd.getUpdatedAt()));
-
-
+    public ResponseEntity<GameAdResponseLombok> createAd(@Valid @RequestBody CreateGameDTO createGameDTO) {
+        GameAdsLombok gameAdsLombok = gameAdsService.createAd(createGameDTO);
+        User user = gameAdsLombok.getUser();
+        return ResponseEntity.ok().body(GameAdResponseLombok.builder(
+                        gameAdsLombok.getTitle(),
+                        gameAdsLombok.getDescription(),
+                        gameAdsLombok.getPrice(),
+                        gameAdsLombok.getShippingCost())
+                .build();
     }
 
 

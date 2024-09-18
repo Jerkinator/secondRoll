@@ -7,6 +7,7 @@ import org.hibernate.validator.constraints.Range;
 import org.springframework.data.annotation.CreatedDate;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 public class CreateGameDTO {
@@ -25,27 +26,6 @@ public class CreateGameDTO {
     @Range(min = 1, max = 50000)
     private int price;
 
-    @NotBlank
-    @Size(min = 1, max = 200)
-    private String gameCreator;
-
-    @NotBlank
-    @Size(min = 1, max = 200)
-    private String gamePlayTime;
-
-    @NotBlank
-    @Size(min = 1, max = 200)
-    private String gameRecommendedAge;
-
-    @NotBlank
-    @Size(min = 1, max = 200)
-    private String gamePlayers;
-
-    public List<String> gameGenres;
-
- //   @NotBlank
-   // private String photoURL;
-
     @NotNull
     @Range(min = 1, max = 500)
     private int shippingCost;
@@ -55,6 +35,24 @@ public class CreateGameDTO {
 
     @CreatedDate
     private LocalDate updated_at;
+
+    // non-mandatory parameters
+    @Size(min = 1, max = 200)
+    private String gameCreator;
+
+    @Size(min = 1, max = 200)
+    private String gamePlayTime;
+
+    @Size(min = 1, max = 200)
+    private String gameRecommendedAge;
+
+    @Size(min = 1, max = 200)
+    private String gamePlayers;
+
+    @Size(min = 1, max = 200)
+    public List<String> gameGenres = new ArrayList<>();
+
+    private String photoURL;
 
     private boolean isAvailable = true;
 

@@ -75,8 +75,8 @@ public class GameAdResponseLombok {
 
 
     // mandatory parameters require a builder class with required fields as constructor parameters
-    public static GameAdResponseLombok.GameAdResponseLombokBuilder builder (final String title, final String description, final int price, final int shippingCost) {
-        return new GameAdResponseLombok.GameAdResponseLombokBuilder()
+    public static GameAdResponseLombokBuilder builder (final String title, final String description, final int price, final int shippingCost) {
+        return new GameAdResponseLombokBuilder()
                 .title(title)
                 .description(description)
                 .price(price)

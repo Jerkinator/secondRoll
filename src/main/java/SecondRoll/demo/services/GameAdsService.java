@@ -3,6 +3,7 @@ package SecondRoll.demo.services;
 
 import SecondRoll.demo.exception.ServiceException;
 import SecondRoll.demo.models.GameAds;
+import SecondRoll.demo.models.GameAdsLombok;
 import SecondRoll.demo.models.User;
 import SecondRoll.demo.payload.CreateGameDTO;
 import SecondRoll.demo.payload.response.GameAdResponse;
@@ -23,17 +24,22 @@ public class GameAdsService {
     UserRepository userRepository;
 
     // POST a gameAd with user reference, using a DTO.
-    public GameAds createGameAd(CreateGameDTO createGameDTO) {
+/*    public GameAds createGameAd(CreateGameDTO createGameDTO) {
         User user = userRepository.findById(createGameDTO.getUserId())
                 .orElseThrow(() -> new ServiceException("User not found."));
 
         System.out.println(gameAd);
         return gameAdsRepository.save(gameAd);
-    }
+    }*/
 
 
 // builder??
-
+    public GameAdsLombok createAd (CreateGameDTO createGameDTO) {
+        User user = userRepository.findById(createGameDTO.getUserId())
+                .orElseThrow(() -> new ServiceException("User not found."));
+        GameAdsLombok gameAdsLombok = new GameAdsLombok();
+        return gameAdsRepository.save(gameAdsLombok);
+    }
 
 
 
