@@ -16,7 +16,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 // @CrossOrigin(origins = "5173", maxAge = 3600)
 @RestController
@@ -62,21 +61,13 @@ public class GameAdsController {
     // Move to a GET class?
     // GET gameAd by id
    @GetMapping(value = "/{id}")
-    public ResponseEntity<?> getGameAdById(@PathVariable String id) {
-        try {
-            Optional<GameAds> gameAd = gameAdsService.getGameAdById(id);
-            User user = gameAd.get().getUser();
+    public GameAds getGameAdById(@PathVariable String id) {
+            GameAds gameAd = gameAdsService.getGameAdById(id);
+            convertToDTO(gameAd);
 
-            return ResponseEntity.ok().body(new GameAdResponse(gameAd.get().getId(),user.getId(),user.getUsername(), gameAd.get().getTitle(),
-                    gameAd.get().getDescription(), gameAd.get().getPrice(), gameAd.get().getShippingCost(),
-                    gameAd.get().getGameCreator(), gameAd.get().getGamePlayTime(), gameAd.get().getGameRecommendedAge(),
-                    gameAd.get().getGamePlayers(), gameAd.get().getGameGenres(),
-                    gameAd.get().getCreated_at(), gameAd.get().getUpdated_at()));
-
-        } catch (EntityNotFoundException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
-        }
+            return gameAd;
     }
+
 
    /*  @GetMapping("/{id}") // TEST Get by ID, can be scrapped.
     public GameAds getGameAdById(@PathVariable String id) {
@@ -103,5 +94,26 @@ public class GameAdsController {
     public ResponseEntity<List<GameAds>> getUserGameAds(@PathVariable String userId) {
         List<GameAds> gameAds = gameAdsService.getUserGames(userId);
         return ResponseEntity.ok(gameAds);
+    }
+
+    public GameAdResponse convertToDTO(GameAds gameAd) {
+        GameAdResponse gameAdResponse = new GameAdResponse();
+
+        gameAdResponse.setId(gameAd.getId());
+        gameAdResponse.setSeller(gameAd.getUser().getUsername());
+        gameAdResponse.setSellerId(gameAd.getUser().getId());
+        gameAdResponse.setTitle(gameAd.getTitle());
+        gameAdResponse.setDescription(gameAd.getDescription());
+        gameAdResponse.setPrice(gameAd.getPrice());
+        gameAdResponse.setShippingCost(gameAd.getShippingCost());
+        gameAdResponse.setCreated_at(gameAd.getCreated_at());
+        gameAdResponse.setUpdated_at(gameAd.getUpdated_at());
+        gameAdResponse.setGameCreator(gameAd.getGameCreator());
+        gameAdResponse.setGamePlayTime(gameAd.getGamePlayTime());
+        gameAdResponse.setGameRecommendedAge(gameAd.getGameRecommendedAge());
+        gameAdResponse.setGamePlayers(gameAd.getGamePlayers());
+        gameAdResponse.setGameGenres(gameAd.getGameGenres());
+
+        return gameAdResponse;
     }
 }

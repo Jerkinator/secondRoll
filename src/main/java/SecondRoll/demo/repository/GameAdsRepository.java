@@ -10,6 +10,8 @@ public interface GameAdsRepository extends MongoRepository<GameAds, String> {
 
     List<GameAds> findByIsAvailable(boolean isAvailable);
 
+    GameAds findGameAdsById(String id);
+
     List<GameAds> findByUserId(String userId);
 
     List<GameAdSearchResponse> searchGameAdsByTitleContainingIgnoreCase(String search);

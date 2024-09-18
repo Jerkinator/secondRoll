@@ -73,9 +73,8 @@ public class GameAdsService  {
     }
 
     // GET a gameAd by id
-    public Optional<GameAds> getGameAdById(String id) {
-        return Optional.ofNullable(gameAdsRepository.findById(id)
-                .orElseThrow(() -> new ServiceException("Game not found.")));
+    public GameAds getGameAdById(String id) {
+        return gameAdsRepository.findGameAdsById(id);
     }
 
     /* // TEST get gameAd by ID, can be scrapped.
