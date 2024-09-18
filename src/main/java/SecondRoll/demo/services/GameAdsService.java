@@ -5,6 +5,7 @@ import SecondRoll.demo.exception.ServiceException;
 import SecondRoll.demo.models.GameAds;
 import SecondRoll.demo.models.User;
 import SecondRoll.demo.payload.CreateGameDTO;
+import SecondRoll.demo.payload.response.GameAdResponse;
 import SecondRoll.demo.repository.GameAdsRepository;
 import SecondRoll.demo.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,7 +51,7 @@ public class GameAdsService  {
     }
 
     // UPDATE a gameAD
-    public GameAds updateGameAd(String id, GameAds updatedGameAd) {
+    public GameAdResponse updateGameAd(String id, GameAds updatedGameAd) {
         return gameAdsRepository.findById(id).map(existingGameAd -> {
                     if (updatedGameAd.getTitle() != null) {
                         existingGameAd.setTitle(updatedGameAd.getTitle());
@@ -61,27 +62,20 @@ public class GameAdsService  {
                     if (updatedGameAd.getUpdated_at() != null) {
                         existingGameAd.setUpdated_at(updatedGameAd.getUpdated_at());
                     }
-                    //  if(updatedGameAd.getGameDetails() != null) {
-                    //    existingGameAd.setGameDetails(updatedGameAd.getGameDetails());
-                    // }
                     existingGameAd.setPrice(updatedGameAd.getPrice());
                     existingGameAd.setShippingCost(updatedGameAd.getShippingCost());
+                    gameAdsRepository.save(existingGameAd);
 
-            return gameAdsRepository.save(existingGameAd);
+            return convertToDTO(Optional.of(existingGameAd));
         })
                 .orElseThrow(() -> new ServiceException("Game with id " + id + " was not found."));
     }
 
     // GET a gameAd by id
-    public GameAds getGameAdById(String id) {
-        return gameAdsRepository.findGameAdsById(id);
+    public GameAdResponse getGameAdById(String id) {
+        Optional<GameAds> gameAd = gameAdsRepository.findById(id);
+        return convertToDTO(gameAd);
     }
-
-    /* // TEST get gameAd by ID, can be scrapped.
-    public GameAds getGameAdById(String id) {
-        return gameAdsRepository.findById(id).orElseThrow(() -> new ServiceException("Game not found."));
-    } */
-
 
     // DELETE a gameAd
     public String deleteGameAd(String id) {
@@ -92,10 +86,31 @@ public class GameAdsService  {
     // UPDATED Find all GameAds by user ID.
     public List<GameAds> getUserGames(String userId) {
         Optional<User> user = userRepository.findById(userId);
-        if (!user.isPresent()) {
+        if (user.isEmpty()) {
             throw new ServiceException("User not found.");
         }
-        List<GameAds> userGames = gameAdsRepository.findByUserId(userId);
-        return userGames;
+        return gameAdsRepository.findByUserId(userId);
+    }
+
+    // Utility method for converting a gameAd to a gameAd DTO.
+    public GameAdResponse convertToDTO(Optional<GameAds> gameAd) {
+        GameAdResponse gameAdResponse = new GameAdResponse();
+
+        gameAdResponse.setId(gameAd.get().getId());
+        gameAdResponse.setSeller(gameAd.get().getUser().getUsername());
+        gameAdResponse.setSellerId(gameAd.get().getUser().getId());
+        gameAdResponse.setTitle(gameAd.get().getTitle());
+        gameAdResponse.setDescription(gameAd.get().getDescription());
+        gameAdResponse.setPrice(gameAd.get().getPrice());
+        gameAdResponse.setShippingCost(gameAd.get().getShippingCost());
+        gameAdResponse.setCreated_at(gameAd.get().getCreated_at());
+        gameAdResponse.setUpdated_at(gameAd.get().getUpdated_at());
+        gameAdResponse.setGameCreator(gameAd.get().getGameCreator());
+        gameAdResponse.setGamePlayTime(gameAd.get().getGamePlayTime());
+        gameAdResponse.setGameRecommendedAge(gameAd.get().getGameRecommendedAge());
+        gameAdResponse.setGamePlayers(gameAd.get().getGamePlayers());
+        gameAdResponse.setGameGenres(gameAd.get().getGameGenres());
+
+        return gameAdResponse;
     }
 }
