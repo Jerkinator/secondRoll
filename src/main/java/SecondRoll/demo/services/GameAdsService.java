@@ -9,7 +9,6 @@ import SecondRoll.demo.payload.GameAdDTOConverter;
 import SecondRoll.demo.payload.response.GameAdResponse;
 import SecondRoll.demo.repository.GameAdsRepository;
 import SecondRoll.demo.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,11 +17,13 @@ import java.util.stream.Collectors;
 
 @Service
 public class GameAdsService extends GameAdDTOConverter {
+    private final GameAdsRepository gameAdsRepository;
+    private final UserRepository userRepository;
+    public GameAdsService(GameAdsRepository gameAdsRepository, UserRepository userRepository) {
+        this.gameAdsRepository = gameAdsRepository;
+        this.userRepository = userRepository;
+    }
 
-    @Autowired
-    GameAdsRepository gameAdsRepository;
-    @Autowired
-    UserRepository userRepository;
 
     // POST a gameAd with user reference, using a DTO.
     public GameAds createGameAd(CreateGameDTO createGameDTO) {

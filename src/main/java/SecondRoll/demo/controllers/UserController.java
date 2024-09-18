@@ -14,10 +14,8 @@ import SecondRoll.demo.security.services.UserDetailsServiceImpl;
 import SecondRoll.demo.services.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -27,14 +25,14 @@ import java.util.List;
 @RestController
 @RequestMapping(value = "/api/users")
 public class UserController {
-    @Autowired
-    UserService userService;
-    @Autowired
-    AuthenticationManager authenticationManager;
-    @Autowired
-    UserRepository userRepository;
-    @Autowired
-    UserDetailsServiceImpl userDetailsService;
+    private final UserService userService;
+    private final UserRepository userRepository;
+    private final UserDetailsServiceImpl userDetailsService;
+    public UserController(UserService userService, UserRepository userRepository, UserDetailsServiceImpl userDetailsService) {
+        this.userService = userService;
+        this.userRepository = userRepository;
+        this.userDetailsService = userDetailsService;
+    }
 
     // GET a user by ID
     @PreAuthorize("hasAnyRole('USER', 'ADMIN')")

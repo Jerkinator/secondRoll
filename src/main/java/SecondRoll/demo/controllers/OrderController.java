@@ -5,11 +5,9 @@ import SecondRoll.demo.payload.OrderDTO;
 import SecondRoll.demo.payload.response.BuyerHistoryResponse;
 import SecondRoll.demo.payload.response.OrderResponse;
 import SecondRoll.demo.payload.response.SellerHistoryResponse;
-import SecondRoll.demo.repository.UserRepository;
 import SecondRoll.demo.security.services.UserDetailsServiceImpl;
 import SecondRoll.demo.services.OrderService;
 import jakarta.servlet.http.HttpServletRequest;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -23,12 +21,12 @@ import java.util.Optional;
 @RequestMapping(value = "/api/orders")
 public class OrderController {
 
-    @Autowired
-    OrderService orderService;
-    @Autowired
-    UserRepository userRepository;
-    @Autowired
-    UserDetailsServiceImpl userDetailsService;
+    private final OrderService orderService;
+    private final UserDetailsServiceImpl userDetailsService;
+    public OrderController(OrderService orderService, UserDetailsServiceImpl userDetailsService) {
+        this.orderService = orderService;
+        this.userDetailsService = userDetailsService;
+    }
 
     // Sending in OrderDTO object as a request
     // POST create order

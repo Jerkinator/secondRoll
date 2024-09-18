@@ -7,7 +7,6 @@ import SecondRoll.demo.models.User;
 import SecondRoll.demo.payload.WishlistDTO;
 import SecondRoll.demo.repository.GameAdsRepository;
 import SecondRoll.demo.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,14 +14,12 @@ import java.util.List;
 @Service
 public class UserService {
 
-    @Autowired
-    UserRepository userRepository;
-
-    @Autowired
-    GameAdsRepository gameAdsRepository;
-
-    @Autowired
-    GameAdsService gameAdsService;
+    private final UserRepository userRepository;
+    private final GameAdsRepository gameAdsRepository;
+    public UserService(UserRepository userRepository, GameAdsRepository gameAdsRepository) {
+        this.userRepository = userRepository;
+        this.gameAdsRepository = gameAdsRepository;
+    }
 
     // GET all users.
     public List<User> getAllUsers() {

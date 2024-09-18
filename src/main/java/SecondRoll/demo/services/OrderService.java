@@ -12,7 +12,6 @@ import SecondRoll.demo.payload.response.SellerHistoryResponse;
 import SecondRoll.demo.repository.GameAdsRepository;
 import SecondRoll.demo.repository.OrderRepository;
 import SecondRoll.demo.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -23,12 +22,14 @@ import java.util.stream.Collectors;
 @Service
 public class OrderService {
 
-    @Autowired
-    private OrderRepository orderRepository;
-    @Autowired
-    private GameAdsRepository gameAdsRepository;
-    @Autowired
-    private UserRepository userRepository;
+    private final OrderRepository orderRepository;
+    private final GameAdsRepository gameAdsRepository;
+    private final UserRepository userRepository;
+    public OrderService(OrderRepository orderRepository, GameAdsRepository gameAdsRepository, UserRepository userRepository) {
+        this.orderRepository = orderRepository;
+        this.gameAdsRepository = gameAdsRepository;
+        this.userRepository = userRepository;
+    }
 
     // Create order preparing to use payload object in controller.
     public OrderResponse createOrder(OrderDTO orderDTO) {
