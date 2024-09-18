@@ -5,7 +5,6 @@ import SecondRoll.demo.exception.ServiceException;
 import SecondRoll.demo.models.GameAds;
 import SecondRoll.demo.models.User;
 import SecondRoll.demo.payload.CreateGameDTO;
-import SecondRoll.demo.payload.GameAdDTOConverter;
 import SecondRoll.demo.payload.response.GameAdResponse;
 import SecondRoll.demo.repository.GameAdsRepository;
 import SecondRoll.demo.repository.UserRepository;
@@ -13,10 +12,10 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
-public class GameAdsService extends GameAdDTOConverter {
+public class GameAdsService  {
+
     private final GameAdsRepository gameAdsRepository;
     private final UserRepository userRepository;
     public GameAdsService(GameAdsRepository gameAdsRepository, UserRepository userRepository) {
@@ -48,13 +47,12 @@ public class GameAdsService extends GameAdDTOConverter {
     }
 
     // GET all gameAds.
-    public List<GameAdResponse> getAllGameAds() {
-        List<GameAds> gameAds = gameAdsRepository.findAll();
-        return gameAds.stream().map(this::convertToDTO).collect(Collectors.toList());
+    public List<GameAds> getAllGameAds() {
+        return gameAdsRepository.findAll();
     }
 
     // UPDATE a gameAD
-    public GameAds updateGameAd(String id, GameAds updatedGameAd) {
+    public GameAdResponse updateGameAd(String id, GameAds updatedGameAd) {
         return gameAdsRepository.findById(id).map(existingGameAd -> {
                     if (updatedGameAd.getTitle() != null) {
                         existingGameAd.setTitle(updatedGameAd.getTitle());
@@ -65,28 +63,20 @@ public class GameAdsService extends GameAdDTOConverter {
                     if (updatedGameAd.getUpdated_at() != null) {
                         existingGameAd.setUpdated_at(updatedGameAd.getUpdated_at());
                     }
-                    //  if(updatedGameAd.getGameDetails() != null) {
-                    //    existingGameAd.setGameDetails(updatedGameAd.getGameDetails());
-                    // }
                     existingGameAd.setPrice(updatedGameAd.getPrice());
                     existingGameAd.setShippingCost(updatedGameAd.getShippingCost());
+                    gameAdsRepository.save(existingGameAd);
 
-            return gameAdsRepository.save(existingGameAd);
+            return convertToDTO(Optional.of(existingGameAd));
         })
                 .orElseThrow(() -> new ServiceException("Game with id " + id + " was not found."));
     }
 
-    /* // GET a gameAd by id
-    public Optional<GameAds> getGameAdById(String id) {
-        return Optional.ofNullable(gameAdsRepository.findById(id)
-                .orElseThrow(() -> new ServiceException("Game not found.")));
+    // GET a gameAd by id
+    public GameAdResponse getGameAdById(String id) {
+        Optional<GameAds> gameAd = gameAdsRepository.findById(id);
+        return convertToDTO(gameAd);
     }
-     */
-
-    public GameAds getGameAdById(String id) {
-        return gameAdsRepository.findById(id).orElseThrow(() -> new ServiceException("Game not found."));
-    }
-
 
     // DELETE a gameAd
     public String deleteGameAd(String id) {
@@ -95,21 +85,33 @@ public class GameAdsService extends GameAdDTOConverter {
     }
 
     // UPDATED Find all GameAds by user ID.
-    public List<GameAdResponse> getUserOrders(String userId) {
+    public List<GameAds> getUserGames(String userId) {
         Optional<User> user = userRepository.findById(userId);
-        if (!user.isPresent()) {
+        if (user.isEmpty()) {
             throw new ServiceException("User not found.");
         }
-        List<GameAds> userGames = gameAdsRepository.findByUserId(userId);
-        return userGames.stream().map(this::convertToDTO).collect(Collectors.toList());
+        return gameAdsRepository.findByUserId(userId);
     }
 
-   /*  // "Roll the Dice" game ad randomizer
-    public GameAds getRandomGameAd() {
-        Random randomGameAd = new Random();
-        List<GameAds> allGameAds = gameAdsRepository.findAll();
-        int maxInt = allGameAds.size();
-        GameAds gameAds = allGameAds.get(randomGameAd.nextInt(maxInt));
-        return gameAds;
-    } */
+    // Utility method for converting a gameAd to a gameAd DTO.
+    public GameAdResponse convertToDTO(Optional<GameAds> gameAd) {
+        GameAdResponse gameAdResponse = new GameAdResponse();
+
+        gameAdResponse.setId(gameAd.get().getId());
+        gameAdResponse.setSeller(gameAd.get().getUser().getUsername());
+        gameAdResponse.setSellerId(gameAd.get().getUser().getId());
+        gameAdResponse.setTitle(gameAd.get().getTitle());
+        gameAdResponse.setDescription(gameAd.get().getDescription());
+        gameAdResponse.setPrice(gameAd.get().getPrice());
+        gameAdResponse.setShippingCost(gameAd.get().getShippingCost());
+        gameAdResponse.setCreated_at(gameAd.get().getCreated_at());
+        gameAdResponse.setUpdated_at(gameAd.get().getUpdated_at());
+        gameAdResponse.setGameCreator(gameAd.get().getGameCreator());
+        gameAdResponse.setGamePlayTime(gameAd.get().getGamePlayTime());
+        gameAdResponse.setGameRecommendedAge(gameAd.get().getGameRecommendedAge());
+        gameAdResponse.setGamePlayers(gameAd.get().getGamePlayers());
+        gameAdResponse.setGameGenres(gameAd.get().getGameGenres());
+
+        return gameAdResponse;
+    }
 }

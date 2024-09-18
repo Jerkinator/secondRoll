@@ -1,11 +1,11 @@
 package SecondRoll.demo.payload;
 
-import SecondRoll.demo.models.GameAds;
-import SecondRoll.demo.payload.response.GameAdResponse;
+import org.springframework.stereotype.Component;
 
+@Component
 public class GameAdDTOConverter {
 
-    // Utility method for converting gameAd to gameAd DTO containing only game information for user to see.
+    /* // Utility method for converting gameAd to gameAd DTO containing only game information for user to see.
     public GameAdResponse convertToDTO(GameAds gameAd) {
         GameAdResponse gameAdResponse = new GameAdResponse();
 
@@ -25,5 +25,5 @@ public class GameAdDTOConverter {
         gameAdResponse.setGameGenres(gameAd.getGameGenres());
 
         return gameAdResponse;
-    }
+    } */
 }
