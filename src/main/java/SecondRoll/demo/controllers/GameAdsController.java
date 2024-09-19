@@ -1,16 +1,15 @@
 package SecondRoll.demo.controllers;
 
 
-import SecondRoll.demo.exception.EntityNotFoundException;
 import SecondRoll.demo.models.GameAds;
 import SecondRoll.demo.models.GameAdsLombok;
 import SecondRoll.demo.models.User;
 import SecondRoll.demo.payload.CreateGameDTO;
-import SecondRoll.demo.payload.response.GameAdResponse;
 import SecondRoll.demo.payload.response.GameAdResponseLombok;
 import SecondRoll.demo.payload.response.GameAdSearchResponse;
 import SecondRoll.demo.repository.GameAdsRepository;
 import SecondRoll.demo.services.GameAdsService;
+import SecondRoll.demo.util.GameAdsResponseMapper;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,7 +19,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 
 // @CrossOrigin(origins = "5173", maxAge = 3600)
@@ -52,11 +50,7 @@ public class GameAdsController {
     public ResponseEntity<GameAdResponseLombok> createAd(@Valid @RequestBody CreateGameDTO createGameDTO) {
         GameAdsLombok gameAdsLombok = gameAdsService.createAd(createGameDTO);
         User user = gameAdsLombok.getUser();
-        return ResponseEntity.ok().body(GameAdResponseLombok.builder("Wingspan", "It's a game!", 599, 40)
-                        .gameCreator("Bla bla")
-                        .gamePlayers("6-8")
-                        .gameRecommendedAge("8+")
-                .build());
+        return ResponseEntity.ok(GameAdsResponseMapper.mapToResponse(gameAdsLombok));
     }
 
 
@@ -66,12 +60,12 @@ public class GameAdsController {
 
 
     // GET ALL game ads belonging to a user
-    @GetMapping("/all")
-    public ResponseEntity<List<GameAdResponse>> getAllGameAds() {
-        List<GameAdResponse> orders = gameAdsService.getAllGameAds();
-        return ResponseEntity.ok(orders);
-    }
-
+   /* @GetMapping("/all")*/
+   /* public ResponseEntity<List<GameAdResponse>> getAllGameAds() {*/
+   /*     List<GameAdResponse> orders = gameAdsService.getAllGameAds();*/
+   /*     return ResponseEntity.ok(orders);*/
+   /* }*/
+/**/
     // PUT update gameAd
 /*    @PutMapping("/{gameId}")
     @PreAuthorize("hasAnyRole('USER','ADMIN')")
@@ -92,22 +86,22 @@ public class GameAdsController {
     }*/
 
     // GET gameAd by id
-    @GetMapping(value = "/{id}")
-    public ResponseEntity<?> getGameAdById(@PathVariable String id) {
-        try {
-            Optional<GameAds> gameAd = gameAdsService.getGameAdById(id);
-            User user = gameAd.get().getUser();
-
-            return ResponseEntity.ok().body(new GameAdResponse(gameAd.get().getId(),user.getId(),user.getUsername(), gameAd.get().getTitle(),
-                    gameAd.get().getDescription(), gameAd.get().getPrice(), gameAd.get().getShippingCost(),
-                    gameAd.get().getGameCreator(), gameAd.get().getGamePlayTime(), gameAd.get().getGameRecommendedAge(),
-                    gameAd.get().getGamePlayers(), gameAd.get().getGameGenres(),
-                    gameAd.get().getCreatedAt(), gameAd.get().getUpdatedAt()));
-
-        } catch (EntityNotFoundException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
-        }
-    }
+   /* @GetMapping(value = "/{id}")*/
+   /* public ResponseEntity<?> getGameAdById(@PathVariable String id) {*/
+   /*     try {*/
+   /*         Optional<GameAds> gameAd = gameAdsService.getGameAdById(id);*/
+   /*         User user = gameAd.get().getUser();*/
+/**/
+   /*         return ResponseEntity.ok().body(new GameAdResponse(gameAd.get().getId(),user.getId(),user.getUsername(), gameAd.get().getTitle(),*/
+   /*                 gameAd.get().getDescription(), gameAd.get().getPrice(), gameAd.get().getShippingCost(),*/
+   /*                 gameAd.get().getGameCreator(), gameAd.get().getGamePlayTime(), gameAd.get().getGameRecommendedAge(),*/
+   /*                 gameAd.get().getGamePlayers(), gameAd.get().getGameGenres(),*/
+   /*                 gameAd.get().getCreatedAt(), gameAd.get().getUpdatedAt()));*/
+/**/
+   /*     } catch (EntityNotFoundException e) {*/
+   /*         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());*/
+   /*     }*/
+   /* }*/
 
     // DELETE gameAd by id
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
@@ -118,7 +112,7 @@ public class GameAdsController {
 
 
     // GET ALL game ads belonging to a user
-    @GetMapping("/user/{userId}")
+    /*@GetMapping("/user/{userId}")
     @PreAuthorize("hasAnyRole('USER','ADMIN')")
     public ResponseEntity<List<GameAdResponse>> getUserGameAds(@PathVariable String userId) {
         List<GameAdResponse> gameAds = gameAdsService.getUserOrders(userId);
@@ -135,7 +129,7 @@ public class GameAdsController {
                 gameAd.getGamePlayTime(), gameAd.getGameRecommendedAge(), gameAd.getGamePlayers(),
                 gameAd.getGameGenres(), gameAd.getCreatedAt(), gameAd.getUpdatedAt()));
     }
-
+*/
 
     // Sort available gameAds in ascending order by price
     // Request response has not yet been implemented

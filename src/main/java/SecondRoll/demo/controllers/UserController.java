@@ -1,27 +1,12 @@
 package SecondRoll.demo.controllers;
 
-import SecondRoll.demo.models.GameAds;
-import SecondRoll.demo.models.Rating;
-import SecondRoll.demo.models.User;
-import SecondRoll.demo.payload.UpdateUserDTO;
-import SecondRoll.demo.payload.WishlistDTO;
-import SecondRoll.demo.payload.response.MessageResponse;
-import SecondRoll.demo.payload.response.UserProfileResponse;
-import SecondRoll.demo.payload.response.UserSearchByIdResponse;
-import SecondRoll.demo.payload.response.WishlistResponse;
 import SecondRoll.demo.repository.UserRepository;
 import SecondRoll.demo.security.services.UserDetailsServiceImpl;
 import SecondRoll.demo.services.UserService;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.ArrayList;
-import java.util.List;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 // @CrossOrigin(origins = "5173", maxAge = 3600)
 @RestController
@@ -36,7 +21,7 @@ public class UserController {
     @Autowired
     UserDetailsServiceImpl userDetailsService;
 
-    // GET a user by ID
+    /*// GET a user by ID
     @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
     @GetMapping("/{userId}")
     public ResponseEntity<?> getUserById(@PathVariable String userId) {
@@ -166,5 +151,5 @@ public class UserController {
         return ResponseEntity.ok().body(new UserProfileResponse(user.getId(), user.getUsername(), user.getEmail(),
                 user.getFirstName(), user.getLastName(), user.getPhoneNumber(), user.getAdress_street(),
                 user.getAdress_zip(), user.getAdress_city(), user.getRatings(), user.getAverageRating()));
-    }
+    }*/
 }

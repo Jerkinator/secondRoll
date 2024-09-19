@@ -6,15 +6,15 @@ import SecondRoll.demo.models.GameAds;
 import SecondRoll.demo.models.GameAdsLombok;
 import SecondRoll.demo.models.User;
 import SecondRoll.demo.payload.CreateGameDTO;
-import SecondRoll.demo.payload.response.GameAdResponse;
-import SecondRoll.demo.payload.response.GameAdResponseLombok;
 import SecondRoll.demo.repository.GameAdsRepository;
 import SecondRoll.demo.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 
 @Service
 public class GameAdsService {
@@ -36,9 +36,17 @@ public class GameAdsService {
 
 // builder??
     public GameAdsLombok createAd (CreateGameDTO createGameDTO) {
+        GameAdsLombok gameAdsLombok = GameAdsLombok.builder(createGameDTO.getTitle(), createGameDTO.getDescription(), createGameDTO.getPrice(), createGameDTO.getShippingCost())
+                .createdAt(createGameDTO.getCreated_at())
+                .gameCreator(createGameDTO.getGameCreator())
+                .gamePlayers(createGameDTO.getGamePlayers())
+                .gameGenres(createGameDTO.getGameGenres())
+                .gamePlayTime(createGameDTO.getGamePlayTime())
+                .description(createGameDTO.getDescription())
+                .gameRecommendedAge(createGameDTO.getGameRecommendedAge())
+                .build();
         User user = userRepository.findById(createGameDTO.getUserId())
                 .orElseThrow(() -> new ServiceException("User not found."));
-        GameAdsLombok gameAdsLombok = new GameAdsLombok();
         return gameAdsRepository.save(gameAdsLombok);
     }
 
@@ -78,11 +86,11 @@ public class GameAdsService {
                 .orElseThrow(() -> new ServiceException("Game with id " + id + " was not found."));
     }
 */
-    // GET a gameAd by id
+/*    // GET a gameAd by id
     public Optional<GameAds> getGameAdById(String id) {
         return Optional.ofNullable(gameAdsRepository.findById(id)
                 .orElseThrow(() -> new ServiceException("Game not found.")));
-    }
+    }*/
 
     // DELETE a gameAd
     public String deleteGameAd(String id) {
@@ -90,7 +98,7 @@ public class GameAdsService {
         return "Game Ad deleted";
     }
 
-    // UPDATED Find all GameAds by user ID.
+/*    // UPDATED Find all GameAds by user ID.
     public List<GameAdResponse> getUserOrders(String userId) {
         Optional<User> user = userRepository.findById(userId);
         if (!user.isPresent()) {
@@ -98,9 +106,10 @@ public class GameAdsService {
         }
         List<GameAds> userGames = gameAdsRepository.findByUserId(userId);
         return userGames.stream().map(this::convertToDTO).collect(Collectors.toList());
-    }
+    }*/
 
     // This utility-method converts the content of a GameAd-object into a GameAdResponse-object.
+/*
 
     private GameAdResponseLombok convertToLombokDTO (GameAdsLombok gameAd) {
         GameAdResponseLombok gameAdResponseLombok = new GameAdResponseLombok();
@@ -129,15 +138,16 @@ public class GameAdsService {
 
         return gameAdResponse;
     }
+*/
 
-    // "Roll the Dice" game ad randomizer
+/*    // "Roll the Dice" game ad randomizer
     public GameAds getRandomGameAd() {
         Random randomGameAd = new Random();
         List<GameAds> allGameAds = gameAdsRepository.findAll();
         int maxInt = allGameAds.size();
         GameAds gameAds = allGameAds.get(randomGameAd.nextInt(maxInt));
         return gameAds;
-    }
+    }*/
 
     // Method to get available gameAds in ascending price order.
     public List<GameAds> findAvailableGameAdsSortedByPriceAsc() {

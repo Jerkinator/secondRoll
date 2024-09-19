@@ -36,6 +36,8 @@ public class GameAdsLombok {
     @CreatedDate
     private LocalDate updatedAt;
 
+    private boolean isAvailable;
+
 
     // mandatory parameters when creating a game ad
     @NonNull
@@ -74,118 +76,13 @@ public class GameAdsLombok {
     private String photoURL;
 
 
-    public GameAdsLombok() {
+    // mandatory parameters require a builder class with required fields as constructor parameters
+    public static GameAdsLombok.GameAdsLombokBuilder builder (final String title, final String description, final int price, final int shippingCost) {
+        return new GameAdsLombok.GameAdsLombokBuilder()
+                .title(title)
+                .description(description)
+                .price(price)
+                .shippingCost(shippingCost);
     }
 
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public LocalDate getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(LocalDate createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public LocalDate getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public void setUpdatedAt(LocalDate updatedAt) {
-        this.updatedAt = updatedAt;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public int getPrice() {
-        return price;
-    }
-
-    public void setPrice(int price) {
-        this.price = price;
-    }
-
-    public int getShippingCost() {
-        return shippingCost;
-    }
-
-    public void setShippingCost(int shippingCost) {
-        this.shippingCost = shippingCost;
-    }
-
-    public String getGameCreator() {
-        return gameCreator;
-    }
-
-    public void setGameCreator(String gameCreator) {
-        this.gameCreator = gameCreator;
-    }
-
-    public String getGamePlayTime() {
-        return gamePlayTime;
-    }
-
-    public void setGamePlayTime(String gamePlayTime) {
-        this.gamePlayTime = gamePlayTime;
-    }
-
-    public String getGameRecommendedAge() {
-        return gameRecommendedAge;
-    }
-
-    public void setGameRecommendedAge(String gameRecommendedAge) {
-        this.gameRecommendedAge = gameRecommendedAge;
-    }
-
-    public String getGamePlayers() {
-        return gamePlayers;
-    }
-
-    public void setGamePlayers(String gamePlayers) {
-        this.gamePlayers = gamePlayers;
-    }
-
-    public List<String> getGameGenres() {
-        return gameGenres;
-    }
-
-    public void setGameGenres(List<String> gameGenres) {
-        this.gameGenres = gameGenres;
-    }
-
-    public String getPhotoURL() {
-        return photoURL;
-    }
-
-    public void setPhotoURL(String photoURL) {
-        this.photoURL = photoURL;
-    }
 }

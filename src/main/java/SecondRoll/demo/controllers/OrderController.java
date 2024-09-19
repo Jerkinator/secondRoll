@@ -1,22 +1,11 @@
 package SecondRoll.demo.controllers;
 
-import SecondRoll.demo.models.Order;
-import SecondRoll.demo.payload.OrderDTO;
-import SecondRoll.demo.payload.response.BuyerHistoryResponse;
-import SecondRoll.demo.payload.response.OrderResponse;
-import SecondRoll.demo.payload.response.SellerHistoryResponse;
 import SecondRoll.demo.repository.UserRepository;
 import SecondRoll.demo.security.services.UserDetailsServiceImpl;
 import SecondRoll.demo.services.OrderService;
-import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
-import java.util.Optional;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 // @CrossOrigin(origins = "5173", maxAge = 3600)
 @RestController
@@ -30,7 +19,7 @@ public class OrderController {
     @Autowired
     UserDetailsServiceImpl userDetailsService;
 
-    // Sending in OrderDTO object as a request
+    /*// Sending in OrderDTO object as a request
     // POST create order
     @PreAuthorize("hasRole('USER')")
     @PostMapping
@@ -90,5 +79,5 @@ public class OrderController {
         } else {
             throw new RuntimeException("Not authorized");
         }
-    }
+    }*/
 }

@@ -1,24 +1,10 @@
 package SecondRoll.demo.services;
 
-import SecondRoll.demo.exception.ServiceException;
-import SecondRoll.demo.models.GameAds;
-import SecondRoll.demo.models.Order;
-import SecondRoll.demo.models.User;
-import SecondRoll.demo.payload.OrderDTO;
-import SecondRoll.demo.payload.OrderGameDetailsDTO;
-import SecondRoll.demo.payload.response.BuyerHistoryResponse;
-import SecondRoll.demo.payload.response.OrderResponse;
-import SecondRoll.demo.payload.response.SellerHistoryResponse;
 import SecondRoll.demo.repository.GameAdsRepository;
 import SecondRoll.demo.repository.OrderRepository;
 import SecondRoll.demo.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class OrderService {
@@ -30,15 +16,19 @@ public class OrderService {
     @Autowired
     private UserRepository userRepository;
 
+/*
     // Create order preparing to use payload object in controller.
     public OrderResponse createOrder(OrderDTO orderDTO) {
         Optional<User> buyer = userRepository.findById(orderDTO.getBuyerId());
         if (!buyer.isPresent()) {
             throw new ServiceException("User not found.");
         }
+    }
+}
+*/
 
         // Checks if all gameAds in DTO is present in database otherwise throws error.
-        List<GameAds> gameAds = new ArrayList<>();
+       /* List<GameAds> gameAds = new ArrayList<>();
         for (String gameAdId : orderDTO.getGameAdIds()) {
             gameAds.add(gameAdsRepository.findById(String.valueOf(gameAdId))
                     .orElseThrow(() -> new ServiceException("Game ad with id: " + gameAdId + " was not found.")));
@@ -63,14 +53,14 @@ public class OrderService {
         double shippingTotal  = gameAds.stream()
                 .mapToDouble(GameAds::getShippingCost)
                 .sum();
-        double orderTotal = (totalPrice + shippingTotal);
-
+        double orderTotal = (totalPrice + shippingTotal);*/
+/*
         // Checking that all passed game ads exists in database.
         if (gameAds.size() != orderDTO.getGameAdIds().size()) {
             throw new ServiceException("One or more game ads not found.");
-        }
+        }*/
         // Creates a new list with just gameTitle and price per game using OrderedgamesdetailDTO.
-        List<OrderGameDetailsDTO> orderedGames = new ArrayList<>();
+        /*List<OrderGameDetailsDTO> orderedGames = new ArrayList<>();
         for (GameAds gameAd : gameAds) {
             OrderGameDetailsDTO orderGameDetailsDTO = new OrderGameDetailsDTO();
             orderGameDetailsDTO.setTitle(gameAd.getTitle());
@@ -96,9 +86,9 @@ public class OrderService {
 
         return orderResponse;
     }
+*/
 
-
-    // Get all orders from order collection.
+    /*// Get all orders from order collection.
     public List<Order> getAllOrders() {
         return orderRepository.findAll();
     }
@@ -197,5 +187,5 @@ public class OrderService {
         } else {
             throw new RuntimeException("Game ads not found");
         }
-    }
+    }*/
 }
