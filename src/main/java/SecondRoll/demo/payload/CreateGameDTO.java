@@ -3,6 +3,7 @@ package SecondRoll.demo.payload;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+import lombok.Getter;
 import org.hibernate.validator.constraints.Range;
 import org.springframework.data.annotation.CreatedDate;
 
@@ -10,8 +11,9 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+@Getter
 public class CreateGameDTO {
-    @NotBlank
+
     private String userId;
 
     @NotBlank
@@ -37,32 +39,24 @@ public class CreateGameDTO {
     private LocalDate updated_at;
 
     // non-mandatory parameters
-    @Size(min = 1, max = 200)
+    @Size(max = 200)
     private String gameCreator;
 
-    @Size(min = 1, max = 200)
+    @Size(max = 200)
     private String gamePlayTime;
 
-    @Size(min = 1, max = 200)
+    @Size(max = 200)
     private String gameRecommendedAge;
 
-    @Size(min = 1, max = 200)
+    @Size(max = 200)
     private String gamePlayers;
 
-    @Size(min = 1, max = 200)
+    @Size(max = 200)
     public List<String> gameGenres = new ArrayList<>();
 
     private String photoURL;
 
     private boolean isAvailable;
-
-    public List<String> getGameGenres() {
-        return gameGenres;
-    }
-
-    public void setGameGenres(List<String> gameGenres) {
-        this.gameGenres = gameGenres;
-    }
 
 
 
@@ -163,6 +157,14 @@ public class CreateGameDTO {
 
     public void setGamePlayers(String gamePlayers) {
         this.gamePlayers = gamePlayers;
+    }
+
+    public List<String> getGameGenres() {
+        return gameGenres;
+    }
+
+    public void setGameGenres(List<String> gameGenres) {
+        this.gameGenres = gameGenres;
     }
 
     /*public String getPhotoURL() {

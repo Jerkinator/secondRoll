@@ -58,19 +58,19 @@ public class GameAdsLombok {
 
 
     // non-mandatory parameters
-    @Size(min = 1, max = 200)
+    @Size(max = 200)
     private String gameCreator;
 
-    @Size(min = 1, max = 200)
+    @Size(max = 200)
     private String gamePlayTime;
 
-    @Size(min = 1, max = 200)
+    @Size(max = 200)
     private String gameRecommendedAge;
 
-    @Size(min = 1, max = 200)
+    @Size(max = 200)
     private String gamePlayers;
 
-    @Size(min = 1, max = 200)
+    @Size(max = 200)
     public List<String> gameGenres = new ArrayList<>();
 
     private String photoURL;
