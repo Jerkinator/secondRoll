@@ -22,7 +22,7 @@ public class GameAdsLombok {
     // these parameters will generate their own references through the @id, @DBRef and @CreatedDate annotations
     @Id
     @NotBlank
-    private long id;
+    private String id;
 
     @NotBlank
     @DBRef

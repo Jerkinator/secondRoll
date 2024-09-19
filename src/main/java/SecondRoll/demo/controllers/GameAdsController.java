@@ -44,12 +44,14 @@ public class GameAdsController {
     }*/
 
 
-    // Post game ad with builder
+    // Post game ad with Lombok builder
+    // CreateGameDTO is the representation of the JSON-input from a user
+    // Creates ad with the input via createAd method in gameAdsService
+    // Mapper transforms database object to response object (GameAdResponseLombok) which is a "user friendly" representation of the database object
     @PostMapping()
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity<GameAdResponseLombok> createAd(@Valid @RequestBody CreateGameDTO createGameDTO) {
         GameAdsLombok gameAdsLombok = gameAdsService.createAd(createGameDTO);
-        User user = gameAdsLombok.getUser();
         return ResponseEntity.ok(GameAdsResponseMapper.mapToResponse(gameAdsLombok));
     }
 

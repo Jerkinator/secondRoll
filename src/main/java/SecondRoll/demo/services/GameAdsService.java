@@ -34,19 +34,23 @@ public class GameAdsService {
     }*/
 
 
-// builder??
+// builder
+    // creates an ad with the input data and transforms it into a database object (GameAdsLombok)
+    // saves the database object to the database
+    // returns the database object (itself)
     public GameAdsLombok createAd (CreateGameDTO createGameDTO) {
+        User user = userRepository.findById(createGameDTO.getUserId())
+                .orElseThrow(() -> new ServiceException("User not found."));
         GameAdsLombok gameAdsLombok = GameAdsLombok.builder(createGameDTO.getTitle(), createGameDTO.getDescription(), createGameDTO.getPrice(), createGameDTO.getShippingCost())
-                .createdAt(createGameDTO.getCreated_at())
                 .gameCreator(createGameDTO.getGameCreator())
                 .gamePlayers(createGameDTO.getGamePlayers())
                 .gameGenres(createGameDTO.getGameGenres())
                 .gamePlayTime(createGameDTO.getGamePlayTime())
                 .description(createGameDTO.getDescription())
                 .gameRecommendedAge(createGameDTO.getGameRecommendedAge())
+                .user(user)
+                .isAvailable(true)
                 .build();
-        User user = userRepository.findById(createGameDTO.getUserId())
-                .orElseThrow(() -> new ServiceException("User not found."));
         return gameAdsRepository.save(gameAdsLombok);
     }
 

@@ -54,7 +54,7 @@ public class CreateGameDTO {
 
     private String photoURL;
 
-    private boolean isAvailable = true;
+    private boolean isAvailable;
 
     public List<String> getGameGenres() {
         return gameGenres;
