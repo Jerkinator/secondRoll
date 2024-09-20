@@ -6,6 +6,7 @@ import SecondRoll.demo.payload.response.GameAdResponseLombok;
 public class GameAdsResponseMapper {
 
     // a static helper method for mapping database object to response object
+    // helps keeping the controller sleek
     public static GameAdResponseLombok mapToResponse(GameAdsLombok gameAdsLombok) {
         return GameAdResponseLombok.builder()
                 .title(gameAdsLombok.getTitle())
