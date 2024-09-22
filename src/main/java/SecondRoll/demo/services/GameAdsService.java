@@ -154,7 +154,7 @@ public class GameAdsService {
         Collections.sort(availableAdsPriceAsc, Comparator.comparing(GameAds::getPrice));
 
         return availableAdsPriceAsc;
-        System.out.println("Skrev in kommentarer");
+
     }
 
     // Method to get available gameAds in descending price order.

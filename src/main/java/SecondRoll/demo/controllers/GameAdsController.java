@@ -8,6 +8,7 @@ import SecondRoll.demo.payload.CreateGameDTO;
 import SecondRoll.demo.payload.response.GameAdResponse;
 import SecondRoll.demo.payload.response.GameAdSearchResponse;
 import SecondRoll.demo.repository.GameAdsRepository;
+import SecondRoll.demo.services.FilterService;
 import SecondRoll.demo.services.GameAdsService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 
@@ -30,6 +32,8 @@ public class GameAdsController {
     GameAdsService gameAdsService;
     @Autowired
     GameAdsRepository gameAdsRepository;
+    @Autowired
+    FilterService filterService;
 
     // POST gameAd
     @PostMapping()
@@ -130,6 +134,14 @@ public class GameAdsController {
     flytta ut logiken ifrån controllern.
 
     */
+
+    @GetMapping("/filter")
+    public List<GameAds> filterGameAds(@RequestParam Map<String, String> filters) {
+        return filterService.filterGameAds(filters);
+    }
+
+
+
     @GetMapping("/sortbyprice/asc")
     public List<GameAds> findAvailableGameAdsSortedByPriceAsc() {
         return gameAdsService.findAvailableGameAdsSortedByPriceAsc();
