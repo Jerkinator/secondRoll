@@ -1,6 +1,7 @@
 package SecondRoll.demo.services;
 
 
+import SecondRoll.demo.exception.EntityNotFoundException;
 import SecondRoll.demo.exception.ServiceException;
 import SecondRoll.demo.models.GameAds;
 import SecondRoll.demo.models.User;
@@ -69,17 +70,23 @@ public class GameAdsService  {
 
             return convertToDTO(Optional.of(existingGameAd));
         })
-                .orElseThrow(() -> new ServiceException("Game with id " + id + " was not found."));
+                .orElseThrow(() -> new EntityNotFoundException("Game Ad with id " + id + " was not found."));
     }
 
     // GET a gameAd by id
     public GameAdResponse getGameAdById(String id) {
+        if(!gameAdsRepository.existsById(id)) {
+            throw new EntityNotFoundException("Game Ad with id: " + id + " was not found.");
+        }
         Optional<GameAds> gameAd = gameAdsRepository.findById(id);
         return convertToDTO(gameAd);
     }
 
     // DELETE a gameAd
     public String deleteGameAd(String id) {
+        if(!gameAdsRepository.existsById(id)) {
+            throw new EntityNotFoundException("Game Ad with id: " + id + " was not found.");
+        }
         gameAdsRepository.deleteById(id);
         return "Game Ad deleted";
     }
@@ -88,7 +95,7 @@ public class GameAdsService  {
     public List<GameAds> getUserGames(String userId) {
         Optional<User> user = userRepository.findById(userId);
         if (user.isEmpty()) {
-            throw new ServiceException("User not found.");
+            throw new ServiceException("User with id " + userId + " was not found.");
         }
         return gameAdsRepository.findByUserId(userId);
     }
