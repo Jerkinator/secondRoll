@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import strategies.GameAdsFilterStrategy;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -27,6 +28,9 @@ public class FilterService {
         if (filters.containsKey("gameCreator")) {
             strategies.add(filterByGameCreator(filters.get("gameCreator")));
         }
+        if (filters.containsKey("gameGenres")){
+            strategies.add(filterByGameGenres(filters.get("gameGenres")));
+        }
         return gameAd.stream()
                 .filter(gameAds -> strategies.stream().allMatch(strategy -> strategy.filter(gameAds)))
                 .collect(Collectors.toList());
@@ -38,6 +42,10 @@ public class FilterService {
 
     private GameAdsFilterStrategy filterByGameCreator(String gameCreator) {
         return gameAd -> gameAd.getGameCreator().toLowerCase().contains(gameCreator.toLowerCase());
+    }
+
+    private GameAdsFilterStrategy filterByGameGenres(String gameGenres) {
+        return gameAd -> gameAd.getGameGenres()
     }
 
 }
