@@ -28,13 +28,12 @@ public class GameAdsService {
 /*    public GameAds createGameAd(CreateGameDTO createGameDTO) {
         User user = userRepository.findById(createGameDTO.getUserId())
                 .orElseThrow(() -> new ServiceException("User not found."));
-
         System.out.println(gameAd);
         return gameAdsRepository.save(gameAd);
     }*/
 
 
-// builder
+    // method for posting a game ad using lombok annotation builder
     // creates an ad with the input data and transforms it into a database object (GameAdsLombok)
     // saves the database object to the database
     // returns the database object (itself)
@@ -56,13 +55,13 @@ public class GameAdsService {
     }
 
 
-/*
-    // GET all gameAds.
-    public List<GameAdResponse> getAllGameAds() {
-        List<GameAds> gameAds = gameAdsRepository.findAll();
 
-        return gameAds.stream().map(this::convertToDTO).collect(Collectors.toList());
-    }*/
+    // GET all gameAds.
+    public List<GameAdResponseLombok> getAllGameAds() {
+        List<GameAdsLombok> gameAdsLombok = gameAdsRepository.findAll();
+
+        return gameAdsLombok.stream().map(this::convertToLombokDTO).collect(Collectors.toList());
+    }
 
 
 
@@ -111,14 +110,48 @@ public class GameAdsService {
         return userGames.stream().map(this::convertToDTO).collect(Collectors.toList());
     }
 
+
+
     // This utility-method converts the content of a GameAd-object into a GameAdResponse-object.
-/*
-
     private GameAdResponseLombok convertToLombokDTO (GameAdsLombok gameAd) {
-        GameAdResponseLombok gameAdResponseLombok = new GameAdResponseLombok();
+        GameAdResponseLombok gameAdResponseLombok = new GameAdResponseLombok(
+                gameAd.getTitle(),
+                gameAd.getDescription(),
+                gameAd.getPrice(),
+                gameAd.getShippingCost(),
+                gameAd.getGameCreator(),
+                gameAd.getGamePlayTime(),
+                gameAd.getGameRecommendedAge(),
+                gameAd.getGamePlayers(),
+                gameAd.getGameGenres());
 
-        gameAdResponseLombok.setId
+        return gameAdResponseLombok;
     }
+<<<<<<< HEAD
+=======
+/*
+    private GameAdResponse convertToDTO(GameAds gameAd) {
+        GameAdResponse gameAdResponse = new GameAdResponse();
+
+        gameAdResponse.setId(gameAd.getId());
+        gameAdResponse.setSeller(gameAd.getUser().getUsername());
+        gameAdResponse.setTitle(gameAd.getTitle());
+        gameAdResponse.setDescription(gameAd.getDescription());
+        gameAdResponse.setPrice(gameAd.getPrice());
+        gameAdResponse.setShippingCost(gameAd.getShippingCost());
+        gameAdResponse.setCreated_at(gameAd.getCreated_at());
+        gameAdResponse.setUpdated_at(gameAd.getUpdated_at());
+
+        gameAdResponse.setGameCreator(gameAd.getGameCreator());
+        gameAdResponse.setGamePlayTime(gameAd.getGamePlayTime());
+        gameAdResponse.setGameRecommendedAge(gameAd.getGameRecommendedAge());
+        gameAdResponse.setGamePlayers(gameAd.getGamePlayers());
+        gameAdResponse.setGameGenres(gameAd.getGameGenres());
+      //  gameAdResponse.setPhotoURL(gameAd.getPhotoURL());
+
+        return gameAdResponse;
+    }
+>>>>>>> 816a69a9c2b36d6d82dea57ee50c78d12d7677c3
 */
     private GameAdResponseLombok convertToDTO(GameAdsLombok gameAd) {
         GameAdResponseLombok gameAdResponseLombok = new GameAdResponseLombok(gameAd.getTitle(), gameAd.getDescription()
