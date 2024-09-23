@@ -1,30 +1,24 @@
 package SecondRoll.demo.models;
-
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import org.hibernate.validator.constraints.Range;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
-
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
 public class GameAds {
-
     @Id
     @NotBlank
     private String id;
-
     @NotBlank
     @DBRef
     private User user;
-
     @NotBlank
     @CreatedDate
     private LocalDate createdAt;
-
     @NotBlank
     @CreatedDate
     private LocalDate updatedAt;
@@ -34,159 +28,86 @@ public class GameAds {
     @NotBlank
     @Size(min = 1, max = 30)
     private String title;
-
     @NotBlank
     @Size(min = 1, max = 999)
     private String description;
-
     @NotBlank
     @Range(min = 1, max = 50000)
     private int price;
-
     @NotBlank
     @Range(min = 1, max = 500)
     private int shippingCost;
 
 
     // non-mandatory parameters
-    @Size(min = 1, max = 200)
+    @Size(max = 200)
     private String gameCreator;
-
-    @Size(min = 1, max = 200)
+    @Size(max = 200)
     private String gamePlayTime;
-
-    @Size(min = 1, max = 200)
+    @Size(max = 200)
     private String gameRecommendedAge;
-
-    @Size(min = 1, max = 200)
+    @Size(max = 200)
     private String gamePlayers;
-
-    @Size(min = 1, max = 200)
-    public List<String> gameGenres = new ArrayList<>();
-
+    @Size(max = 200)
+    public List<String> gameGenres;
     private String photoURL;
 
-
-
-
+    // Getters and setters
     public String getId() {
         return id;
     }
-
     public void setId(String id) {
         this.id = id;
     }
-
     public User getUser() {
         return user;
     }
-
     public void setUser(User user) {
         this.user = user;
     }
-
     public LocalDate getCreatedAt() {
         return createdAt;
     }
-
     public void setCreatedAt(LocalDate createdAt) {
         this.createdAt = createdAt;
     }
-
     public LocalDate getUpdatedAt() {
         return updatedAt;
     }
-
-    public void setUpdatedAt(LocalDate updatedAt) {
-        this.updatedAt = updatedAt;
-    }
-
+    public void setUpdatedAt(LocalDate updatedAt) {this.updatedAt = updatedAt;}
     public String getTitle() {
         return title;
     }
-
     public void setTitle(String title) {
         this.title = title;
     }
-
     public String getDescription() {
         return description;
     }
-
     public void setDescription(String description) {
         this.description = description;
     }
-
     public int getPrice() {
         return price;
     }
-
-    public void setPrice(int price) {
-        this.price = price;
-    }
-
-    public int getShippingCost() {
-        return shippingCost;
-    }
-
-    public void setShippingCost(int shippingCost) {
-        this.shippingCost = shippingCost;
-    }
-
-    public String getGameCreator() {
-        return gameCreator;
-    }
-
-    public void setGameCreator(String gameCreator) {
-        this.gameCreator = gameCreator;
-    }
-
-    public String getGamePlayTime() {
-        return gamePlayTime;
-    }
-
-    public void setGamePlayTime(String gamePlayTime) {
-        this.gamePlayTime = gamePlayTime;
-    }
-
-    public String getGameRecommendedAge() {
-        return gameRecommendedAge;
-    }
-
-    public void setGameRecommendedAge(String gameRecommendedAge) {
-        this.gameRecommendedAge = gameRecommendedAge;
-    }
-
-    public String getGamePlayers() {
-        return gamePlayers;
-    }
-
-    public void setGamePlayers(String gamePlayers) {
-        this.gamePlayers = gamePlayers;
-    }
-
-    public List<String> getGameGenres() {
-        return gameGenres;
-    }
-
-    public void setGameGenres(List<String> gameGenres) {
-        this.gameGenres = gameGenres;
-    }
-
-    public String getPhotoURL() {
-        return photoURL;
-    }
-
-    public void setPhotoURL(String photoURL) {
-        this.photoURL = photoURL;
-    }
+    public void setPrice(int price) {this.price = price;}
+    public int getShippingCost() {return shippingCost;}
+    public void setShippingCost(int shippingCost) {this.shippingCost = shippingCost;}
+    public String getGameCreator() {return gameCreator;}
+    public void setGameCreator(String gameCreator) {this.gameCreator = gameCreator;}
+    public String getGamePlayTime() {return gamePlayTime;}
+    public void setGamePlayTime(String gamePlayTime) {this.gamePlayTime = gamePlayTime;}
+    public String getGameRecommendedAge() {return gameRecommendedAge;}
+    public void setGameRecommendedAge(String gameRecommendedAge) {this.gameRecommendedAge = gameRecommendedAge;}
+    public String getGamePlayers() {return gamePlayers;}
+    public void setGamePlayers(String gamePlayers) {this.gamePlayers = gamePlayers;}
+    public List<String> getGameGenres() {return gameGenres;}
+    public void setGameGenres(List<String> gameGenres) {this.gameGenres = gameGenres;}
+    public String getPhotoURL() {return photoURL;}
+    public void setPhotoURL(String photoURL) {this.photoURL = photoURL;}
 
 
-
-/*
-
-// Old builder
-
+    // "Traditional" builder pattern
     @Override
     public String toString() {
         return "GameAds{" +
@@ -222,11 +143,7 @@ public class GameAds {
         this.shippingCost = gameAdBuilder.shippingCost;
         this.createdAt = gameAdBuilder.created_at;
         this.updatedAt = gameAdBuilder.updated_at;
-
     }
-
-
-
 
     public static class GameAdBuilder {
         @Id
@@ -240,33 +157,28 @@ public class GameAds {
         @NotBlank
         @Size(min = 1, max = 999)
         private String description;
-        @NotNull
+        @NotBlank
         @Range(min = 1, max = 50000)
         private int price;
-        @NotBlank
-        @Size(min = 1, max = 200)
+        @Size(max = 200)
         private String gameCreator;
-        @NotBlank
-        @Size(min = 1, max = 200)
+        @Size(max = 200)
         private String gamePlayTime;
-        @NotBlank
-        @Size(min = 1, max = 200)
+        @Size(max = 200)
         private String gameRecommendedAge;
-        @NotBlank
-        @Size(min = 1, max = 200)
+        @Size(max = 200)
         private String gamePlayers;
-        @NotBlank
-        @Size(min = 1, max = 200)
+        @Size(max = 200)
         public List<String> gameGenres = new ArrayList<>();
-        @NotBlank
         private String photoURL;
-        @NotNull
+        @NotBlank
         @Range(min = 1, max = 500)
         private int shippingCost;
         @CreatedDate
         private LocalDate created_at;
         @CreatedDate
         private LocalDate updated_at;
+
 
         public GameAdBuilder withId(String id) {
             this.id = id;
@@ -342,8 +254,4 @@ public class GameAds {
             return new GameAds(this);
         }
     }
-*/
-
 }
-
-

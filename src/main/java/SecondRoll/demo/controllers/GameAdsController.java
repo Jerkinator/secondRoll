@@ -31,7 +31,7 @@ public class GameAdsController {
     @Autowired
     GameAdsRepository gameAdsRepository;
 
-    // POST gameAd
+    // POST gameAd (original)
  /*   @PostMapping()
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity<GameAdResponse> createGameAd(@Valid @RequestBody CreateGameDTO createGameDTO) {
@@ -48,6 +48,13 @@ public class GameAdsController {
     // CreateGameDTO is the representation of the JSON-input from a user
     // Creates ad with the input via createAd method in gameAdsService
     // Mapper transforms database object to response object (GameAdResponseLombok) which is a "user friendly" representation of the database object
+
+
+
+
+
+
+
     @PostMapping()
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity<GameAdResponseLombok> createAd(@Valid @RequestBody CreateGameDTO createGameDTO, @CookieValue(value = "secondRollCookie") String jwt) {

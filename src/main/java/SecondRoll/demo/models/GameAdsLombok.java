@@ -1,5 +1,4 @@
 package SecondRoll.demo.models;
-
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -19,7 +18,6 @@ import java.util.List;
 @Builder
 public class GameAdsLombok {
 
-    // these parameters will generate their own references through the @id, @DBRef and @CreatedDate annotations
     @Id
     @NotBlank
     private String id;
@@ -76,7 +74,7 @@ public class GameAdsLombok {
     private String photoURL;
 
 
-    // mandatory parameters require a builder class with required fields as constructor parameters
+    // mandatory parameters require a builder method with required fields as constructor parameters
     public static GameAdsLombok.GameAdsLombokBuilder builder (final String title, final String description, final int price, final int shippingCost) {
         return new GameAdsLombok.GameAdsLombokBuilder()
                 .title(title)
@@ -84,5 +82,4 @@ public class GameAdsLombok {
                 .price(price)
                 .shippingCost(shippingCost);
     }
-
 }

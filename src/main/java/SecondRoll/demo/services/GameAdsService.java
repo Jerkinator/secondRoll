@@ -5,6 +5,7 @@ import SecondRoll.demo.models.GameAds;
 import SecondRoll.demo.models.GameAdsLombok;
 import SecondRoll.demo.models.User;
 import SecondRoll.demo.payload.CreateGameDTO;
+import SecondRoll.demo.payload.response.GameAdResponseLombok;
 import SecondRoll.demo.repository.GameAdsRepository;
 import SecondRoll.demo.repository.UserRepository;
 import SecondRoll.demo.security.jwt.JwtUtils;
@@ -12,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class GameAdsService {
@@ -25,13 +27,12 @@ public class GameAdsService {
 /*    public GameAds createGameAd(CreateGameDTO createGameDTO) {
         User user = userRepository.findById(createGameDTO.getUserId())
                 .orElseThrow(() -> new ServiceException("User not found."));
-
         System.out.println(gameAd);
         return gameAdsRepository.save(gameAd);
     }*/
 
 
-// builder
+    // method for posting a game ad using lombok annotation builder
     // creates an ad with the input data and transforms it into a database object (GameAdsLombok)
     // saves the database object to the database
     // returns the database object (itself)
@@ -53,13 +54,13 @@ public class GameAdsService {
     }
 
 
-/*
-    // GET all gameAds.
-    public List<GameAdResponse> getAllGameAds() {
-        List<GameAds> gameAds = gameAdsRepository.findAll();
 
-        return gameAds.stream().map(this::convertToDTO).collect(Collectors.toList());
-    }*/
+    // GET all gameAds.
+    public List<GameAdResponseLombok> getAllGameAds() {
+        List<GameAdsLombok> gameAdsLombok = gameAdsRepository.findAll();
+
+        return gameAdsLombok.stream().map(this::convertToLombokDTO).collect(Collectors.toList());
+    }
 
 
 
@@ -108,15 +109,24 @@ public class GameAdsService {
         return userGames.stream().map(this::convertToDTO).collect(Collectors.toList());
     }*/
 
+
+
     // This utility-method converts the content of a GameAd-object into a GameAdResponse-object.
-/*
-
     private GameAdResponseLombok convertToLombokDTO (GameAdsLombok gameAd) {
-        GameAdResponseLombok gameAdResponseLombok = new GameAdResponseLombok();
+        GameAdResponseLombok gameAdResponseLombok = new GameAdResponseLombok(
+                gameAd.getTitle(),
+                gameAd.getDescription(),
+                gameAd.getPrice(),
+                gameAd.getShippingCost(),
+                gameAd.getGameCreator(),
+                gameAd.getGamePlayTime(),
+                gameAd.getGameRecommendedAge(),
+                gameAd.getGamePlayers(),
+                gameAd.getGameGenres());
 
-        gameAdResponseLombok.setId
+        return gameAdResponseLombok;
     }
-
+/*
     private GameAdResponse convertToDTO(GameAds gameAd) {
         GameAdResponse gameAdResponse = new GameAdResponse();
 
