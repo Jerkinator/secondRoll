@@ -66,7 +66,7 @@ public class GameAdsService {
 
 
     // UPDATE a gameAD
-    /*public GameAds updateGameAd(String id, GameAds updatedGameAd) {
+    public GameAdsLombok updateGameAd(String id, GameAdsLombok updatedGameAd) {
         return gameAdsRepository.findById(id).map(existingGameAd -> {
                     if (updatedGameAd.getTitle() != null) {
                         existingGameAd.setTitle(updatedGameAd.getTitle());
@@ -74,8 +74,8 @@ public class GameAdsService {
                     if (updatedGameAd.getDescription() != null) {
                         existingGameAd.setDescription(updatedGameAd.getDescription());
                     }
-                    if (updatedGameAd.getUpdated_at() != null) {
-                        existingGameAd.setUpdated_at(updatedGameAd.getUpdated_at());
+                    if (updatedGameAd.getUpdatedAt() != null) {
+                        existingGameAd.setUpdatedAt(updatedGameAd.getUpdatedAt());
                     }
                     //  if(updatedGameAd.getGameDetails() != null) {
                     //    existingGameAd.setGameDetails(updatedGameAd.getGameDetails());
@@ -87,12 +87,12 @@ public class GameAdsService {
         })
                 .orElseThrow(() -> new ServiceException("Game with id " + id + " was not found."));
     }
-*/
-/*    // GET a gameAd by id
-    public Optional<GameAds> getGameAdById(String id) {
+
+    // GET a gameAd by id
+    public Optional<GameAdsLombok> getGameAdById(String id) {
         return Optional.ofNullable(gameAdsRepository.findById(id)
                 .orElseThrow(() -> new ServiceException("Game not found.")));
-    }*/
+    }
 
     // DELETE a gameAd
     public String deleteGameAd(String id) {
@@ -127,8 +127,7 @@ public class GameAdsService {
 
         return gameAdResponseLombok;
     }
-<<<<<<< HEAD
-=======
+
 /*
     private GameAdResponse convertToDTO(GameAds gameAd) {
         GameAdResponse gameAdResponse = new GameAdResponse();
@@ -151,7 +150,7 @@ public class GameAdsService {
 
         return gameAdResponse;
     }
->>>>>>> 816a69a9c2b36d6d82dea57ee50c78d12d7677c3
+
 */
     private GameAdResponseLombok convertToDTO(GameAdsLombok gameAd) {
         GameAdResponseLombok gameAdResponseLombok = new GameAdResponseLombok(gameAd.getTitle(), gameAd.getDescription()
