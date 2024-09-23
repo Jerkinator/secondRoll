@@ -1,13 +1,13 @@
 package SecondRoll.demo.services;
 
 
-import SecondRoll.demo.exception.ServiceException;
 import SecondRoll.demo.models.GameAds;
 import SecondRoll.demo.models.GameAdsLombok;
 import SecondRoll.demo.models.User;
 import SecondRoll.demo.payload.CreateGameDTO;
 import SecondRoll.demo.repository.GameAdsRepository;
 import SecondRoll.demo.repository.UserRepository;
+import SecondRoll.demo.security.jwt.JwtUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -35,9 +35,10 @@ public class GameAdsService {
     // creates an ad with the input data and transforms it into a database object (GameAdsLombok)
     // saves the database object to the database
     // returns the database object (itself)
-    public GameAdsLombok createAd (CreateGameDTO createGameDTO) {
-        User user = userRepository.findById(createGameDTO.getUserId())
-                .orElseThrow(() -> new ServiceException("User not found."));
+    public GameAdsLombok createAd (CreateGameDTO createGameDTO, String jwt) {
+        JwtUtils jwtUtils = new JwtUtils();
+        String username = jwtUtils.getUsernameFromJwtToken(jwt);
+        User user = userRepository.findUserByUsername(username);
         GameAdsLombok gameAdsLombok = GameAdsLombok.builder(createGameDTO.getTitle(), createGameDTO.getDescription(), createGameDTO.getPrice(), createGameDTO.getShippingCost())
                 .gameCreator(createGameDTO.getGameCreator())
                 .gamePlayers(createGameDTO.getGamePlayers())
@@ -50,8 +51,6 @@ public class GameAdsService {
                 .build();
         return gameAdsRepository.save(gameAdsLombok);
     }
-
-
 
 
 /*

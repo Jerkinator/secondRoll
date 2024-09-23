@@ -1,9 +1,8 @@
 package SecondRoll.demo.payload;
 
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
+import lombok.NonNull;
 import org.hibernate.validator.constraints.Range;
 import org.springframework.data.annotation.CreatedDate;
 
@@ -13,22 +12,22 @@ import java.util.List;
 
 @Getter
 public class CreateGameDTO {
-
+    @NonNull
     private String userId;
 
-    @NotBlank
+    @NonNull
     @Size(min = 1, max = 30)
     private String title;
 
-    @NotBlank
+    @NonNull
     @Size(min = 1, max = 999)
     private String description;
 
-    @NotNull
+    @NonNull
     @Range(min = 1, max = 50000)
     private int price;
 
-    @NotNull
+    @NonNull
     @Range(min = 1, max = 500)
     private int shippingCost;
 

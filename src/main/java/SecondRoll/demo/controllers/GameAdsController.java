@@ -50,11 +50,10 @@ public class GameAdsController {
     // Mapper transforms database object to response object (GameAdResponseLombok) which is a "user friendly" representation of the database object
     @PostMapping()
     @PreAuthorize("hasRole('USER')")
-    public ResponseEntity<GameAdResponseLombok> createAd(@Valid @RequestBody CreateGameDTO createGameDTO) {
-        GameAdsLombok gameAdsLombok = gameAdsService.createAd(createGameDTO);
+    public ResponseEntity<GameAdResponseLombok> createAd(@Valid @RequestBody CreateGameDTO createGameDTO, @CookieValue(value = "secondRollCookie") String jwt) {
+        GameAdsLombok gameAdsLombok = gameAdsService.createAd(createGameDTO, jwt);
         return ResponseEntity.ok(GameAdsResponseMapper.mapToResponse(gameAdsLombok));
     }
-
 
 
 
