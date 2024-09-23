@@ -10,7 +10,7 @@ public interface GameAdsRepository extends MongoRepository<GameAdsLombok, String
 
     List<GameAds> findByIsAvailable(boolean isAvailable);
 
-    List<GameAds> findByUserId(String userId);
+    List<GameAdsLombok> findByUserId(String userId);
 
     List<GameAds> findByPrice(List<GameAds> price);
 

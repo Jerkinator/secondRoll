@@ -45,7 +45,7 @@ public class UserService {
         }
 
         // ADD rating to a user.
-        *//* This method takes an integer value and adds it to the rating object. If the value is between 1-6,
+        /* This method takes an integer value and adds it to the rating object. If the value is between 1-6,
         it then adds the value to the User ratings arraylist. Then it loops through the arraylist and stores all
         combined values into a total sum.
         Then finally it takes the sum and divides it by the total amount of values in the arraylist to get the average

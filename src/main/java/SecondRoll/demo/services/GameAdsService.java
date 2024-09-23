@@ -1,10 +1,12 @@
 package SecondRoll.demo.services;
 
 
+import SecondRoll.demo.exception.ServiceException;
 import SecondRoll.demo.models.GameAds;
 import SecondRoll.demo.models.GameAdsLombok;
 import SecondRoll.demo.models.User;
 import SecondRoll.demo.payload.CreateGameDTO;
+import SecondRoll.demo.payload.response.GameAdResponseLombok;
 import SecondRoll.demo.repository.GameAdsRepository;
 import SecondRoll.demo.repository.UserRepository;
 import SecondRoll.demo.security.jwt.JwtUtils;
@@ -12,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class GameAdsService {
@@ -98,15 +101,15 @@ public class GameAdsService {
         return "Game Ad deleted";
     }
 
-/*    // UPDATED Find all GameAds by user ID.
-    public List<GameAdResponse> getUserOrders(String userId) {
+    // UPDATED Find all GameAds by user ID.
+    public List<GameAdResponseLombok> getUserOrders(String userId) {
         Optional<User> user = userRepository.findById(userId);
         if (!user.isPresent()) {
             throw new ServiceException("User not found.");
         }
-        List<GameAds> userGames = gameAdsRepository.findByUserId(userId);
+        List<GameAdsLombok> userGames = gameAdsRepository.findByUserId(userId);
         return userGames.stream().map(this::convertToDTO).collect(Collectors.toList());
-    }*/
+    }
 
     // This utility-method converts the content of a GameAd-object into a GameAdResponse-object.
 /*
@@ -116,29 +119,29 @@ public class GameAdsService {
 
         gameAdResponseLombok.setId
     }
-
-    private GameAdResponse convertToDTO(GameAds gameAd) {
-        GameAdResponse gameAdResponse = new GameAdResponse();
-
-        gameAdResponse.setId(gameAd.getId());
-        gameAdResponse.setSeller(gameAd.getUser().getUsername());
-        gameAdResponse.setTitle(gameAd.getTitle());
-        gameAdResponse.setDescription(gameAd.getDescription());
-        gameAdResponse.setPrice(gameAd.getPrice());
-        gameAdResponse.setShippingCost(gameAd.getShippingCost());
-        gameAdResponse.setCreated_at(gameAd.getCreated_at());
-        gameAdResponse.setUpdated_at(gameAd.getUpdated_at());
-
-        gameAdResponse.setGameCreator(gameAd.getGameCreator());
-        gameAdResponse.setGamePlayTime(gameAd.getGamePlayTime());
-        gameAdResponse.setGameRecommendedAge(gameAd.getGameRecommendedAge());
-        gameAdResponse.setGamePlayers(gameAd.getGamePlayers());
-        gameAdResponse.setGameGenres(gameAd.getGameGenres());
-      //  gameAdResponse.setPhotoURL(gameAd.getPhotoURL());
-
-        return gameAdResponse;
-    }
 */
+    private GameAdResponseLombok convertToDTO(GameAdsLombok gameAd) {
+        GameAdResponseLombok gameAdResponseLombok = new GameAdResponseLombok(gameAd.getTitle(), gameAd.getDescription()
+                , gameAd.getPrice(), gameAd.getShippingCost(), gameAd.getGameCreator(), gameAd.getGamePlayTime()
+        , gameAd.getGameRecommendedAge(), gameAd.getGamePlayers(), gameAd.getGameGenres());
+
+
+        gameAdResponseLombok.setTitle(gameAd.getTitle());
+        gameAdResponseLombok.setDescription(gameAd.getDescription());
+        gameAdResponseLombok.setPrice(gameAd.getPrice());
+        gameAdResponseLombok.setShippingCost(gameAd.getShippingCost());
+
+
+        gameAdResponseLombok.setGameCreator(gameAd.getGameCreator());
+        gameAdResponseLombok.setGamePlayTime(gameAd.getGamePlayTime());
+        gameAdResponseLombok.setGameRecommendedAge(gameAd.getGameRecommendedAge());
+        gameAdResponseLombok.setGamePlayers(gameAd.getGamePlayers());
+        gameAdResponseLombok.setGameGenres(gameAd.getGameGenres());
+
+
+        return gameAdResponseLombok;
+    }
+
 
    // "Roll the Dice" game ad randomizer
     public GameAdsLombok getRandomGameAd() {

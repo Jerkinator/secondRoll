@@ -113,13 +113,13 @@ public class GameAdsController {
 
 
     // GET ALL game ads belonging to a user
-    /*@GetMapping("/user/{userId}")
+    @GetMapping("/user/{userId}")
     @PreAuthorize("hasAnyRole('USER','ADMIN')")
-    public ResponseEntity<List<GameAdResponse>> getUserGameAds(@PathVariable String userId) {
-        List<GameAdResponse> gameAds = gameAdsService.getUserOrders(userId);
+    public ResponseEntity<List<GameAdResponseLombok>> getUserGameAds(@PathVariable String userId) {
+        List<GameAdResponseLombok> gameAds = gameAdsService.getUserOrders(userId);
         return ResponseEntity.ok(gameAds);
     }
-*/
+
     // "Roll the Dice" gameAd randomizer
     @GetMapping(value = "/rolldice")
     public ResponseEntity<GameAdResponseLombok> getRandomGameAd() {
