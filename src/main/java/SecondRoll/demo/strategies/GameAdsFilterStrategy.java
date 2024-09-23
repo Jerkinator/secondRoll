@@ -1,4 +1,4 @@
-package strategies;
+package SecondRoll.demo.strategies;
 
 import SecondRoll.demo.models.GameAds;
 

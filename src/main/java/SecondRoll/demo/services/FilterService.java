@@ -4,10 +4,9 @@ import SecondRoll.demo.models.GameAds;
 import SecondRoll.demo.repository.GameAdsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import strategies.GameAdsFilterStrategy;
+import SecondRoll.demo.strategies.GameAdsFilterStrategy;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -45,7 +44,8 @@ public class FilterService {
     }
 
     private GameAdsFilterStrategy filterByGameGenres(String gameGenres) {
-        return gameAd -> gameAd.getGameGenres()
+        return gameAd -> gameAd.getGameGenres().stream()
+                .anyMatch(genre -> genre.equalsIgnoreCase(gameGenres));
     }
 
 }
