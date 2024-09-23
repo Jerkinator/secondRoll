@@ -14,7 +14,22 @@ import java.util.List;
 @Setter
 @Builder
 public class GameAdResponseLombok {
+    public GameAdResponseLombok(String title, String description
+            , int price, int shippingCost, String gameCreator, String gamePlayTime
+            , String gameRecommendedAge, String gamePlayers, List<String> gameGenres) {
 
+        this.title = title;
+        this.description = description;
+        this.price = price;
+        this.shippingCost = shippingCost;
+        this.gameCreator = gameCreator;
+        this.gamePlayTime = gamePlayTime;
+        this.gameRecommendedAge = gameRecommendedAge;
+        this.gamePlayers = gamePlayers;
+        this.gameGenres = gameGenres;
+        // this.photoURL = photoURL;
+
+    }
     // the response class is the representation of the data that we want to show in the response
 
     // mandatory parameters when creating a game ad
@@ -51,5 +66,7 @@ public class GameAdResponseLombok {
     @Size(max = 200)
     public List<String> gameGenres;
 
-    private String photoURL;
-    }
+    //private String photoURL;
+
+
+}

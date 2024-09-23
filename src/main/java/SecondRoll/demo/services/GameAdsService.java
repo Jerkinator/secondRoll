@@ -11,10 +11,7 @@ import SecondRoll.demo.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class GameAdsService {
@@ -144,14 +141,14 @@ public class GameAdsService {
     }
 */
 
-/*    // "Roll the Dice" game ad randomizer
-    public GameAds getRandomGameAd() {
+   // "Roll the Dice" game ad randomizer
+    public GameAdsLombok getRandomGameAd() {
         Random randomGameAd = new Random();
-        List<GameAds> allGameAds = gameAdsRepository.findAll();
+        List<GameAdsLombok> allGameAds = gameAdsRepository.findAll();
         int maxInt = allGameAds.size();
-        GameAds gameAds = allGameAds.get(randomGameAd.nextInt(maxInt));
+        GameAdsLombok gameAds = allGameAds.get(randomGameAd.nextInt(maxInt));
         return gameAds;
-    }*/
+    }
 
     // Method to get available gameAds in ascending price order.
     public List<GameAds> findAvailableGameAdsSortedByPriceAsc() {

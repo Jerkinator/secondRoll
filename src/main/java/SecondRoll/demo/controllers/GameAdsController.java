@@ -120,18 +120,18 @@ public class GameAdsController {
         List<GameAdResponse> gameAds = gameAdsService.getUserOrders(userId);
         return ResponseEntity.ok(gameAds);
     }
-
+*/
     // "Roll the Dice" gameAd randomizer
     @GetMapping(value = "/rolldice")
-    public ResponseEntity<GameAdResponse> getRandomGameAd() {
-        GameAds gameAd = gameAdsService.getRandomGameAd();
+    public ResponseEntity<GameAdResponseLombok> getRandomGameAd() {
+        GameAdsLombok gameAd = gameAdsService.getRandomGameAd();
         User user = gameAd.getUser();
-        return ResponseEntity.ok().body(new GameAdResponse( gameAd.getId(),user.getId(),user.getUsername(),gameAd.getTitle(),
+        return ResponseEntity.ok().body(new GameAdResponseLombok( gameAd.getTitle(),
                 gameAd.getDescription(), gameAd.getPrice(), gameAd.getShippingCost(), gameAd.getGameCreator(),
                 gameAd.getGamePlayTime(), gameAd.getGameRecommendedAge(), gameAd.getGamePlayers(),
-                gameAd.getGameGenres(), gameAd.getCreatedAt(), gameAd.getUpdatedAt()));
+                gameAd.getGameGenres()));
     }
-*/
+
 
     // Sort available gameAds in ascending order by price
     // Request response has not yet been implemented
